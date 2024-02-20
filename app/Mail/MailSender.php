@@ -3,6 +3,9 @@
 // app/Mailers/RegisterMailer.php
 namespace App\Mail;
 
+use App\Jobs\SendAdminInvitation;
+use App\Jobs\SendPasswordReset;
+use App\Jobs\SendProjectInvitation;
 use Illuminate\Support\Facades\Mail;
 
 class MailSender
@@ -22,13 +25,18 @@ class MailSender
     /**
      * Send email to expert.
      */
-    public function sendProjectInvitation($email, $expertName, $projectName, $expert_url): void
+    public function sendProjectInvitation($email, $expertName, $projectName, $content, $expert_url): void
     {
-        $mailData = [
-            'expertName' => $expertName,
-            'projectName' => $projectName,
-            'expert_url' => $expert_url,
-        ];
-        Mail::to($email)->send(new ProjectInvitation($mailData));
+        SendProjectInvitation::dispatch($email, $expertName, $projectName, $content, $expert_url);
+    }
+
+    public function sendPasswordReset($email, $token): void
+    {
+        SendPasswordReset::dispatch($email,$token);
+    }
+
+    public function sendAdminInvitation($email, $name, $token): void
+    {
+        SendAdminInvitation::dispatch($email, $name, $token);
     }
 }

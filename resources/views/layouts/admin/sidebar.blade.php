@@ -20,7 +20,7 @@
                         <h6 class="overline-title text-primary-alt">Management</h6>
                     </li>
                     <li class="nk-menu-item">
-                        <a href="{{route('admin.overview')}}" class="nk-menu-link">
+                        <a href="{{route('admin.overview.index')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><i class="fa-regular fa-chart-tree-map fs-5"></i></span>
                             <span class="nk-menu-text">Overview</span>
                         </a>
@@ -39,24 +39,6 @@
                             <li class="nk-menu-item">
                                 <a href="{{route('admin.projects.create')}}" class="nk-menu-link">
                                     <span class="nk-menu-text">Create Projects</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><i class="fa-regular fa-buildings fs-5"></i></span>
-                            <span class="nk-menu-text">Companies</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{route('admin.companies.index')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Companies List</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{route('admin.companies.create')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Add Companies</span>
                                 </a>
                             </li>
                         </ul>
@@ -103,35 +85,41 @@
                             </li>
                         </ul>
                     </li>
-
-                    <section>
-{{--                        <li class="nk-menu-heading">--}}
-{{--                            <h6 class="overline-title text-primary-alt">Account</h6>--}}
-{{--                        </li>--}}
-{{--                        <li class="nk-menu-item has-sub">--}}
-{{--                            <a href="#" class="nk-menu-link nk-menu-toggle">--}}
-{{--                                <span class="nk-menu-icon"><i class="fa-regular fa-box-dollar fs-5"></i></span>--}}
-{{--                                <span class="nk-menu-text">Subscription</span>--}}
-{{--                            </a>--}}
-{{--                            <ul class="nk-menu-sub">--}}
-{{--                                <li class="nk-menu-item">--}}
-{{--                                    <a href="{{route('admin.subscription')}}" class="nk-menu-link">--}}
-{{--                                        <span class="nk-menu-text">Package Info</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li class="nk-menu-item">--}}
-{{--                                    <a href="{{route('admin.subscription.list')}}" class="nk-menu-link">--}}
-{{--                                        <span class="nk-menu-text">Subscriber List</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li class="nk-menu-item">--}}
-{{--                                    <a href="{{route('admin.subscription.analytics')}}" class="nk-menu-link">--}}
-{{--                                        <span class="nk-menu-text">Subscriber Analytics</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-                    </section>
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><i class="fa-regular fa-buildings fs-5"></i></span>
+                            <span class="nk-menu-text">Companies</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{route('admin.companies.index')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Companies List</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{route('admin.companies.create')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Add Companies</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <seciton>
+                        <li class="nk-menu-heading pt-3">
+                            <h6 class="overline-title text-primary-alt">SYSTEM SETTING</h6>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.hubs.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-circle-nodes fs-5"></i></span>
+                                <span class="nk-menu-text">Hubs</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.industry_classification.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-industry-windows fs-5"></i></span>
+                                <span class="nk-menu-text">Industry Classification</span>
+                            </a>
+                        </li>
+                    </seciton>
                     <seciton>
                         <li class="nk-menu-heading pt-3">
                             <h6 class="overline-title text-primary-alt">CONTENT MANAGEMENT</h6>
@@ -174,12 +162,6 @@
                     <section>
                         <li class="nk-menu-heading">
                             <h6 class="overline-title text-primary-alt">Misc</h6>
-                        </li>
-                        <li class="nk-menu-item">
-                            <a href="{{route('admin.hubs.index')}}" class="nk-menu-link">
-                                <span class="nk-menu-icon"><i class="fa-regular fa-network-wired fs-5"></i></span>
-                                <span class="nk-menu-text">Hubs</span>
-                            </a>
                         </li>
                         <li class="nk-menu-item">
                             <a href="{{route('profile.index')}}" class="nk-menu-link">

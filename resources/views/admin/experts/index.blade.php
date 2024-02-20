@@ -52,26 +52,14 @@
                                                     <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
                                                         <em class="icon ni ni-filter-alt"></em>
                                                     </a>
-                                                    <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                    <div class="filter-wg dropdown-menu dropdown-menu-sm dropdown-menu-end">
                                                         <div class="dropdown-head">
-                                                            <span class="sub-title dropdown-title">Filter Table</span>
+                                                            <span class="sub-title dropdown-title">Column Filter</span>
                                                         </div>
                                                         <div class="dropdown-body dropdown-body-rg">
                                                             <div class="row gx-6 gy-3">
-                                                                <div class="col-6">
+                                                                <div class="col-12">
                                                                     <div class="form-group">
-                                                                        <label class="overline-title overline-title-alt" for="status">STATUS</label>
-                                                                        <select class="form-select js-select2 js-select2-sm" id="status">
-                                                                            <option value="all">All Status</option>
-                                                                            <option value="0">Pending</option>
-                                                                            <option value="1">Scrape</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <div class="form-group">
-                                                                        <label class="overline-title overline-title-alt">COLUMN SEARCH</label>
-                                                                        <br>
                                                                         <div class="custom-control custom-switch mt-1">
                                                                             <input type="checkbox" class="custom-control-input" id="column_search">
                                                                             <label class="custom-control-label" for="column_search">Hide</label>
@@ -148,6 +136,8 @@
                 <thead>
                 <tr class="nk-tb-item nk-tb-head">
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Name</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Industry Classification</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Email</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Position</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Company</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Address</span></th>
@@ -159,6 +149,59 @@
             </table>
         </div>
     </div>
+
+    <div class="modal fade" role="dialog" id="modal_industry" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set Industry Classification to Expert</h5>
+                    <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body modal-body-sm">
+                    <div class="row mt-1">
+                        <div class="col-sm-12">
+                            <div class="user-card">
+                                <div class="user-avatar bg-dim-primary d-none d-sm-flex"><span><img id="expert_avatar" src="" alt=""></span></div>
+                                <div class="user-info">
+                                    <span id="expert_name" class="tb-lead fs-16px tw-text-slate-700 tw-font-bold"></span>
+                                    <div><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i><span id="expert_linkedin"></span></div>
+                                    <input id="expert_id" class="tw-hidden" value=""></input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" for="main-industry">Main Industry Classification</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select js-select2 select2-hidden-accessible" id="main-industry">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" for="sub-industry">Sub Industry Classification</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select js-select2 select2-hidden-accessible" id="sub-industry">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                <li>
+                                    <button onclick="updateIndustry()" class="btn btn-primary">Update Industry Classification</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -191,6 +234,18 @@
                     }
                 },
                 {
+                    data: 'industry_classification',
+                    render: function (data, type, row) {
+                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-1"></i>Not Set</span>' : '<span>'+data+'</span>';
+                    }
+                },
+                {
+                    data: '_email',
+                    render: function (data, type, row) {
+                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-1"></i>Not Set</span>' : '<span>'+data+'</span>';
+                    }
+                },
+                {
                     data: 'experiences',
                     render: function (data, type, row) {
                         return data[0].position;
@@ -212,12 +267,14 @@
                     data: 'id',
                     className: 'nk-tb-col-tools',
                     render: function (data, type, row) {
+                        console.log(row)
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
+                                                <li><a class="clickable" onclick="setIndustry('${row.name}', '${row.img_url}', '${row.url.replace('https://www.linkedin.com/in/','')}', '${row.main_industry}', '${row.sub_industry}', ${row.id})"><em class="icon ni ni-building-fill"></em><span>Set Industry Classification</span></a></li>
                                                 <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>
                                                 <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
@@ -302,6 +359,17 @@
             alert('re-scrape function is not implemented yet')
         }
 
+        function setIndustry(expert_name, expert_avatar, expert_linkedin, main_industry, sub_industry, expert_id){
+            $('#expert_id').val(expert_id)
+            $('#expert_name').text(expert_name)
+            $('#expert_avatar').attr('src', expert_avatar)
+            $('#expert_linkedin').text(expert_linkedin)
+            $('#main-industry').val(main_industry).trigger('change');
+            sub_industry_classification = sub_industry;
+            $('#sub-industry').empty();
+            $('#modal_industry').modal('show');
+        }
+
         function remove(id){
             Swal.fire({
                 title: 'Confirm Remove?',
@@ -339,5 +407,59 @@
             })
         }
 
+        $( document ).ready(function() {
+            $.ajax({
+                url: '{{route('industries_expert.main')}}',
+                method: 'GET',
+                success: function (response) {
+                    response.forEach(function (industry) {
+                        $('#main-industry').append('<option value="'+industry+'">'+industry+'</option>');
+                    });
+                }
+            });
+        });
+
+        let sub_industry_classification;
+        $('#main-industry').on('change', function () {
+            let main = $(this).val();
+            if (main === null) return;
+            main = main.replaceAll('/', '_');
+            $.ajax({
+                url: '{{route('industries_expert.sub','')}}/'+main,
+                method: 'GET',
+                success: function (response) {
+                    $('#sub-industry').empty();
+                    response.forEach(function (industry) {
+                        $('#sub-industry').append('<option value="'+industry.sub+'">'+industry.sub+'</option>');
+                    });
+                    if (sub_industry_classification) {
+                        $('#sub-industry').val(sub_industry_classification).trigger('change');
+                    }
+                }
+            });
+        });
+
+        function updateIndustry(){
+            let expert_id = $('#expert_id').val();
+            let industry_val = $('#sub-industry').val();
+            $.ajax({
+                url: '{{route('admin.experts.industry')}}',
+                method: 'POST',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    expert_id: expert_id,
+                    industry_val: industry_val,
+                },
+                success: function (response) {
+                    _Swal.success('Industry Updated', response.message, function () {
+                        $('#modal_industry').modal('hide');
+                        table.ajax.reload();
+                    })
+                },
+                error: function (response) {
+                    _Swal.error(response.responseJSON.message)
+                }
+            });
+        }
     </script>
 @endpush

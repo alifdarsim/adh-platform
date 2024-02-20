@@ -19,8 +19,4 @@ yarn-error.log
 /.vscode
 
 # Project exclude paths
-/bootstrap/
-/storage/app/
-/storage/debugbar/
-/storage/framework/
-/storage/logs/
+!/public/build/

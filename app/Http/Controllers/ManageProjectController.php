@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectExpert;
+use App\Models\ProjectShortlist;
 use App\Models\ProjectMeeting;
 use App\Models\Projects;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ class ManageProjectController extends Controller
     public function index()
     {
         $expert = auth()->user()->expert;
-        $projects = ProjectExpert::where('expert_id', $expert->id)->get();
+        $projects = ProjectShortlist::where('expert_id', $expert->id)->get();
         $projects_count = $projects->count();
         return view('expert.projects.index', compact('projects_count'));
     }
@@ -25,7 +25,7 @@ class ManageProjectController extends Controller
         if (!$project) {
             abort(404);
         }
-        $invited_project = ProjectInvitation::where('project_id', $project->id)->where('expert_id', auth()->user()->expert->id)->first();
+        $invited_project = ProjectInvitationController::where('project_id', $project->id)->where('expert_id', auth()->user()->expert->id)->first();
         if (!$invited_project) {
             return view('expert.projects.not-invited');
         }

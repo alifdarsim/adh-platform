@@ -45,22 +45,18 @@ class UsersController extends Controller
             $user->last_login_at = formatDateTime($user->lastLoginAt());
         }
         return datatables()->of($users)
-            ->addColumn('action', function ($user) {
-                return '<a href="' . route('admin.admins.edit', $user->id) . '" class="btn btn-sm btn-primary">Edit</a>';
-            })
-            ->addColumn('role', function ($user) {
-                return $user->roles->first()->name;
-            })
             ->addColumn('email', function ($user) {
                 return $user->email;
             })
             ->addColumn('name', function ($user) {
                 return $user->name;
             })
+            ->addColumn('user_avatar', function ($user) {
+                return $user->user_avatar();
+            })
             ->addColumn('last_login_at', function ($user) {
                 return $user->last_login_at;
             })
-            ->rawColumns(['action'])
             ->make(true);
     }
 }

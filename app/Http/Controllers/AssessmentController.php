@@ -16,7 +16,7 @@ class AssessmentController extends Controller
     {
         $assessment = Assessment::where('user_id', auth()->user()->id)->whereIn('status', ['complete', 'failed'])->first();
         if ($assessment) {
-            return view('expert.expert.assessment.complete', compact('assessment'));
+            return view('expert.assessment.complete', compact('assessment'));
         }
 
         $assessment = Assessment::where('user_id', auth()->user()->id)->where('status', 'active')->first();
@@ -33,7 +33,7 @@ class AssessmentController extends Controller
         }
         $questions = AssessmentQuestions::count();
 
-        return view('expert.expert.assessment.index', [
+        return view('expert.assessment.index', [
             'active' => $active,
             'latest_question' => $latest_question + 1,
             'assessment' => $assessment,

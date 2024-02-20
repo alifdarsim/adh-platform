@@ -14,16 +14,18 @@
             <div class="tw-col-span-3">
                 <div class="alert alert-pro alert-info py-2 tw-grid tw-grid-cols-1 tw-divide-y">
                     <div class="d-flex">
-                        <p class="tw-font-semibold tw-text-gray-700 me-2 mb-0 pt-1 fs-16px">Project Invitation Status:</p>
-                        @if($invitation_accepted)
+                        <p class="tw-font-semibold tw-text-gray-700 me-2 mb-0 pt-1 fs-16px">Invitation Status:</p>
+                        @if($project->invited->accepted)
                             <div>
-                                <a class="tw-cursor-default btn btn-success"><em class="d-none d-sm-inline icon ni ni-check me-1"></em>Invitation Accepted</a>
-                                <p>You will be notify when the client select you for this project.</p>
+                                <a class="tw-cursor-default btn btn-success">
+                                    <em class="d-none d-sm-inline icon ni ni-check me-1"></em>Invitation Accepted
+                                </a>
+                                <p>You will be notified when the client select you for this project.</p>
                             </div>
                         @else
                             <div class="drodown">
-                                <a href="#" id="invitation_status" class="dropdown-toggle btn {{$invitation_accepted ? 'btn-success' : ($invitation_accepted === false ? 'btn-secondary' : 'btn-primary btn-dim')}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span>{{$invitation_accepted ? 'Accepted' : ($invitation_accepted === false ? 'Declined' : 'No Respond Yet')}}</span><em class="dd-indc icon ni ni-chevron-down"></em>
+                                <a href="#" id="invitation_status" class="dropdown-toggle btn {{$project->invited->accepted ? 'btn-success' : ($project->invited->accepted === false ? 'btn-secondary' : 'btn-primary btn-dim')}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span>{{$project->invited->accepted ? 'Accepted' : ($project->invited->accepted === false ? 'Declined' : 'No Respond Yet')}}</span><em class="dd-indc icon ni ni-chevron-down"></em>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" style="">
                                     <ul class="link-list-opt no-bdr">

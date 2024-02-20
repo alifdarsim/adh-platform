@@ -4,7 +4,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Manage Your Invited Projects</h3>
-                <div class="nk-block-des text-soft"><p>Manage all your projects here. Total project: {{ $projects_count }} projects</p></div>
+                <div class="nk-block-des text-soft"><p>Manage all your projects here. Total project: {{ auth()->user()->projects->count() }} projects</p></div>
             </div>
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="nk-block">
-        @if($projects_count === 0)
+        @if(auth()->user()->projects->count() == 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
                 <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
@@ -150,12 +150,12 @@
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
+                            <th class="nk-tb-col"><span class="sub-text">Status</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Project Name</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Client</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Invited Date</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Accept Invitation?</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Project Status</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Accept Invitation?</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -188,6 +188,13 @@
             ],
             columns: [
                 {
+                    data: 'status',
+                    render: function (data) {
+                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' : 'info');
+                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center tw-w-20">${data === 'selection' ? 'Expert Selection' : data}</span>`;
+                    }
+                },
+                {
                     data: 'project_name'
                 },
                 {
@@ -200,25 +207,19 @@
                     }
                 },
                 {
-                    data: 'accepted',
-                    render: function (data) {
-                        let color = data === true ? 'success' : (data === false ? 'secondary' :  'danger');
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-4">${data === true ? 'Yes' : (data === false ? 'Rejected' :  'No Respond Yet')}</span>`;
-                    }
-                },
-                {
                     data: 'deadline',
                     "render": function (data) {
                         return moment(data).format('DD MMM YYYY');
                     }
                 },
                 {
-                    data: 'status',
+                    data: 'accepted',
                     render: function (data) {
-                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' : 'info');
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-4">${data === 'selection' ? 'Expert Selection' : data}</span>`;
+                        let color = data === true ? 'success' : (data === false ? 'secondary' :  'danger');
+                        let icon = `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
+                        return `<div class="d-flex"><span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-2">${data === true ? 'Accept' : (data === false ? 'Reject' : 'No Respond')}</span>${data ? icon : ''}</div>`;
                     }
-                },
+                }
             ]
         });
 

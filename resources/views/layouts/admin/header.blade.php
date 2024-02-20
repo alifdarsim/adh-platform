@@ -5,7 +5,7 @@
                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
             </div>
             <div class="nk-header-brand d-xl-none">
-                <a href="{{route('admin.overview')}}" class="logo-link">
+                <a href="{{route('admin.overview.index')}}" class="logo-link">
                     <img class="logo-light logo-img tw-h-[32px]" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo">
                     <img class="logo-dark logo-img" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo-dark">
                     <span class="nio-version tw-text-slate-300">ADMIN DASHBOARD</span>

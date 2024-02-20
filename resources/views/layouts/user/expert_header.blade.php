@@ -29,17 +29,12 @@
             </a>
             <ul class="nk-menu-sub">
                 <li class="nk-menu-item">
-                    <a href="{{route('expert.profile.data')}}" class="nk-menu-link">
-                        <span class="nk-menu-text">Profile Data</span>
+                    <a href="{{route('expert.profile.index')}}" class="nk-menu-link">
+                        <span class="nk-menu-text">Expert Profile</span>
                     </a>
                 </li>
                 <li class="nk-menu-item">
-                    <a href="{{route('expert.profile-completion')}}" class="nk-menu-link">
-                        <span class="nk-menu-text">Expert Completion</span>
-                    </a>
-                </li>
-                <li class="nk-menu-item">
-                    <a href="{{route('expert.assessment')}}" class="nk-menu-link">
+                    <a href="{{route('expert.assessment.index')}}" class="nk-menu-link">
                         <span class="nk-menu-text">Expert Assessment</span>
                     </a>
                 </li>

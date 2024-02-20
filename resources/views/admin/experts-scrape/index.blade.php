@@ -4,7 +4,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Import Experts</h3>
+                <h3 class="nk-block-title page-title">Import Experts Queue</h3>
                 <div class="nk-block-des text-soft">
                     <p>Import expert database from LinkedIn into AsiaDealHub expert database</p>
                 </div>
@@ -16,7 +16,8 @@
                         <ul class="nk-block-tools g-3">
                             <li class="nk-block-tools-opt">
                                 <div class="drodown">
-                                    <a onclick="create()" class="btn btn-white btn-outline-primary"><em class="icon ni ni-plus"></em><span>Import LinkedIn URL</span></a>
+                                    <a onclick="bulk_processing()" class="btn btn-white btn-outline-primary"><i class="fa-regular fa-arrows-rotate fs-6 me-2"></i><span>Bulk Scraping</span></a>
+                                    <a onclick="create()" class="btn btn-white btn-primary"><em class="icon ni ni-plus"></em><span>Import LinkedIn URL</span></a>
                                 </div>
                             </li>
                         </ul>
@@ -149,8 +150,9 @@
                 <tr class="nk-tb-item nk-tb-head">
                     <th class="nk-tb-col"><span class="sub-text">LinkedIn Url</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
-                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Processed</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Last Scrape</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Processed</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Last Process</span></th>
 {{--                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>--}}
                 </tr>
                 </thead>
@@ -187,6 +189,12 @@
                     }
                 },
                 {
+                    data: 'last_scrape',
+                    render: function (data) {
+                        return data ? moment(data).format('DD MMM YYYY') : 'N/A';
+                    }
+                },
+                {
                     data: 'processed',
                     render: function (data, type, row) {
                         let color = data === 1 ? 'success' : 'danger'
@@ -197,7 +205,7 @@
                     }
                 },
                 {
-                    data: 'last_fetch',
+                    data: 'last_process',
                     render: function (data) {
                         return data ? moment(data).format('DD MMM YYYY') : 'N/A';
                     }
@@ -206,7 +214,8 @@
         });
 
         function scrape(id) {
-            _Swal.loading('Scraping profile', 'Please wait...');
+            // _Swal.loading('Scraping profile', 'Please wait...');
+            _Swal.error('In Maintenance Mode', 'Feature disabled due to API called constraint. Will be back soon.')
             $.ajax({
                 url: `{{route('admin.expert_scrape.scrape','')}}/${id}`,
                 type: 'GET',
@@ -292,6 +301,53 @@
                         icon: 'error'
                     })
                 }
+            })
+        }
+
+        function bulk_processing(){
+            Swal.fire({
+                title: 'Bulk Scraping and Process?',
+                html: `This may take a while depends on the number of profiles to scrape and process<br><br>You may leave this page and come back later to check the status.`,
+                showCancelButton: true,
+                confirmButtonText: 'Scrape',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    _Swal.loading('Bulk Scraping', 'Please wait...');
+                    // wait 2000ms for the request to complete
+                    setTimeout(() => {
+                        _Swal.success('All Profile has been scrape', 'Profiles has been scraped.');
+                    }, 500)
+                    {{--let urls = $('#urls').val();--}}
+                    {{--if(urls === ''){--}}
+                    {{--    Swal.showValidationMessage(`Please enter LinkedIn Urls`)--}}
+                    {{--}else{--}}
+                    {{--    return $.ajax({--}}
+                    {{--        --}}{{--url: "{{route('admin.expert_scrape.bulk_scrape')}}",--}}
+                    {{--        type: 'POST',--}}
+                    {{--        data: {--}}
+                    {{--            _token: "{{csrf_token()}}",--}}
+                    {{--            urls: urls--}}
+                    {{--        },--}}
+                    {{--        success: function (data) {--}}
+                    {{--            Swal.fire(--}}
+                    {{--                'Scraped!',--}}
+                    {{--                'Profiles has been scraped.',--}}
+                    {{--                'success'--}}
+                    {{--            ).then((result) => {--}}
+                    {{--                table.ajax.reload();--}}
+                    {{--            })--}}
+                    {{--        },--}}
+                    {{--        error: function (data) {--}}
+                    {{--            Swal.fire(--}}
+                    {{--                'Error!',--}}
+                    {{--                'Something went wrong.',--}}
+                    {{--                'error'--}}
+                    {{--            )--}}
+                    {{--        }--}}
+                    {{--    });--}}
+                    {{--}--}}
+                },
+                allowOutsideClick: () => !Swal.isLoading()
             })
         }
     </script>

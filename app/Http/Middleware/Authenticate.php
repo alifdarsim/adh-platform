@@ -16,8 +16,8 @@ class Authenticate extends Middleware
         $referer = $request->headers->get('referer');
         // check if referer contains word expert
         if (str_contains($referer, 'expert')) {
-            return $request->expectsJson() ? null : route('login', ['type' => 'expert']);
+            return $request->expectsJson() ? null : route('login.index', ['type' => 'expert']);
         }
-        return $request->expectsJson() ? null : route('login', ['type' => 'client']);
+        return $request->expectsJson() ? null : route('login.index', ['type' => 'client']);
     }
 }

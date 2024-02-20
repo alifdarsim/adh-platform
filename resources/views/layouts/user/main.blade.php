@@ -101,24 +101,6 @@
                                                 <span class="language-name">English</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/spanish.png" alt="" class="language-flag">
-                                                <span class="language-name">Español</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/french.png" alt="" class="language-flag">
-                                                <span class="language-name">Français</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/turkey.png" alt="" class="language-flag">
-                                                <span class="language-name">Türkçe</span>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -148,8 +130,8 @@
                                     </div>
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
-                                            <li><a href="{{route('expert.profile')}}"><em class="icon ni ni-user-alt"></em><span>Account Setting</span></a></li>
-                                            <li><a href="{{route('expert.profile.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                            <li><a href="{{route('expert.account.index')}}"><em class="icon ni ni-user-alt"></em><span>Account Setting</span></a></li>
+                                            <li><a href="{{route('expert.account.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                             <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                         </ul>
                                     </div>

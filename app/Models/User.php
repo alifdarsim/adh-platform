@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -105,9 +106,18 @@ class User extends Authenticatable implements HasMedia
         return Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150);
     }
 
+    public function user_avatar(): string | \Laravolt\Avatar\Avatar | null
+    {
+        return $this->expert->img_url == null ? Avatar::create($this->name ?? 'NA')->setDimension(150) : $this->expert->img_url;
+    }
+
     public function expert(): HasOne
     {
-        return $this->hasOne(Expert::class, 'id', 'expert_id');
+        $exist = UserExpert::where('user_id', $this->id)->first();
+        if ($exist == null) {
+            UserExpert::create(['user_id' => $this->id,]);
+        }
+        return $this->hasOne(UserExpert::class, 'user_id', 'id');
     }
 
     public function country(): HasOne
@@ -124,4 +134,10 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne(Assessment::class, 'user_id', 'id');
     }
+
+    public function projects(): HasManyThrough
+    {
+        return $this->hasManyThrough(Projects::class,ProjectInvited::class, 'email', 'id', 'email', 'project_id');
+    }
+
 }

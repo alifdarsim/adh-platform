@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Industry;
+use App\Models\IndustryExpert;
 use Illuminate\Http\Request;
 
 class IndustryController extends Controller
 {
     public function index()
     {
-        return Industry::all();
+        return IndustryExpert::all();
     }
 
-    public function search(Request $request)
+    public function type($type)
     {
-        $query = $request->query;
-        return $query;
-        $industries = Industry::where('name', 'like', '%' . $request->query . '%')->get();
-        return response()->json($industries);
+        if ($type == 'sub') {
+            return IndustryExpert::select('id','sub AS data')->get();
+        }
+        else {
+            return IndustryExpert::select('id','main AS data')->distinct()->get();
+        }
     }
 }

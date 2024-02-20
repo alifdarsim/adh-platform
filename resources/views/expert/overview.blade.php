@@ -27,7 +27,7 @@
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                     <div class="nk-sale-data">
                         <span class="tw-text-4xl text-dark">
-                            {{auth()->user()->expert == null ? '0' : auth()->user()->expert->projects->where('status', 'active')->count()}}
+                            {{auth()->user()->projects->where('status', '<>' ,'awarded')->count()}}
                         </span>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                     <div class="nk-sale-data">
                         <span class="tw-text-4xl text-dark">
-                            {{auth()->user()->expert == null ? '0' : auth()->user()->expert->projects->count()}}
+                           {{auth()->user()->projects->where('status', 'awarded')->count()}}
                         </span>
                     </div>
                 </div>
@@ -106,18 +106,20 @@
                                 </div>
                             </div>
                         </div>
-                        @if(auth()->user()->expert != null && auth()->user()->expert->projects->count() > 0)
-                            @foreach(auth()->user()->expert == null ? [] : auth()->user()->expert->projects->take(3) as $project)
+                        @if(auth()->user()->projects->count() > 0)
+                            @foreach(auth()->user()->projects->take(3) as $project)
                                 <div class="card-inner card-inner-md">
-                                    <div class="user-card">
-                                        <div class="user-info">
-                                    <span class="tw-text-slate-600">
-                                        <i class="fa-solid fa-circle-small text-danger me-1"></i>
-                                        <span>{{$project->name}}</span>
-                                    </span>
-                                        </div>
+                                    <div class="user-card d-flex justify-between">
+                                        <a href="{{route('expert.projects.show', $project->pid)}}" class="user-info">
+                                            <span class="tw-text-slate-600">
+                                                <i class="fa-solid fa-circle-small text-danger me-1"></i>
+                                                <span>{{$project->name}}</span>
+                                            </span>
+                                        </a>
                                         <div class="user-action ms-1">
-                                            <span class="badge rounded-pill bg-success badge-sm text-capitalize">{{$project->status}}</span>
+                                            <div class="badge rounded-pill bg-{{$project->status == 'active' ? 'info' : ($project->status == 'awarded' ? 'success' : 'secondary')}} badge-sm text-capitalize">
+                                                {{$project->status == 'active' ? 'Shortlist' : $project->status}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +187,7 @@
                         <div class="nk-iv-wg5">
                             <div class="nk-iv-wg5-head">
                                 <h5 class="nk-iv-wg5-title">Profile Completion</h5>
-                                <a href="{{route('expert.profile-completion')}}"><span
+                                <a href="{{route('expert.profile.index')}}"><span
                                         class="tw-font-medium">View Completion</span></a>
                             </div>
                             <div class="nk-iv-wg5-ck sm">
@@ -205,21 +207,21 @@
         </div><!-- .row -->
     </div><!-- .nk-block -->
 
-{{--    <div class="modal fade" tabindex="-1" role="dialog" id="modal_expert_completion">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-body modal-body-md">--}}
-{{--                    <h4 class="title center">Welcome to Asia Deal Hub!</h4>--}}
-{{--                    <div class="px-5">--}}
-{{--                        <p class="mt-3 mb-0 fs-6 tw-text-center">Thank you for joining AsiaDealHub as an Expert!. This brief tour will guide you through the key features of our platform.</p>--}}
-{{--                        <div class="center mt-4">--}}
-{{--                            <button onclick="step2()" class="btn btn-primary tw-px-36">Next</button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal_expert_completion">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-md">
+                    <h4 class="title center">Welcome to Asia Deal Hub!</h4>
+                    <div class="px-5">
+                        <p class="mt-3 mb-0 fs-6 tw-text-center">Look like that you are new to AsiaDealHub. In order to start using AsiaDealHub, lets complete your expert profile first.</p>
+                        <div class="center mt-4">
+                            <button onclick="goToExpertCompletion()" class="btn btn-primary tw-px-36">Go To Expert Completion</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {{--    <div class="modal fade" tabindex="-1" role="dialog" id="modal_expert_completion2">--}}
 {{--        <div class="modal-dialog modal-lg" role="document">--}}
@@ -227,7 +229,7 @@
 {{--                <div class="modal-body modal-body-md">--}}
 {{--                    <h4 class="title center">First time here?</h4>--}}
 {{--                    <div class="px-5">--}}
-{{--                        <p class="mt-3 mb-0 fs-6 tw-text-center">In order to start using AsiaDealHub, you need to complete your expert profile. This will help us to match you with the right clients and projects.</p>--}}
+{{--                        <p class="mt-3 mb-0 fs-6 tw-text-center">Look like that you are new this AsiaDealHub. In order to start using AsiaDealHub, you need to complete your expert profile. This will help us to match you with the right clients and projects.</p>--}}
 {{--                        <div class="center mt-4">--}}
 {{--                            <button onclick="goToExpertCompletion()" class="btn btn-primary tw-px-36">Go To Expert Completion</button>--}}
 {{--                        </div>--}}
@@ -241,18 +243,16 @@
 
 @push('scripts')
     <script>
-        {{--$( document ).ready(function() {--}}
-        {{--    $('#modal_expert_completion').modal('show');--}}
-        {{--});--}}
+        $( document ).ready(function() {
+{{--            @if(!auth()->user()->isHasExpert())--}}
+{{--                let modal = $('#modal_expert_completion');--}}
+{{--                modal.modal({backdrop: 'static', keyboard: false})--}}
+{{--                modal.modal('show');--}}
+{{--            @endif--}}
+        });
 
-        {{--function step2(){--}}
-        {{--    $('#modal_expert_completion').modal('hide');--}}
-        {{--    $('#modal_expert_completion2').modal('show');--}}
-        {{--}--}}
-
-        {{--function goToExpertCompletion(){--}}
-        {{--    $('#modal_expert_completion2').modal('hide');--}}
-        {{--    window.location.href = "{{route('expert.profile-completion')}}";--}}
-        {{--}--}}
+        function goToExpertCompletion(){
+            window.location.href = "{{route('expert.profile.index')}}";
+        }
     </script>
 @endpush

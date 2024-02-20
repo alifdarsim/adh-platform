@@ -17,9 +17,10 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      */
-    public function index(){
+    public function index($type){
         if (auth()->check()) return redirect()->route('overview');
-        return view('auth.register');
+        if ($type == 'expert') return view('auth.register_expert');
+        else return view('auth.register_client');
     }
 
     /**

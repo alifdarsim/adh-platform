@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Expert;
-use App\Models\ProjectExpert;
+use App\Models\ExpertList;
+use App\Models\IndustryExpert;
+use App\Models\Projects;
+use App\Models\ProjectShortlist;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ExpertsController extends Controller
 {
@@ -14,13 +18,15 @@ class ExpertsController extends Controller
     }
 
     public function destroy($id){
-        $expert = Expert::find($id);
+        $expert = ExpertList::find($id);
         $expert->delete();
         return redirect()->back()->with('success', 'Expert deleted successfully');
     }
 
     public function datatable(){
-        $experts = Expert::get();
+        $experts = ExpertList::with('industry')->get();
+        // Preload shortlisted expert IDs for the given project
+        $projectShortlistIds = $this->getProjectShortlistedIds(request()->get('project_id'));
         return datatables()->of($experts)
             ->addColumn('company', function ($e) {
                 return $e->experiences[0]['company'];
@@ -50,13 +56,47 @@ class ExpertsController extends Controller
             ->addColumn('country', function ($e) {
                 return $e->country;
             })
+            ->addColumn('main_industry', function ($e) {
+                return $e->industry == null ? '' : $e->industry->main;
+            })
+            ->addColumn('sub_industry', function ($e) {
+                return $e->industry == null ? '' : $e->industry->sub;
+            })
+            ->addColumn('industry_classification', function ($e) {
+                return $e->industry == null ? 'Not Set' : $e->industry->main . ' - ' . $e->industry->sub;
+            })
+            ->addColumn('_email', function ($e) {
+                return $e->email == null ? 'Not Set' : $e->email;
+            })
+            ->addColumn('shortlisted', function ($e) use ($projectShortlistIds) {
+                return in_array($e->id, $projectShortlistIds);
+            })
+            ->rawColumns(['industry_classification'])
             ->toJson();
     }
 
+    public function getProjectShortlistedIds($project_id) {
+        $project = Projects::where('pid', $project_id)->first();
+        if (!$project) {
+            return [];
+        }
+        return ProjectShortlist::where('project_id', $project->id)->pluck('expert_id')->toArray();
+    }
+
     public function set_contact(){
-        $expert = Expert::find(request()->get('expert_id'));
+        $expert = ExpertList::find(request()->get('expert_id'));
         $expert->email = request()->get('email');
         $expert->save();
         return success('Contact updated successfully');
+    }
+
+    public function industry(Request $request)
+    {
+        $expert = ExpertList::find($request->expert_id);
+        $industry_value = $request->industry_val;
+        $industry_id = IndustryExpert::where('sub', $industry_value)->first()->id;
+        $expert->industry_id = $industry_id;
+        $expert->save();
+        return success('Industry update successfully');
     }
 }

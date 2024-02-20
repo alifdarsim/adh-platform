@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Expert;
+use App\Models\ExpertList;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +25,7 @@ class LoginController extends Controller
     public function logout($type)
     {
         auth()->logout();
-        return redirect()->route('login', ['type' => $type]);
+        return redirect()->route('login.index', ['type' => $type]);
     }
 
     public function extracted(Request $request): JsonResponse

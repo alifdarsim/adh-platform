@@ -11,12 +11,11 @@
             </div>
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="{{route('admin.companies.create')}}" class="btn btn-primary toggle-expand" data-target="pageMenu"><span>Add Company</span></a>
                     <div class="toggle-expand-content" data-content="pageMenu">
                         <ul class="nk-block-tools g-3">
                             <li class="nk-block-tools-opt">
                                 <div class="drodown">
-                                    <a onclick="create()" class="btn btn-white btn-outline-primary"><em class="icon ni ni-plus"></em><span>Create Hub</span></a>
+                                    <a onclick="create()" class="btn btn-white btn-primary"><em class="icon ni ni-plus"></em><span>Create Hub</span></a>
                                 </div>
                             </li>
                         </ul>

@@ -22,20 +22,20 @@
                                     class="dropdown-menu-s1 tw-rounded-tl-sm tw-px-5 tw-py-3 tw-flex tw-justify-center">
                                     <span class="text-danger"><i class="fa-solid fa-user-tie me-1"></i>Expert</span>
                                 </div>
-                                <a href="{{route('login', ["type" => 'client'])}}"
+                                <a href="{{route('login.index', ["type" => 'client'])}}"
                                    class="tw-rounded-tr-sm bg-light tw-px-5 tw-py-3 tw-flex tw-justify-center clickable">
                                     <span class="tw-text-slate-500"><i
-                                            class="fa-solid fa-briefcase me-1"></i>Client</span>
+                                            class="fa-solid fa-briefcase me-1"></i>User/Client</span>
                                 </a>
                             @else
-                                <a href="{{route('login', ["type" => 'expert'])}}"
+                                <a href="{{route('login.index', ["type" => 'expert'])}}"
                                    class="tw-rounded-tr-sm bg-light tw-px-5 tw-py-3 tw-flex tw-justify-center clickable">
                                     <span class="tw-text-slate-500"><i
                                             class="fa-solid fa-user-tie me-1"></i>Expert</span>
                                 </a>
                                 <div
                                     class="dropdown-menu-s1 tw-rounded-tl-sm tw-px-5 tw-py-3 tw-flex tw-justify-center">
-                                    <span class="text-danger"><i class="fa-solid fa-briefcase me-1"></i>Client</span>
+                                    <span class="text-danger"><i class="fa-solid fa-briefcase me-1"></i>User/Client</span>
                                 </div>
                             @endif
 
@@ -51,12 +51,12 @@
                                            required id="email-address"
                                            placeholder="Enter your email address or username">
                                 </div>
-                            </div><!-- .form-group -->
+                            </div>
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="password">Passcode</label>
                                     <a class="link link-primary link-sm" tabindex="-1"
-                                       href="{{route('forgot-password')}}">Forgot Password?</a>
+                                       href="{{route('forgot_password.index')}}">Forgot Password?</a>
                                 </div>
                                 <div class="form-control-wrap">
                                     <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg"
@@ -93,7 +93,9 @@
                             </div>
                             <div class="form-note-s2 text-center mt-3">
                                 <span>New on our platform?</span>
-                                <a class="tw-underline tw-text-red-500" href="{{route('register.index')}}">Create an account</a>
+                                <a class="tw-underline tw-text-red-500" href="{{route('register.index', $type)}}">
+                                    Create new {{$type == 'client' ? 'User/Client' : 'Expert'}} Account
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -114,7 +116,7 @@
         var timezone = moment.tz.guess();
         $('#timezone').val(timezone);
 
-        $('#email-address').val('badrul@gmail.com');
+        $('#email-address').val('alifdarsim@gmail.com');
         $('#password').val('password');
 
         $('#signInSelect').on('change', function () {
@@ -143,7 +145,7 @@
                 success: function (response) {
                     if (response.isadmin) {
                         console.log(response);
-                        Swal.fire('Login as Admin', 'User is an admin, you will be directed to the admin page', 'success').then(() => window.location.href = "{{route('admin.overview')}}");
+                        Swal.fire('Login as Admin', 'User is an admin, you will be directed to the admin page', 'success').then(() => window.location.href = "{{route('admin.overview.index')}}");
                     } else {
                         window.location.href = "{{$type == 'client' ? route('client.overview') : route('expert.overview')}}";
                     }

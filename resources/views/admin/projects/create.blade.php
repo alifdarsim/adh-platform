@@ -6,8 +6,7 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Create Project</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Create your project and find potential expert will be partner to complete your
-                        project.</p>
+                    <p>Create your project and find potential expert will be partnered to complete your project.</p>
                 </div>
             </div>
         </div>

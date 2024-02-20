@@ -1,7 +1,16 @@
 @extends('layouts.admin.main')
 @section('content')
 
-    <x-content_header title="Create New Admin" subtitle="Invite new admin user that will manage AsiaDealHub system."/>
+    <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+            <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Create New Admin</h3>
+                <div class="nk-block-des text-soft">
+                    <p>Invite new admin user that will manage AsiaDealHub system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="nk-block">
         <div class="card card-bordered card-preview">

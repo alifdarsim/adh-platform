@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AdminInvitation;
+use App\Mail\MailSender;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,10 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        return view('admin.admins.index');
+        $adminsCount = User::whereHas('roles', function ($query) {
+            $query->where('name', 'super admin')->orWhere('name', 'admin');
+        })->count();
+        return view('admin.admins.index', compact('adminsCount'));
     }
 
     /**
@@ -37,19 +41,18 @@ class AdminsController extends Controller
             return null;
         });
         return datatables()->of($users)
-            ->addColumn('action', function ($user) {
-                return '<a href="' . route('admin.admins.edit', $user->id) . '" class="btn btn-sm btn-primary">Edit</a>';
-            })
             ->addColumn('role', function ($user) {
                 return $user->roles->first()->name;
             })
             ->addColumn('email', function ($user) {
                 return $user->email;
             })
-            ->addColumn('name', function ($user) {
-                return $user->name;
+            ->addColumn('user_avatar', function ($user) {
+                return $user->user_avatar();
             })
-            ->rawColumns(['action'])
+            ->addColumn('last_login_at', function ($user) {
+                return $user->last_login_at;
+            })
             ->make(true);
     }
 
@@ -64,7 +67,7 @@ class AdminsController extends Controller
     /**
      * Store a newly created admin user in storage.
      */
-    public function store()
+    public function store(MailSender $mailSender)
     {
 
         request()->validate([
@@ -77,18 +80,13 @@ class AdminsController extends Controller
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
-            'role' => 'admin',
             'token' => $token,
             'token_expires_at' => now()->addDays(3),
             'status' => 0,
         ]);
         //assignRole after creating user using Spatie
         $user->assignRole('admin');
-        $MailData = [
-            'name' => request('name'),
-            'token' => $token,
-        ];
-        Mail::to(request('email'))->send(new AdminInvitation($MailData));
+        $mailSender->sendAdminInvitation(request('email'), request('name'), $token);
         return success('New Admin created successfully');
     }
 

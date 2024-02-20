@@ -52,29 +52,14 @@
                                                     <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
                                                         <em class="icon ni ni-filter-alt"></em>
                                                     </a>
-                                                    <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                    <div class="filter-wg dropdown-menu dropdown-menu-sm dropdown-menu-end">
                                                         <div class="dropdown-head">
-                                                            <span class="sub-title dropdown-title">Filter Table</span>
+                                                            <span class="sub-title dropdown-title">Column Search</span>
                                                         </div>
                                                         <div class="dropdown-body dropdown-body-rg">
                                                             <div class="row gx-6 gy-3">
-                                                                <div class="col-6">
+                                                                <div class="col-12">
                                                                     <div class="form-group">
-                                                                        <label class="overline-title overline-title-alt" for="status">STATUS</label>
-                                                                        <select class="form-select js-select2 js-select2-sm" id="status">
-                                                                            <option value="not_close">Except Close</option>
-                                                                            <option value="all">All Status</option>
-                                                                            <option value="pending">Pending</option>
-                                                                            <option value="active">Active</option>
-                                                                            <option value="awarded">Awarded</option>
-                                                                            <option value="close">Close</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <div class="form-group">
-                                                                        <label class="overline-title overline-title-alt">COLUMN SEARCH</label>
-                                                                        <br>
                                                                         <div class="custom-control custom-switch mt-1">
                                                                             <input type="checkbox" class="custom-control-input" id="column_search">
                                                                             <label class="custom-control-label" for="column_search">Hide</label>
@@ -108,6 +93,7 @@
                                                     <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
                                                         <ul class="link-check">
                                                             <li><span>Row Per Page</span></li>
+                                                            <li><a class="page-btn py-2 clickable">6</a></li>
                                                             <li><a class="page-btn py-2 clickable">10</a></li>
                                                             <li><a class="page-btn py-2 clickable">20</a></li>
                                                             <li><a class="page-btn py-2 clickable">50</a></li>
@@ -150,14 +136,13 @@
             <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                 <thead>
                 <tr class="nk-tb-item nk-tb-head">
+                    <th class="nk-tb-col"><span class="sub-text">Status</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Hub</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Initiated</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Deadline</span></th>
-                    <th class="nk-tb-col"><span class="sub-text">T. Country</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Created</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Company</span></th>
-                    <th class="nk-tb-col"><span class="sub-text">Status</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
                 </tr>
                 </thead>
@@ -188,7 +173,15 @@
                     }
                 }
             ],
+            pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
+                {
+                    data: 'status',
+                    render: function (data) {
+                        let color = data === 'pending' ? 'danger' : (data === 'active' ? 'info' : (data === 'awarded' ? 'success' : 'secondary'));
+                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center">${data === 'active' ? 'Shortlisting' : data}</span>`;
+                    }
+                },
                 {
                     data: 'name'
                 },
@@ -205,20 +198,6 @@
                     data: 'deadline'
                 },
                 {
-                    data: 'target_countries',
-                    render: function (data) {
-                        console.log(data)
-                        let spans = '';
-                        let names = data.map(item => item.name).join(', ');
-                        data.forEach(function (item, index) {
-                            let emoji = index < 2 ? item.emoji : `<span class="fs-13px"> ${index-1}+</span>`;
-                            // let emoji = item.emoji;
-                            spans += `<span class="fs-5">${emoji}</span>`;
-                        });
-                        return `<div class="hover:tw-bg-slate-300 tw-cursor-default tw-px-1 round-lg d-flex flex-wrap justify-content-between align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="${names}">${spans}</div>`;
-                    }
-                },
-                {
                     data: 'created_by'
                 },
                 {
@@ -227,14 +206,7 @@
                         return `<img src="${row.company_img}" width="36" height="36" class="round-sm" alt="" data-bs-toggle="tooltip" data-bs-placement="top" title="${data}">`
                     }
                 },
-                {
-                    data: 'status',
-                    render: function (data) {
-                        console.log(data)
-                        let color = data === 'pending' ? 'danger' : (data === 'active' ? 'success' : (data === 'awarded' ? 'info' : 'secondary'));
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center">${data}</span>`;
-                    }
-                },
+
                 {
                     data: 'id',
                     className: 'nk-tb-col-tools',

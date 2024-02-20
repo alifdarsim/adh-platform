@@ -36,11 +36,6 @@ class Projects extends Model
         return LogOptions::defaults()->logOnly(['*']);
     }
 
-    public function company(): Model|HasOne
-    {
-        return $this->hasOne(Company::class, 'id', 'company_id');
-    }
-
     public function targetCountries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class, 'project_target_country', 'project_id', 'country_id')->select(['name', 'emoji']);
@@ -49,11 +44,6 @@ class Projects extends Model
     public function projectTargetInfo(): Model|HasOne
     {
         return $this->hasOne(ProjectTargetInfo::class, 'project_id', 'id');
-    }
-
-    public function created_by(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function hub(): Model|HasOne
@@ -68,16 +58,38 @@ class Projects extends Model
 
     public function invitedExperts(): BelongsToMany
     {
-        return $this->belongsToMany(Expert::class, 'project_invitation', 'project_id', 'expert_id');
+        return $this->belongsToMany(ExpertList::class, 'project_invitation', 'project_id', 'expert_id');
     }
 
     public function answered(): object|null
     {
         return ProjectAnswer::where('project_id', $this->id)->where('user_id', auth()->user()->id)->first();
     }
+
+    // after this is new one
+
+    public function shortlist(): hasOne
+    {
+        return $this->hasOne(ProjectShortlist::class, 'project_id', 'id');
+    }
+
+    public function invited(): hasOne
+    {
+        return $this->hasOne(ProjectInvited::class, 'project_id', 'id');
+    }
+
+    public function created_by(): BelongsTo|User
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id')->first();
+    }
+
+    public function company(): Model|HasOne
+    {
+        return $this->hasOne(Company::class, 'id', 'company_id');
+    }
+
     public function awardedTo(): BelongsTo
     {
         return $this->belongsTo(User::class, 'awarded_to', 'id');
     }
-
 }

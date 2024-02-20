@@ -18,13 +18,13 @@
                     <div class="card card-bordered mt-4">
                         <div class="card-inner card-inner-lg pt-3 pb-4">
                             <div class="nk-block-head">
-                                <a href="{{route('login', ['type' => 'expert'])}}" class="tw-flex tw-items-center tw-text-slate-700">
+                                <a href="{{route('login.index', ['type' => 'expert'])}}" class="tw-flex tw-items-center tw-text-slate-700">
                                     <div class="tw-slate-700"><em class="icon ni ni-arrow-left tw-text-lg me-2"></em></div>
                                     <div>Back to Login</div>
                                 </a>
                             </div>
                             <div class="nk-block-head">
-                                <div class="center fw-bold fs-16px text-dark">Register One Account for Expert & Client</div>
+                                <div class="center fw-bold fs-16px text-dark">{{$type}} Account Registration</div>
                             </div>
                             <div class="form-group mb-2">
                                 <div class="form-label-group mb-0">
@@ -123,7 +123,7 @@
                 },
                 success: function (response) {
                     _Swal.success('Register Success', 'You have registered successfully, you can now login as Expert or Client', () => {
-                        window.location.href = "{{route('login', ['type' => 'expert'])}}";
+                        window.location.href = "{{route('login.index', ['type' => 'expert'])}}";
                     });
                 },
                 error: function (response) {

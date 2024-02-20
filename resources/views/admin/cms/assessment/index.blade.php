@@ -121,11 +121,10 @@
                     option4: options[3],
                 },
                 success: function (response) {
-                    console.log(response);
                     _Swal.success('Question saved successfully!')
+                    window.location.reload();
                 },
                 error: function (response) {
-                    console.log(response);
                     alert('Error saving question!');
                     _Swal.error('Error saving question!')
                 }

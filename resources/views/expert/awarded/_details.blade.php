@@ -16,7 +16,8 @@
     <p class="mb-0 mt-1">Created By: <a  class="tw-text-blue-500 hover:tw-text-blue-800">{{$project->created_by()->first()->name}}</a></p>
     <p class="mb-0 mt-1">Awarded To: <a  class="tw-text-blue-500 hover:tw-text-blue-800">{{$project->awardedTo->name}}</a></p>
     <div class="tw-flex tw-justify-between mt-1">
-        <p class="mb-0">Tags: @foreach($project->keywords as $keyword)
+        <p class="mb-0">Tags:
+            @foreach($project->keywords as $keyword)
                 <span class="badge bg-outline-info border-2 tw-rounded-full tw-capitalize fs-12px tw-font-medium px-2 tw-py-0.5">{{$keyword->name}}</span>
             @endforeach</p>
     </div>

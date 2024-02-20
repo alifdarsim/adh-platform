@@ -23,32 +23,13 @@ class AdminInvitation extends Mailable
     }
 
     /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Send Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'mail.admin_invitation',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
+     * Build the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return $this
      */
-    public function attachments(): array
+    public function build(): static
     {
-        return [];
+        return $this->subject('AsiaDealHub Admin Role Invitation')
+            ->view('mail.admin_invitation');
     }
 }

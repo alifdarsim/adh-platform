@@ -30,6 +30,6 @@ class RegisterUser extends Mailable {
     public function build(): static
     {
         return $this->subject('Registration Email')
-            ->view('mail.user_register');
+            ->view('mail.confirmation_email');
     }
 }

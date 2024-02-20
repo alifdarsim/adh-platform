@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AdminsController;
 use App\Http\Controllers\Admin\ExpertsController;
 use App\Http\Controllers\Admin\ExpertsScrapeController;
 use App\Http\Controllers\Admin\HubsController;
+use App\Http\Controllers\Admin\IndustryClassificationController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AssessmentController;
@@ -31,16 +33,18 @@ use App\Http\Controllers\ExpertCompletionController;
 use App\Http\Controllers\ExpertDataController;
 use App\Http\Controllers\ExpertProfileController;
 use App\Http\Controllers\IndustryController;
+use App\Http\Controllers\IndustryExpertController;
 use App\Http\Controllers\ManageProjectController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectInvitation;
+use App\Http\Controllers\ProjectInvitationController;
 
 Route::get('/test', function () {
-    return view('mail.project_invitation');
+    return view('mail.password_reset');
 });
 
 Route::group(["prefix" => "project-invitation"], function () {
-    Route::get('/{token}', [ProjectInvitation::class, 'index'])->name('project-invitation.index');
+    Route::get('/{token}', [ProjectInvitationController::class, 'index'])->name('project-invitation.index');
 });
 
 Route::get('/', function () {
@@ -49,13 +53,13 @@ Route::get('/', function () {
         if (session('user_type') == 'expert') return redirect()->route('expert.overview');
         if (session('user_type') == 'client') return redirect()->route('client.overview');
     }
-    return redirect()->route('login', ['type' => 'expert']);
+    return redirect()->route('login.index', ['type' => 'expert']);
 });
 
 // Auth Routes
 Route::group(["prefix" => "auth"], function () {
     // Login and Register Routes
-    Route::get('/login/{type}', [LoginController::class, 'index'])->name('login');
+    Route::get('/login/{type}', [LoginController::class, 'index'])->name('login.index');
     Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
 
@@ -63,9 +67,13 @@ Route::group(["prefix" => "auth"], function () {
     Route::get('login/social/{driver}/{user_type}', [SocialLoginController::class, 'redirectToDriver'])->name('login.authenticate.social');
     Route::get('callback/{driver}', [SocialLoginController::class, 'handleCallback']);
 
-    Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
+    Route::get('/register/{type}', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-    Route::get('/forgot-password', function () { return view('auth.register'); })->name('forgot-password');
+    Route::get('/forgot-password', [PasswordResetController::class, 'index'])->name('forgot_password.index');
+    Route::get('/forgot-password/{token}', [PasswordResetController::class, 'reset'])->name('forgot_password.reset');
+    Route::put('/forgot-password/{token}', [PasswordResetController::class, 'update'])->name('forgot_password.update');
+    Route::post('/forgot-password/{email}', [PasswordResetController::class, 'password_reset'])->name('forgot_password.store');
+
 });
 
 // Admin Invitation Routes
@@ -82,7 +90,10 @@ Route::get('/faq', function () { return view('others.faq'); })->name('others.faq
 Route::middleware(['auth', 'route.protection'])->group(function () {
     // Admin Routes
     Route::group(["prefix" => "admin"], function () {
-        Route::get('/overview', [AdminOverviewController::class, 'index'])->name('admin.overview');
+        Route::group(["prefix" => "overview"], function () {
+            Route::get('/', [AdminOverviewController::class, 'index'])->name('admin.overview.index');
+            Route::get('/data', [AdminOverviewController::class, 'data'])->name('admin.overview.data');
+        });
         Route::group(["prefix" => "companies"], function () {
             Route::get('/', [AdminCompaniesController::class, 'index'])->name('admin.companies.index');
             Route::post('/prefill', [AdminCompaniesController::class, 'prefill'])->name('admin.companies.prefill');
@@ -94,13 +105,14 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         });
         Route::group(["prefix" => "projects"], function () {
             Route::get('/datatable', [AdminProjectsController::class, 'datatable'])->name('admin.projects.datatable');
-            Route::get('/{pid}/datatable_expert', [AdminProjectsController::class, 'datatable_expert'])->name('admin.projects.datatable_expert');
+            Route::get('/{pid}/datatable_shortlist', [AdminProjectsController::class, 'datatable_shortlist'])->name('admin.projects.datatable_shortlist');
             Route::get('/{pid}/datatable_awarding', [AdminProjectsController::class, 'datatable_awarding'])->name('admin.projects.datatable_awarding');
             Route::post('/{pid}/award-expert', [AdminProjectsController::class, 'award_expert'])->name('admin.projects.award-expert');
             Route::delete('/{pid}/{id}', [AdminProjectsController::class, 'expert_remove'])->name('admin.projects.remove-expert');
 
             Route::post('/add-expert', [AdminProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
-            Route::get('/invite-expert/{id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
+            Route::get('/invite-expert/{project_id}/{expert_id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
+            Route::get('/invite-expert-all/{project_id}', [AdminProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
             Route::post('/respond/{pid}', [AdminProjectsController::class, 'respond'])->name('admin.projects.respond');
 
             // show project
@@ -117,6 +129,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::delete('/{id}', [ExpertsController::class, 'destroy'])->name('admin.experts.destroy');
             Route::get('/datatable', [ExpertsController::class, 'datatable'])->name('admin.experts.datatable');
             Route::post('/contact', [ExpertsController::class, 'set_contact'])->name('admin.experts.set-contact');
+            Route::post('/industry', [ExpertsController::class, 'industry'])->name('admin.experts.industry');
         });
         Route::group(["prefix" => "expert_scrape"], function () {
             Route::get('/datatable', [ExpertsScrapeController::class, 'datatable'])->name('admin.expert_scrape.datatable');
@@ -131,6 +144,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/{id}', [UsersController::class, 'userShow'])->name('admin.users.show');
             Route::post('/{id}', [UsersController::class, 'userUpdate'])->name('admin.users.update');
             Route::delete('/{id}', [UsersController::class, 'userDestroy'])->name('admin.users.destroy');
+
         });
         Route::group(["prefix" => "admins"], function () {
             Route::get('/', [AdminsController::class, 'index'])->name('admin.admins.index');
@@ -158,6 +172,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
 
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
+        Route::resource('industry_classification', IndustryClassificationController::class, ['names' => 'admin.industry_classification'])->withDatatable();
     });
 
     // Client Routes
@@ -187,27 +202,18 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         });
         // Profile Routes
         Route::group(["prefix" => "profile"], function () {
-            Route::get('/', [ExpertProfileController::class, 'index'])->name('expert.profile');
-            Route::get('/security', [ExpertProfileController::class, 'security'])->name('expert.profile.security');
-            Route::get('/notification', [ExpertProfileController::class, 'notification'])->name('expert.profile.notification');
-            Route::get('/activity', [ExpertProfileController::class, 'activity'])->name('expert.profile.activity');
-            Route::get('/social', [ExpertProfileController::class, 'social'])->name('expert.profile.social');
-            Route::get('/data', [ExpertDataController::class, 'index'])->name('expert.profile.data');
-            Route::post('/update', [ExpertDataController::class, 'update'])->name('expert.profile.update');
-            Route::post('/job-add', [ExpertDataController::class, 'jobAdd'])->name('expert.profile.job-add');
-            Route::delete('/job-remove', [ExpertDataController::class, 'jobRemove'])->name('expert.profile.job-remove');
-        });
-        // Profile Completion Routes
-        Route::group(["prefix" => "profile-completion"], function () {
-            // Profile Completion Routes
-            Route::get('/', [ExpertCompletionController::class, 'index'])->name('expert.profile-completion');
-            Route::post('/linkedin', [ExpertCompletionController::class, 'linkedin'])->name('expert.profile-completion.linkedin');
-            Route::post('/cv', [ExpertCompletionController::class, 'cv'])->name('expert.profile-completion.cv');
-            Route::post('/skills', [ExpertCompletionController::class, 'skills'])->name('expert.profile-completion.skills');
+            Route::get('/', [ExpertProfileController::class, 'index'])->name('expert.profile.index');
+            Route::post('/update', [ExpertProfileController::class, 'update'])->name('expert.profile.update');
+            Route::post('/linkedin', [ExpertProfileController::class, 'linkedin'])->name('expert.profile.linkedin');
+            Route::post('/linkedin_sync', [ExpertProfileController::class, 'linkedin_sync'])->name('expert.profile.linkedin_sync');
+            Route::post('/cv', [ExpertProfileController::class, 'cv'])->name('expert.profile.cv');
+            Route::post('/job_add', [ExpertProfileController::class, 'job_add'])->name('expert.profile.job_add');
+            Route::post('/skills', [ExpertProfileController::class, 'skills'])->name('expert.profile.skills');
+            Route::post('/industry', [ExpertProfileController::class, 'industry'])->name('expert.profile.industry');
         });
         // Assessment Routes
         Route::group(["prefix" => "assessment"], function () {
-            Route::get('/', [AssessmentController::class, 'index'])->name('expert.assessment');
+            Route::get('/', [AssessmentController::class, 'index'])->name('expert.assessment.index');
             Route::post('/', [AssessmentController::class, 'getQuestion'])->name('assessment.question');
             Route::post('/check', [AssessmentController::class, 'checkAnswer'])->name('assessment.check');
             Route::delete('/', [AssessmentController::class, 'retake'])->name('assessment.retake');
@@ -215,6 +221,15 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         // Awarded Routes
         Route::group(["prefix" => "awarded"], function () {
             Route::get('/{pid}', [AwardedController::class, 'show'])->name('expert.awarded.show');
+        });
+        Route::group(["prefix" => "account"], function () {
+            Route::get('/', [AccountController::class, 'index'])->name('expert.account.index');
+            Route::get('/security', [AccountController::class, 'security'])->name('expert.account.security');
+            Route::get('/notification', [AccountController::class, 'notification'])->name('expert.account.notification');
+            Route::get('/activity', [AccountController::class, 'activity'])->name('expert.account.activity');
+            Route::get('/social', [AccountController::class, 'social'])->name('expert.account.social');
+            Route::post('/job-add', [ExpertDataController::class, 'jobAdd'])->name('expert.profile.job-add');
+            Route::delete('/job-remove', [ExpertDataController::class, 'jobRemove'])->name('expert.profile.job-remove');
         });
     });
 
@@ -246,7 +261,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/companies/types', [CompaniesController::class, 'getTypes'])->name('companies.types');
     Route::get('/hubs', [HubController::class, 'index'])->name('hubs');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries.index');
-    Route::post('/industries', [IndustryController::class, 'search'])->name('industries.search');
+    Route::get('/industries/{type}', [IndustryController::class, 'type'])->name('industries.type');
+    Route::get('/industry_expert', [IndustryExpertController::class, 'main'])->name('industries_expert.main');
+    Route::get('/industry_expert/{main}', [IndustryExpertController::class, 'sub'])->name('industries_expert.sub');
     Route::get('/companies/{id}', [CompaniesController::class, 'get'])->name('companies.get');
     Route::get('/address/cities/search', [AddressController::class, 'cities_search'])->name('cities.search');
     Route::get('/address/states/search', [AddressController::class, 'states_search'])->name('states.search');

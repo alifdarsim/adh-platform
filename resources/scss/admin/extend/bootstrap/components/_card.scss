@@ -1,7 +1,7 @@
 .card{
-    + .card:not(.card .card + .card){
-        margin-top: $gutter-width; 
-    }
+    //+ .card:not(.card .card + .card){
+    //    margin-top: $gutter-width;
+    //}
     + .nk-block-head{
         padding-top: 2.5rem;
     }
@@ -42,7 +42,7 @@
         margin: -.25rem -0.5rem 1rem;
         > *{
             padding: 0.25rem .5rem;
-        } 
+        }
         > .title:only-child{
             width: 100%;
         }

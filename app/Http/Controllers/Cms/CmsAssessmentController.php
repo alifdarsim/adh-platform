@@ -26,9 +26,7 @@ class CmsAssessmentController extends Controller
             'option4' => 'required',
         ]);
 
-
         $questions = AssessmentQuestions::where('order', $request->order)->first();
-
         // if question not exist then create new
         if (!$questions) {
             $questions = new AssessmentQuestions();
@@ -53,6 +51,12 @@ class CmsAssessmentController extends Controller
         ]);
         $questions = AssessmentQuestions::where('order', $request->order)->first();
         $questions->delete();
+        // re-ordering the questions
+        $questions = AssessmentQuestions::orderBy('order')->get();
+        foreach ($questions as $key => $question) {
+            $question->order = $key + 1;
+            $question->save();
+        }
         return success('Question deleted successfully');
     }
 
@@ -76,6 +80,12 @@ class CmsAssessmentController extends Controller
             $request->option4,
         ];
         $questions->save();
+        // re-ordering the questions
+        $questions = AssessmentQuestions::orderBy('order')->get();
+        foreach ($questions as $key => $question) {
+            $question->order = $key + 1;
+            $question->save();
+        }
         return success('Question added successfully');
     }
 }
