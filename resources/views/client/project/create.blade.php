@@ -22,7 +22,7 @@
                                 <h6 class="overline-title mb-2">Company Information</h6>
                                 <div class="card bg-white">
                                     <li class="nk-support-item">
-                                        <img id="company_image" class="h-100px" src="{{$company->img_url}}" alt="">
+                                        <img id="company_image" class="h-100px" src="{{$company->img_url ?? ''}}" alt="">
                                         <div class="nk-support-content">
                                             <div class="title">
                                                 <span class="fs-5" id="company_name">{{$company->name}}</span>
