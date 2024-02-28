@@ -95,8 +95,8 @@
         var timezone = moment.tz.guess();
         $('#timezone').val(timezone);
 
-        $('#email-address').val('alifdarsim@gmail.com');
-        $('#password').val('password');
+        // $('#email-address').val('alifdarsim@gmail.com');
+        // $('#password').val('password');
 
         $('#signInSelect').on('change', function () {
             if ($(this).val() === 'user') {
@@ -114,7 +114,7 @@
             let email = $('#email-address').val();
             let password = $('#password').val();
             $.ajax({
-                url: "{{ route('register.store')}}",
+                url: "{{ route('register.store','')}}/"+'expert',
                 method: 'POST',
                 data: {
                     email: email,

@@ -585,7 +585,7 @@
             let end_month = $('#to-position-month').val();
             let end_year = $('#to-position-year').val();
             $.ajax({
-                url: '{{route('expert.profile.job-add')}}',
+                url: '{{route('expert.profile.job_add')}}',
                 method: 'POST',
                 data: {
                     _token: '{{csrf_token()}}',

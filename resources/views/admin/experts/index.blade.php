@@ -16,7 +16,7 @@
                         <ul class="nk-block-tools g-3">
                             <li class="nk-block-tools-opt">
                                 <div class="drodown">
-                                    <a onclick="create()" class="btn btn-white btn-outline-primary"><em class="icon ni ni-plus"></em><span>Import LinkedIn URL</span></a>
+                                    <a href="{{route('admin.expert_scrape.index')}}" class="btn btn-white btn-outline-primary"><em class="icon ni ni-plus"></em><span>Go to Scrape Page</span></a>
                                 </div>
                             </li>
                         </ul>
@@ -315,49 +315,49 @@
             })
         }
 
-        function create(){
-            Swal.fire({
-                title: 'Enter LinkedIn Url',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Add to queue',
-                showLoaderOnConfirm: true,
-                preConfirm: (url) => {
-                    return $.ajax({
-                        url: "{{route('admin.expert_scrape.store')}}",
-                        type: 'POST',
-                        data: {
-                            _token: "{{csrf_token()}}",
-                            url: url,
-                        },
-                        success: function (data) {
-                            Swal.fire('Success!', data.message, 'success').then(() => table.ajax.reload())
-                        },
-                        error: function (data) {
-                            Swal.fire('Error!', data.responseJSON.message, 'error')
-                        }
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: result.value.message,
-                        icon: 'success'
-                    }).then((result) => {
-                        table.ajax.reload();
-                    })
-                }
-            })
-        }
+        {{--function create(){--}}
+        {{--    Swal.fire({--}}
+        {{--        title: 'Enter LinkedIn Url',--}}
+        {{--        input: 'text',--}}
+        {{--        inputAttributes: {--}}
+        {{--            autocapitalize: 'off'--}}
+        {{--        },--}}
+        {{--        showCancelButton: true,--}}
+        {{--        confirmButtonText: 'Add to queue',--}}
+        {{--        showLoaderOnConfirm: true,--}}
+        {{--        preConfirm: (url) => {--}}
+        {{--            return $.ajax({--}}
+        {{--                url: "{{route('admin.expert_scrape.store')}}",--}}
+        {{--                type: 'POST',--}}
+        {{--                data: {--}}
+        {{--                    _token: "{{csrf_token()}}",--}}
+        {{--                    url: url,--}}
+        {{--                },--}}
+        {{--                success: function (data) {--}}
+        {{--                    Swal.fire('Success!', data.message, 'success').then(() => table.ajax.reload())--}}
+        {{--                },--}}
+        {{--                error: function (data) {--}}
+        {{--                    Swal.fire('Error!', data.responseJSON.message, 'error')--}}
+        {{--                }--}}
+        {{--            });--}}
+        {{--        },--}}
+        {{--        allowOutsideClick: () => !Swal.isLoading()--}}
+        {{--    }).then((result) => {--}}
+        {{--        if (result.isConfirmed) {--}}
+        {{--            Swal.fire({--}}
+        {{--                title: 'Success!',--}}
+        {{--                text: result.value.message,--}}
+        {{--                icon: 'success'--}}
+        {{--            }).then((result) => {--}}
+        {{--                table.ajax.reload();--}}
+        {{--            })--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--}--}}
 
-        function re_scrape(){
-            alert('re-scrape function is not implemented yet')
-        }
+        // function re_scrape(){
+        //     alert('Something is wrong, please contact support')
+        // }
 
         function setIndustry(expert_name, expert_avatar, expert_linkedin, main_industry, sub_industry, expert_id){
             $('#expert_id').val(expert_id)

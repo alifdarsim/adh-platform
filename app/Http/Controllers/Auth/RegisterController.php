@@ -17,10 +17,9 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      */
-    public function index($type){
+    public function index(){
         if (auth()->check()) return redirect()->route('overview');
-        if ($type == 'expert') return view('auth.register_expert');
-        else return view('auth.register_client');
+        return view('auth.register');
     }
 
     /**
@@ -29,14 +28,13 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request, UserService $userService, MailSender $mailSender)
     {
         // validate password to be at least 6 characters
+        if (strlen($request->password) < 6) return error('Password must be at least 6 characters');
         $token = md5(uniqid(rand(), true));
         // Create user
-        $user = $userService->createUser($request->name, $request->email, $request->password, $token);
+        $user = $userService->createUser($request->name, $request->email, $request->password, $request->timezone, $token);
         $userService->assignUserRole($user);
-
         // Send email to user
         $mailSender->sendRegistrationEmail($request->email, $token);
-
         // Return response
         return success('Registration successful. Please confirm your email address to login');
     }
@@ -44,14 +42,13 @@ class RegisterController extends Controller
     /**
      * Confirm user email.
      */
-    public function confirm($token)
+    public function verify($token)
     {
         $user = User::where('token', $token)->where('token_expires_at', '>=', now())->first();
         if ($user) {
             $user->update(['token' => null, 'token_expires_at' => null, 'status' => 1]);
-            return redirect()->route('login')->with('success', 'Email confirmed successfully');
         }
-        return view('errors.504');
+        return view('auth.email-verified');
     }
 
     public function remove_account($token){

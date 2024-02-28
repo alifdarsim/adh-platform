@@ -32,12 +32,12 @@ class ProjectsController extends Controller
     public function show($pid){
         $countries = Country::select('id', 'name')->get();
         $project = Projects::where('pid',$pid)->first();
-        if ($project->status == 'awarded') {
+        if ($project->status == 'awarded' || $project->status == 'closed'){
             return view('admin.projects.awarded.index', compact('project'));
         }
         $project->targetCountries;
         $project->projectTargetInfo;
-        $project->created_by = $project->created_by()->first();
+        $project->created_by = $project->createdBy;
         return view('admin.projects.show.index', compact('project', 'countries'));
     }
 
@@ -123,7 +123,7 @@ class ProjectsController extends Controller
                 else return substr($string, 1);
             })
             ->addColumn('created_by', function ($project) {
-                return $project->created_by()->first()->name;
+                return $project->createdBy->name;
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -210,6 +210,14 @@ class ProjectsController extends Controller
         if ($status == 'active') return success('Project approved successfully');
         else if ($status == 'reject') return success('Project is rejected');
         else return success('Project set to pending');
+    }
+
+    public function close($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'closed';
+        $project->save();
+        return success('Project closed successfully');
     }
 
     public function add_expert(){

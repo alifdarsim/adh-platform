@@ -70,17 +70,17 @@
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><i class="fa-solid fa-user-crown fs-5"></i></span>
-                            <span class="nk-menu-text">Administrators</span>
+                            <span class="nk-menu-text">ADH Members</span>
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
                                 <a href="{{route('admin.admins.index')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Admins List</span>
+                                    <span class="nk-menu-text">Member List</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item">
                                 <a href="{{route('admin.admins.create')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Create Admin</span>
+                                    <span class="nk-menu-text">Create Member</span>
                                 </a>
                             </li>
                         </ul>
@@ -152,6 +152,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-newspaper fs-5"></i></span>
+                                <span class="nk-menu-text">Terms Editors</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.editor.terms_conditions')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Terms & Conditions</span>
+                                    </a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.editor.privacy')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Privacy Policy</span>
+                                    </a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.editor.faq')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">FAQ</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nk-menu-item">
                             <a href="{{route('quiz.show')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-user-helmet-safety fs-5"></i></span>
@@ -164,7 +187,7 @@
                             <h6 class="overline-title text-primary-alt">Misc</h6>
                         </li>
                         <li class="nk-menu-item">
-                            <a href="{{route('profile.index')}}" class="nk-menu-link">
+                            <a href="{{route('admin.account.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-address-card fs-5"></i></span>
                                 <span class="nk-menu-text">User Profile</span>
                             </a>

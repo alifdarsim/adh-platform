@@ -56,7 +56,7 @@
                                 <div class="form-label-group">
                                     <label class="form-label" for="password">Passcode</label>
                                     <a class="link link-primary link-sm" tabindex="-1"
-                                       href="{{route('forgot_password.index')}}">Forgot Password?</a>
+                                       href="{{route('forgot_password.index')}}">Reset Password?</a>
                                 </div>
                                 <div class="form-control-wrap">
                                     <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg"
@@ -80,22 +80,28 @@
                                 <h6 class="overline-title overline-title-sap"><span>OR</span></h6>
                             </div>
                             <div class="tw-grid tw-grid-cols-2 tw-gap-x-1">
-                                <a class="btn btn-outline-light center clickable"
-                                   href="{{route('login.authenticate.social', ['driver' => 'google', 'user_type' => $type])}}">
+                                <a class="btn btn-outline-light center clickable" onclick="loginSocial('google')">
                                     <img src="/images/icons/google.svg" class="me-2" alt=""/>
                                     <span>Sign in with Google</span>
                                 </a>
-                                <a class="btn btn-outline-light center clickable"
-                                   href="{{route('login.authenticate.social', ['driver' => 'linkedin-openid', 'user_type' => $type])}}">
+                                <a class="btn btn-outline-light center clickable" onclick="loginSocial('linkedin-openid')">
                                     <img src="/images/icons/linkedin.svg" class="me-2" alt=""/>
                                     <span>Sign in with LinkedIn</span>
                                 </a>
+{{--                                <a class="btn btn-outline-light center clickable"--}}
+{{--                                   href="{{route('login.authenticate.social', ['driver' => 'google', 'user_type' => $type])}}">--}}
+{{--                                    <img src="/images/icons/google.svg" class="me-2" alt=""/>--}}
+{{--                                    <span>Sign in with Google</span>--}}
+{{--                                </a>--}}
+{{--                                <a class="btn btn-outline-light center clickable"--}}
+{{--                                   href="{{route('login.authenticate.social', ['driver' => 'linkedin-openid', 'user_type' => $type])}}">--}}
+{{--                                    <img src="/images/icons/linkedin.svg" class="me-2" alt=""/>--}}
+{{--                                    <span>Sign in with LinkedIn</span>--}}
+{{--                                </a>--}}
                             </div>
                             <div class="form-note-s2 text-center mt-3">
                                 <span>New on our platform?</span>
-                                <a class="tw-underline tw-text-red-500" href="{{route('register.index', $type)}}">
-                                    Create new {{$type == 'client' ? 'User/Client' : 'Expert'}} Account
-                                </a>
+                                <a class="tw-underline tw-text-red-500" href="{{route('register.index')}}">Create new Account</a>
                             </div>
                         </div>
                     </div>
@@ -112,9 +118,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.js"></script>
     <script>
+
         //create ajax login function
         var timezone = moment.tz.guess();
         $('#timezone').val(timezone);
+
+        function loginSocial() {
+            window.location.href = "{{route('login.authenticate.social', ['driver' => 'google', 'user_type' => $type, ''])}}/" + timezone.replace('/', '__');
+        }
 
         $('#email-address').val('alifdarsim@gmail.com');
         $('#password').val('password');
@@ -145,17 +156,16 @@
                 success: function (response) {
                     if (response.isadmin) {
                         console.log(response);
-                        Swal.fire('Login as Admin', 'User is an admin, you will be directed to the admin page', 'success').then(() => window.location.href = "{{route('admin.overview.index')}}");
+                        Swal.fire('Login as ' + response.isSuperAdmin === true ? 'Super Admin' : 'ADH Member', 'User is an admin, you will be directed to the admin page', 'success').then(() => window.location.href = "{{route('admin.overview.index')}}");
                     } else {
                         window.location.href = "{{$type == 'client' ? route('client.overview') : route('expert.overview')}}";
                     }
                 },
                 error: function (response) {
-                    if (response.status === 422) {
-                        Swal.fire('Verify your Email', response.responseJSON.message, 'error').then(() => submitReset());
-                    } else {
-                        Swal.fire('Error!', response.responseJSON.message, 'error').then(() => submitReset());
-                    }
+                    console.log(response)
+                    _Swal.error(response.responseJSON.text, response.responseJSON.message, () => {
+                        submitReset();
+                    });
                 }
             });
         }

@@ -176,6 +176,14 @@
 <script src="/assets/js/scripts.js?ver=3.2.2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.min.js"></script>
 @stack('scripts')
+
+<script>
+    let dark_mode = localStorage.getItem('dark') || 'light';
+    console.log(dark_mode)
+    if (dark_mode === 'true') {
+        $('.nk-body').addClass('dark-mode');
+    }
+</script>
 </body>
 
 </html>

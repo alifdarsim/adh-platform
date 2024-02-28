@@ -17,14 +17,40 @@
                     <p class="text-center my-1 tw-text-slate-50">Digital business matchmaking platform</p>
                     <div class="card card-bordered mt-4">
                         <div class="card-inner card-inner-lg pt-3 pb-4">
-                            <div class="nk-block-head">
+                            <div class="nk-block-head pb-0">
                                 <a href="{{route('login.index', ['type' => 'expert'])}}" class="tw-flex tw-items-center tw-text-slate-700">
                                     <div class="tw-slate-700"><em class="icon ni ni-arrow-left tw-text-lg me-2"></em></div>
                                     <div>Back to Login</div>
                                 </a>
                             </div>
-                            <div class="nk-block-head">
-                                <div class="center fw-bold fs-16px text-dark">{{$type}} Account Registration</div>
+                            <div class="nk-block-head py-2">
+                                <div class="center fw-bold fs-18px tw-text-slate-700 tw-underline">Registration</div>
+                            </div>
+                            <div class="row gx-2">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-2">
+                                        <div class="form-label-group mb-0">
+                                            <label class="form-label" for="first-name">First Name</label>
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            <input autocomplete="off" type="text" class="form-control form-control-lg" name="first-name"
+                                                   required id="first-name"
+                                                   placeholder="First Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-2">
+                                        <div class="form-label-group mb-0">
+                                            <label class="form-label" for="last-name">Last Name</label>
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            <input autocomplete="off" type="text" class="form-control form-control-lg" name="last-name"
+                                                   required id="last-name"
+                                                   placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group mb-2">
                                 <div class="form-label-group mb-0">
@@ -95,9 +121,6 @@
         var timezone = moment.tz.guess();
         $('#timezone').val(timezone);
 
-        $('#email-address').val('alifdarsim@gmail.com');
-        $('#password').val('password');
-
         $('#signInSelect').on('change', function () {
             if ($(this).val() === 'user') {
                 $('.btn-primary').html('User Login');
@@ -110,19 +133,22 @@
 
         function register() {
             submitLoading();
+            _Swal.loading('Registering', 'Please wait while we are creating your account...');
             let email = $('#email-address').val();
             let password = $('#password').val();
+            let name = $('#first-name').val() + ' ' + $('#last-name').val();
             $.ajax({
                 url: "{{ route('register.store')}}",
                 method: 'POST',
                 data: {
+                    name: name,
                     email: email,
                     password: password,
                     timezone: timezone,
                     _token: '{{csrf_token()}}'
                 },
                 success: function (response) {
-                    _Swal.success('Register Success', 'You have registered successfully, you can now login as Expert or Client', () => {
+                    _Swal.success('Register Success', 'You have registered successfully, you can now login as Expert. Don\'t forget to confirm your email.', () => {
                         window.location.href = "{{route('login.index', ['type' => 'expert'])}}";
                     });
                 },

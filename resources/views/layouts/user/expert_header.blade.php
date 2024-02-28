@@ -42,3 +42,23 @@
         </li>
     </ul>
 </div>
+@push('scripts')
+    <script>
+        if (localStorage.getItem('dark')) {
+            $('#dark-switch').prop('checked', true);
+        }
+
+        $('#dark-switch').on('change', function () {
+            console.log(this.checked);
+            if (this.checked) {
+                localStorage.setItem('dark', 'true');
+                $('.nk-body').addClass('dark-mode');
+            }
+            else {
+                localStorage.removeItem('dark');
+                $('.nk-body').removeClass('dark-mode');
+            }
+        });
+
+    </script>
+@endpush

@@ -3,7 +3,8 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Account Activity</h3>
-                <div class="nk-block-des text-soft"><p>Here is the list of your recent activity on your account.</p></div>
+                <div class="nk-block-des text-soft"><p>Here is the list of your recent activity on your account.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -23,7 +24,8 @@
             <table class="table table-ulogs">
                 <thead class="table-light">
                 <tr>
-                    <th class="tb-col-os"><span class="overline-title">Device <span class="d-sm-none">/ IP</span></span></th>
+                    <th class="tb-col-os"><span class="overline-title">Device <span class="d-sm-none">/ IP</span></span>
+                    </th>
                     <th class="tb-col-ip"><span class="overline-title">Platform</span></th>
                     <th class="tb-col-time"><span class="overline-title">Browser</span></th>
                     <th class="tb-col-time"><span class="overline-title">IP Address</span></th>

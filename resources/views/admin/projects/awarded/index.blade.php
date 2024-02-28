@@ -4,8 +4,9 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content d-flex tw-items-center">
-                <a href="{{ route('admin.projects.index') }}" class="back-to"><em
-                        class="icon ni ni-arrow-left text-dark fs-3 pe-2"></em></a>
+                <a href="{{ route('admin.projects.index') }}" class="back-to">
+                    <em class="icon ni ni-arrow-left text-dark fs-3 pe-2"></em>
+                </a>
                 <h3 class="nk-block-title page-title">Project Details</h3>
             </div>
         </div>
@@ -29,13 +30,13 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="detail">
-                        @include('expert.awarded._details')
+                        @include('admin.projects.awarded._details')
                     </div>
                     <div class="tab-pane" id="meeting">
-                        @include('expert.awarded._meeting')
+                        @include('admin.projects.awarded._meeting')
                     </div>
                     <div class="tab-pane" id="chatLink">
-                        @include('expert.awarded._chat')
+                        @include('admin.projects.awarded._chat')
                     </div>
                 </div>
             </div>
@@ -46,10 +47,4 @@
 @push('scripts')
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script>
-        $( document ).ready(function() {
-            let a = $('a[href$="{{route('admin.projects.index')}}"]')[0];
-            $(a).parent().addClass('active current-page').parent().parent().addClass('active current-page');
-        });
-    </script>
 @endpush

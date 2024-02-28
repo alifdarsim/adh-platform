@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\PasswordReset;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
-use Password;
 
 class AccountController extends Controller
 {
-
     public function activity()
     {
         $auth_logs = User::find(auth()->user()->id)->authentications()->limit(20)->get();
@@ -23,21 +21,21 @@ class AccountController extends Controller
             $log->platform = $agent->platform();
             $log->browser = $agent->browser();
         }
-        return view('expert.account.activity', compact('auth_logs'));
+        return view('admin.account.activity', compact('auth_logs'));
     }
 
     public function index()
     {
-        return view('expert.account.index');
+        return view('admin.account.index');
     }
 
     public function security()
     {
-        return view('expert.account.security');
+        return view('admin.account.security');
     }
 
     public function notification()
     {
-        return view('expert.account.notification');
+        return view('admin.account.notification');
     }
 }

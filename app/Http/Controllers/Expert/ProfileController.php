@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Expert;
 
-use App\Models\ExpertList;
+use App\Http\Controllers\Controller;
 use App\Models\ExpertLinkedInQueue;
-use App\Models\User;
+use App\Models\ExpertList;
 use App\Services\LinkedInScrapeService;
 use App\Services\ProcessScrapeService;
 use App\Services\ProfileCompletionService;
 use Carbon\Carbon;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
 
-class ExpertProfileController extends Controller
+class ProfileController extends Controller
 {
     public function index(ProfileCompletionService $service)
     {
@@ -177,5 +175,27 @@ class ExpertProfileController extends Controller
         $expert->position = $position;
         $expert->save();
         return success('Job experience added successfully');
+    }
+
+    public function jobRemove(Request $request)
+    {
+        $title = $request->title;
+        $company = $request->company;
+        $expert = auth()->user()->expert;
+        $position = $expert->position;
+        $index = -1; // Initialize the index to -1, indicating no match found initially
+        foreach ($position as $key => $value) {
+            if ($value['title'] === $title && $value['companyName'] === $company) {
+                $index = $key; // Set the index to the current position if a match is found
+                break; // Exit the loop since we found a match
+            }
+        }
+        if ($index === -1) {
+            return error('Job experience not found. Something is wrong, please try again');
+        }
+        array_splice($position, $index, 1);
+        $expert->position = $position;
+        $expert->save();
+        return success('Job experience removed successfully');
     }
 }

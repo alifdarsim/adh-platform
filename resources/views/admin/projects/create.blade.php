@@ -35,8 +35,7 @@
                                 <label class="form-label"
                                        style="visibility: hidden" for="company">.</label>
                                 <div class="form-control-wrap">
-                                    <a href="#" class="btn btn-primary">Create
-                                        New Company</a>
+                                    <a href="{{route('admin.companies.create')}}" class="btn btn-primary">Create New Company</a>
                                 </div>
                             </div>
                         </div>
@@ -258,18 +257,18 @@
 
     <script>
         // create fake data
-        function initFakeData(){
-            $('#project-name').val('Seeking investor/operator for large-scale noodles company in Thailand');
-            $('#project-description').val('One of the noodles company in Thailand is looking to develop a large-scale noodles manufacturing and distribution company in Thailand. Seeking an international strategic partner that would invest $100M+ and operate a 10 million noodle packages per year.');
-            $('#hub').val('2').trigger('change');
-            $('#deadline').val('30/01/2024');
-            $('#target_company_size').val('1001-5000').trigger('change');
-            $('#communication_language').val(['English', 'Chinese', 'Japanese']).trigger('change');
-            $('#target_industry').val('1').trigger('change');
-            $('#target_country').val(['1', '2', '3']).trigger('change');
-            $('#target_keyword').data('tagify').addTags('Noodles, Food Processing, Packaging');
-            $('#q1').val('What is the main key products your company sells?');
-        }
+        // function initFakeData(){
+        //     $('#project-name').val('Seeking investor/operator for large-scale noodles company in Thailand');
+        //     $('#project-description').val('One of the noodles company in Thailand is looking to develop a large-scale noodles manufacturing and distribution company in Thailand. Seeking an international strategic partner that would invest $100M+ and operate a 10 million noodle packages per year.');
+        //     $('#hub').val('2').trigger('change');
+        //     $('#deadline').datepicker('setDate', new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()));
+        //     $('#target_company_size').val('1001-5000').trigger('change');
+        //     $('#communication_language').val(['English', 'Chinese', 'Japanese']).trigger('change');
+        //     $('#target_industry').val('1').trigger('change');
+        //     $('#target_country').val(['1', '2', '3']).trigger('change');
+        //     $('#target_keyword').data('tagify').addTags('Noodles, Food Processing, Packaging');
+        //     $('#q1').val('What is the main key products your company sells?');
+        // }
 
         tagifyInit();
         function tagifyInit(){
@@ -285,7 +284,7 @@
 
         $('#select_company').select2({
             ajax: {
-                url: '{{route('companies.search')}}',
+                url: '{{route('company.search')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
@@ -348,7 +347,7 @@
                             }),
                             placeholder: 'Select Industry Type',
                         });
-                        initFakeData();
+                        // initFakeData();
                     }
 
             });

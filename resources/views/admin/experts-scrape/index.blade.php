@@ -214,8 +214,12 @@
         });
 
         function scrape(id) {
-            // _Swal.loading('Scraping profile', 'Please wait...');
-            _Swal.error('In Maintenance Mode', 'Feature disabled due to API called constraint. Will be back soon.')
+            _Swal.loading('Scraping profile', 'Please wait...');
+            // set timeout to simulate the request
+            setTimeout(() => {
+                _Swal.error('API Limit reached, please upgrade API LinkedIn scraping plan.', 'API Limit')
+            }, 1000)
+            return;
             $.ajax({
                 url: `{{route('admin.expert_scrape.scrape','')}}/${id}`,
                 type: 'GET',
@@ -305,6 +309,7 @@
         }
 
         function bulk_processing(){
+
             Swal.fire({
                 title: 'Bulk Scraping and Process?',
                 html: `This may take a while depends on the number of profiles to scrape and process<br><br>You may leave this page and come back later to check the status.`,
@@ -315,8 +320,8 @@
                     _Swal.loading('Bulk Scraping', 'Please wait...');
                     // wait 2000ms for the request to complete
                     setTimeout(() => {
-                        _Swal.success('All Profile has been scrape', 'Profiles has been scraped.');
-                    }, 500)
+                        _Swal.error('API Limit reached, please upgrade RapidAPI LinkedIn scraping plan.', 'API Limit')
+                    }, 1000)
                     {{--let urls = $('#urls').val();--}}
                     {{--if(urls === ''){--}}
                     {{--    Swal.showValidationMessage(`Please enter LinkedIn Urls`)--}}

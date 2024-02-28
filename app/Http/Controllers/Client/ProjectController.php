@@ -4,51 +4,73 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hub;
+use App\Models\Keyword;
 use App\Models\Projects;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Psr\Container\ContainerExceptionInterface;
 use Str;
 
 class ProjectController extends Controller
 {
     public function index()
     {
+        $projects = auth()->user()->client->projects;
+//        return $projects;
         return view('client.project.index');
     }
 
     public function create()
     {
         $hubs = Hub::all();
-        return view('client.project.create', compact('hubs'));
+        $company = auth()->user()->client->company;
+        return view('client.project.create', compact('hubs', 'company'));
     }
 
-    public function store()
+    public function show($pid)
     {
+        $project = Projects::where('pid', $pid)->first();
+//        return $project;
+        return view('client.project.show.index', compact('project'));
+    }
+
+    public function store(){
+        if(!request()->company_id) return error('Company for this project is required');
+        $questions = request()->get('target_question');
+        // get not null questions
+        $questions = array_filter($questions, function($question){
+            return $question != null;
+        });
+        if (count($questions) < 1) return error('You need to ask at least one question to the expert');
         $project = Projects::create([
-            'pid' => Str::replace('-', '', Str::uuid()),
             'name' => request()->get('name'),
             'company_id' => request()->get('company_id'),
             'description' => request()->get('description'),
             'hub_id' => request()->get('hub'),
-            'budget' => request()->get('hub'),
+            'pid' => \Illuminate\Support\Str::replace('-', '', Str::uuid()),
+            'budget' => request()->get('budget'),
             'status' => 'pending',
-            'user_id' => auth()->user()->id,
+            'created_by' => auth()->user()->id,
             'deadline' => Carbon::createFromFormat('d/m/Y', request()->get('deadline'))->format('Y-m-d'),
-//            'target_expectation' => request()->get('target_expectation'),
-//            'target_industry' => request()->get('target_industry'),
-//            'target_company_size' => request()->get('target_company_size'),
-//            'target_services_tag' => request()->get('target_services_tag'),
-//            'target_others_tag' => request()->get('target_others_tag'),
-//            'communication_language' => request()->get('communication_language'),
-//            'target_revenue_from' => request()->get('target_revenue_from'),
-//            'target_revenue_to' => request()->get('target_revenue_to'),
+            'questions' => $questions
         ]);
         $project->targetCountries()->sync(request()->get('target_country'));
+        $project->projectTargetInfo()->create([
+            'industry_id' => request()->get('target_industry'),
+            'company_size' => request()->get('target_company_size'),
+            'communication_language' => json_encode(request()->get('communication_language')),
+        ]);
+        foreach (request()->get('target_keyword') as $keyword) {
+            $keyword = Keyword::firstOrCreate(['name' => $keyword]);
+            $keywordIds[] = $keyword->id;
+        }
+        $project->keywords()->sync($keywordIds);
         return success('Project created successfully');
     }
 
     public function datatable()
     {
-        $project = Projects::with('company')->where('user_id', auth()->user()->id)->get();
+        $project = auth()->user()->client->projects;
         return datatables()->of($project)
             ->addColumn('action', function ($project) {
                 return '<a href="' . route('admin.projects.edit', $project->id) . '" class="btn btn-sm btn-primary">Edit</a>';
@@ -72,10 +94,17 @@ class ProjectController extends Controller
                 return $project->description;
             })
             ->addColumn('deadline', function ($project) {
-                return formatDate($project->deadline);
+                $deadline = $project->deadline;
+                $deadline = date('d-m-Y', strtotime($deadline));
+                $date1 = date_create($deadline);
+                $date2 = date_create(date('d-m-Y'));
+                $diff = date_diff($date2, $date1);
+                $string = $diff->format("%R%a days");
+                if ($string[0] == '-') return 'Expired';
+                else return substr($string, 1);
             })
             ->addColumn('created_by', function ($project) {
-                return $project->user->name;
+                return $project->createdBy->name;
             })
             ->rawColumns(['action'])
             ->make(true);

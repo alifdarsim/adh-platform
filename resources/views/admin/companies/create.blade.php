@@ -9,24 +9,27 @@
                     <p>Feed AsiaDealHub database with company information that will be used for other part of the system.</p>
                 </div>
             </div>
-            <div class="nk-block-head-content">
-                <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                    <div class="toggle-expand-content" data-content="pageMenu">
-                        <ul class="nk-block-tools g-3">
-                            <li class="nk-block-tools-opt">
-                                <a data-bs-toggle="modal" href="#modal-linkedin-prefill" class="btn btn-info"><i class="fa-brands fa-linkedin me-1 fs-5"></i><span>Pre-fill using LinkedIn</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="nk-block-head-content">--}}
+{{--                <div class="toggle-wrap nk-block-tools-toggle">--}}
+{{--                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>--}}
+{{--                    <div class="toggle-expand-content" data-content="pageMenu">--}}
+{{--                        <ul class="nk-block-tools g-3">--}}
+{{--                            <li class="nk-block-tools-opt">--}}
+{{--                                <a data-bs-toggle="modal" href="#modal-linkedin-prefill" class="btn btn-info"><i class="fa-brands fa-linkedin me-1 fs-5"></i><span>Pre-fill using LinkedIn</span></a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 
     <div class="nk-block">
         <div class="card card-bordered card-preview">
             <div class="card-inner">
+                <div class="alert alert-secondary alert-dim">
+                    Make sure no duplicate company created to avoid redundant data. <a href="{{route('admin.companies.index')}}">Check here</a>.
+                </div>
                 <div class="preview-block">
                     <div class="row gy-4">
                         <div class="col-12">
@@ -36,7 +39,10 @@
                         </div>
                         <div class="row mt-1">
                             <div class="tw-flex">
-                                <img src="/images/empty_company.png" id="company_image" alt="" class="mx-5 tw-h-[160px]">
+                                <div class="mx-5">
+                                    <img src="/images/no-company.png" id="company_image" alt="" class="tw-h-[160px] !tw-w-[160px]">
+                                    <a onclick="changeImage()" class="btn btn-sm btn-outline-primary !tw-w-[160px] center mt-1"><i class="fa-regular fa-camera me-1"></i>Change Image</a>
+                                </div>
                                 <div class="row tw-w-full">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -56,8 +62,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="col-12">
@@ -121,16 +125,34 @@
                                 <h6 class="overline-title">INDUSTRY CLASSIFICATION AND RELEVANT KEYWORD</h6>
                             </div>
                         </div>
-                        <div class="col-7 mt-2">
+                        <div class="col-sm-6 mt-4">
                             <div class="form-group">
-                                <label class="form-label" for="industry_classification">Industries</label>
+                                <label class="form-label" for="main-industry">Main Industry Classification</label>
                                 <div class="form-control-wrap">
-                                    <select class="form-select js-select2" id="industry_classification" name="industry_classification" data-placeholder="Select Industries" data-search="on" required>
-                                        <option value=""></option>
+                                    <select class="form-select js-select2 select2-hidden-accessible" id="main-industry">
                                     </select>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-6 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" for="sub-industry">Sub Industry Classification</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select js-select2 select2-hidden-accessible" id="sub-industry">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+{{--                        <div class="col-7 mt-2">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label" for="industry_classification">Industries</label>--}}
+{{--                                <div class="form-control-wrap">--}}
+{{--                                    <select class="form-select js-select2" id="industry_classification" name="industry_classification" data-placeholder="Select Industries" data-search="on" required>--}}
+{{--                                        <option value=""></option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="form-label" for="specialties_keyword">Specialities (Max: 20 Keyword)</label>
@@ -225,7 +247,9 @@
                             <div class="form-group">
                                 <label class="form-label" for="country">Country</label>
                                 <div class="form-control-wrap">
-                                    <input type="text" class="form-control" id="country" placeholder="Eg: United States">
+                                    <select class="form-select js-select2" id="country" name="country" data-placeholder="Select Country" data-search="on" required>
+{{--                                        <option value=""></option>--}}
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -342,10 +366,27 @@
                 maxTags: 10,
             });
         }
+
+        setCountry();
+        function setCountry(){
+            $.ajax({
+                url: '{{route('countries.index')}}',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    let html = '<option value=""></option>';
+                    $.each(data, function (index, value) {
+                        html += '<option value="'+value.name+'">'+value.emoji + ' ' +value.name+'</option>';
+                    });
+                    $('#country').html(html);
+                }
+            });
+        }
+
         setCompanyType();
         function setCompanyType(){
             $.ajax({
-                url: '{{route('companies.types')}}',
+                url: '{{route('company.types')}}',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -358,21 +399,37 @@
             });
         }
 
-        setIndustryClassification();
-        function setIndustryClassification(){
+        $( document ).ready(function() {
             $.ajax({
-                {{--url: '{{route('companies.industries.search')}}',--}}
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    let html = '<option value=""></option>';
-                    $.each(data, function (index, value) {
-                        html += '<option value="'+value.name+'">'+value.name+'</option>';
+                url: '{{route('industries_expert.main')}}',
+                method: 'GET',
+                success: function (response) {
+                    response.forEach(function (industry) {
+                        $('#main-industry').append('<option value="'+industry+'">'+industry+'</option>');
                     });
-                    $('#industry_classification').html(html);
                 }
             });
-        }
+        });
+
+        let sub_industry_classification;
+        $('#main-industry').on('change', function () {
+            let main = $(this).val();
+            if (main === null) return;
+            main = main.replaceAll('/', '_');
+            $.ajax({
+                url: '{{route('industries_expert.sub','')}}/'+main,
+                method: 'GET',
+                success: function (response) {
+                    $('#sub-industry').empty();
+                    response.forEach(function (industry) {
+                        $('#sub-industry').append('<option value="'+industry.id+'">'+industry.sub+'</option>');
+                    });
+                    if (sub_industry_classification) {
+                        $('#sub-industry').val(sub_industry_classification).trigger('change');
+                    }
+                }
+            });
+        });
 
         function registerCompany(){
             let company_name = $('#company_name').val();
@@ -386,7 +443,7 @@
             let about = $('#about').val();
             let pic_contact = $('#pic_contact').val();
             let pic_email = $('#pic_email').val();
-            let industry_classification = $('#industry_classification').val();
+            let sub_industry = $('#sub-industry').val();
             let address = $('#address').val();
             let postal = $('#postal').val();
             let city = $('#city').val();
@@ -401,7 +458,7 @@
             let specialties_keyword = $('#specialties_keyword').val();
             let other_keyword = $('#other_keyword').val();
             _Swal.loading('Loading...', 'Registering new company...');
-            console.log(JSON.parse(specialties_keyword).map(item => item.value));
+            // console.log(JSON.parse(specialties_keyword).map(item => item.value));
             $.ajax({
                 url: '{{route('admin.companies.store')}}',
                 type: 'POST',
@@ -418,7 +475,7 @@
                     about: about,
                     pic_contact: pic_contact,
                     pic_email: pic_email,
-                    industry_classification: industry_classification,
+                    sub_industry: sub_industry,
                     address1: address,
                     postal: postal,
                     city: city,
@@ -483,6 +540,25 @@
                         $('#specialties_keyword').data('tagify').removeAllTags();
                         $('#specialties_keyword').data('tagify').addTags(data.specialties);
                     });
+                }
+            });
+        }
+
+        function changeImage(){
+            Swal.fire({
+                title: 'Change Company Image',
+                input: 'file',
+                inputAttributes: {
+                    accept: 'image/*',
+                    'aria-label': 'Upload your company image'
+                }
+            }).then((file) => {
+                if (file.value) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#company_image').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(file.value);
                 }
             });
         }

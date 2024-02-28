@@ -26,7 +26,7 @@
     <link id="skin-theme" rel="stylesheet" href="/assets/css/red.css?ver=3.2.3">
 </head>
 
-<body class="nk-body bg-lighter ui-shady">
+<body class="nk-body bg-lighter">
 <div class="nk-app-root">
     <div class="nk-wrap ">
         <div class="nk-header nk-header-fluid nk-header-fixed is-dark">
@@ -130,9 +130,15 @@
                                     </div>
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
-                                            <li><a href="{{route('expert.account.index')}}"><em class="icon ni ni-user-alt"></em><span>Account Setting</span></a></li>
-                                            <li><a href="{{route('expert.account.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                            <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                            <li><a href="{{route(session('user_type') == 'client' ? 'client.account.index' : 'expert.account.index')}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                            <li><a href="{{route(session('user_type') == 'client' ? 'client.account.activity' : 'expert.account.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                            <li class="d-flex justify-between">
+                                                <a><em class="icon ni ni-moon"></em><span>Dark Mode</span></a>
+                                                <div class="custom-control custom-switch justify-center tw-mt-2">
+                                                    <input  id="dark-switch" type="checkbox" class="custom-control-input">
+                                                    <label class="custom-control-label" for="dark-switch"></label>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="dropdown-inner">
@@ -165,6 +171,13 @@
 <script src="/assets/js/scripts.js?ver=3.2.2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.min.js"></script>
 @stack('scripts')
+<script>
+    let dark_mode = localStorage.getItem('dark') || 'light';
+    console.log(dark_mode)
+    if (dark_mode === 'true') {
+        $('.nk-body').addClass('dark-mode');
+    }
+</script>
 </body>
 
 </html>

@@ -20,7 +20,6 @@ class UserRouteProtection
     {
         $userType = session('user_type');
         $allowedUserTypes = ['admin', 'client', 'expert'];
-
         foreach ($allowedUserTypes as $type) {
             $routePrefix = $type . '/*';
             if ($userType !== $type && $request->is($routePrefix)) {

@@ -1,46 +1,46 @@
 <?php
 
-use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AdminsController;
+use App\Http\Controllers\Admin\CompaniesController as AdminCompaniesController;
 use App\Http\Controllers\Admin\ExpertsController;
 use App\Http\Controllers\Admin\ExpertsScrapeController;
 use App\Http\Controllers\Admin\HubsController;
 use App\Http\Controllers\Admin\IndustryClassificationController;
+use App\Http\Controllers\Admin\OverviewController as AdminOverviewController;
+use App\Http\Controllers\Admin\PolicyEditor;
+use App\Http\Controllers\Admin\ProjectsController as AdminProjectsController;
+use App\Http\Controllers\Admin\AccountController as AdminAccountController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Client\OverviewController as ClientOverviewController;
+use App\Http\Controllers\Client\ProfileController as ClientProfileController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
+use App\Http\Controllers\Client\CompanyController as ClientCompanyController;
+use App\Http\Controllers\Client\TeamController;
 use App\Http\Controllers\Cms\AuthorsController;
 use App\Http\Controllers\Cms\CmsAssessmentController;
 use App\Http\Controllers\Cms\PostController;
 use App\Http\Controllers\Cms\TagsController;
 use App\Http\Controllers\CompaniesController;
-use App\Http\Controllers\Deal\DealManagementController;
+use App\Http\Controllers\Expert\AssessmentController;
 use App\Http\Controllers\Expert\AwardedController;
 use App\Http\Controllers\Expert\OverviewController as ExpertOverviewController;
-use App\Http\Controllers\Client\OverviewController as ClientOverviewController;
-use App\Http\Controllers\Client\ProjectController as ClientProjectController;
-
-use App\Http\Controllers\Admin\OverviewController as AdminOverviewController;
-use App\Http\Controllers\Admin\CompaniesController as AdminCompaniesController;
-use App\Http\Controllers\Admin\ProjectsController as AdminProjectsController;
+use App\Http\Controllers\Expert\ProfileController as ExpertProfileController;
 use App\Http\Controllers\Expert\ProjectsController as ExpertProjectsController;
-use App\Http\Controllers\ExpertCompletionController;
-use App\Http\Controllers\ExpertDataController;
-use App\Http\Controllers\ExpertProfileController;
+use App\Http\Controllers\Expert\AccountController as ExpertAccountController;
+
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\IndustryExpertController;
-use App\Http\Controllers\ManageProjectController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectInvitationController;
 
 Route::get('/test', function () {
-    return view('mail.password_reset');
+    return view('auth.email-verified');
 });
 
 Route::group(["prefix" => "project-invitation"], function () {
@@ -56,30 +56,30 @@ Route::get('/', function () {
     return redirect()->route('login.index', ['type' => 'expert']);
 });
 
+
 // Auth Routes
 Route::group(["prefix" => "auth"], function () {
     // Login and Register Routes
     Route::get('/login/{type}', [LoginController::class, 'index'])->name('login.index');
-    Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+    Route::post('/login/{type}', [LoginController::class, 'authenticate'])->name('login.authenticate');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
-
     // Social Auth Routes
-    Route::get('login/social/{driver}/{user_type}', [SocialLoginController::class, 'redirectToDriver'])->name('login.authenticate.social');
+    Route::get('login/social/{driver}/{user_type}/{timezone}', [SocialLoginController::class, 'redirectToDriver'])->name('login.authenticate.social');
     Route::get('callback/{driver}', [SocialLoginController::class, 'handleCallback']);
-
-    Route::get('/register/{type}', [RegisterController::class, 'index'])->name('register.index');
+    // Register Routes
+    Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+    // Password Reset Routes
     Route::get('/forgot-password', [PasswordResetController::class, 'index'])->name('forgot_password.index');
     Route::get('/forgot-password/{token}', [PasswordResetController::class, 'reset'])->name('forgot_password.reset');
     Route::put('/forgot-password/{token}', [PasswordResetController::class, 'update'])->name('forgot_password.update');
     Route::post('/forgot-password/{email}', [PasswordResetController::class, 'password_reset'])->name('forgot_password.store');
-
 });
 
 // Admin Invitation Routes
 Route::get('/invitation/{token}', [AdminsController::class, 'invitation'])->name('admin.invitation');
 Route::post('/invitation', [AdminsController::class, 'invitationPassword'])->name('admin.password-invitation');
-Route::get('/account-confirmation/{token}', [RegisterController::class, 'confirm'])->name('register.confirm');
+Route::get('/account-confirmation/{token}', [RegisterController::class, 'verify'])->name('register.confirm');
 Route::get('/account-removal/{token}', [RegisterController::class, 'remove_account'])->name('register.remove_account');
 
 // Policy and Terms Routes
@@ -114,6 +114,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/invite-expert/{project_id}/{expert_id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
             Route::get('/invite-expert-all/{project_id}', [AdminProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
             Route::post('/respond/{pid}', [AdminProjectsController::class, 'respond'])->name('admin.projects.respond');
+            Route::put('/close/{pid}', [AdminProjectsController::class, 'close'])->name('admin.projects.close');
 
             // show project
             Route::get('/', [AdminProjectsController::class, 'index'])->name('admin.projects.index');
@@ -169,6 +170,18 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::singleton('/tags', TagsController::class)->creatable();
             Route::singleton('/authors', AuthorsController::class)->creatable();
         });
+        Route::group(["prefix" => "editor"], function () {
+            Route::get('/privacy-policy', [PolicyEditor::class, 'privacy'])->name('admin.editor.privacy');
+            Route::get('/terms-condition', [PolicyEditor::class, 'terms_conditions'])->name('admin.editor.terms_conditions');
+            Route::get('/faq', [PolicyEditor::class, 'faq'])->name('admin.editor.faq');
+            Route::put('/update/{type}', [PolicyEditor::class, 'update'])->name('admin.editor.update');
+        });
+        Route::group(["prefix" => "account"], function () {
+            Route::get('/', [AdminAccountController::class, 'index'])->name('admin.account.index');
+            Route::get('/security', [AdminAccountController::class, 'security'])->name('admin.account.security');
+            Route::get('/notification', [AdminAccountController::class, 'notification'])->name('admin.account.notification');
+            Route::get('/activity', [AdminAccountController::class, 'activity'])->name('admin.account.activity');
+        });
 
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
@@ -179,11 +192,33 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
     Route::group(["prefix" => "client"], function () {
         // Overview Routes
         Route::get('/overview', [ClientOverviewController::class, 'index'])->name('client.overview');
-        // Projects Routes
-        Route::get('/projects', [ClientProjectController::class, 'index'])->name('client.projects.index');
-        Route::get('/projects/create', [ClientProjectController::class, 'create'])->name('client.projects.create');
-        Route::get('/projects/datatable', [ClientProjectController::class, 'datatable'])->name('client.projects.datatable');
-        Route::post('/projects/store', [ClientProjectController::class, 'store'])->name('client.projects.store');
+
+        Route::group(["prefix" => "profile"], function () {
+            Route::get('/', [ClientProfileController::class, 'index'])->name('client.profile.index');
+        });
+        Route::group(["prefix" => "projects"], function () {
+            Route::get('/datatable', [ClientProjectController::class, 'datatable'])->name('client.projects.datatable');
+            Route::get('/', [ClientProjectController::class, 'index'])->name('client.projects.index');
+            Route::get('/create', [ClientProjectController::class, 'create'])->name('client.projects.create');
+            Route::get('/{pid}', [ClientProjectController::class, 'show'])->name('client.projects.show');
+            Route::post('/store', [ClientProjectController::class, 'store'])->name('client.projects.store');
+        });
+        Route::group(["prefix" => "company"], function () {
+            Route::get('/', [ClientCompanyController::class, 'index'])->name('client.company.index');
+            Route::get('/create', [ClientCompanyController::class, 'create'])->name('client.company.create');
+            Route::post('/store', [ClientCompanyController::class, 'store'])->name('client.company.store');
+        });
+        Route::group(["prefix" => "team"], function () {
+            Route::get('/', [TeamController::class, 'index'])->name('client.team.index');
+            Route::get('/create', [TeamController::class, 'create'])->name('client.team.create');
+            Route::post('/store', [TeamController::class, 'store'])->name('client.team.store');
+        });
+        Route::group(["prefix" => "account"], function () {
+            Route::get('/', [ExpertAccountController::class, 'index'])->name('client.account.index');
+            Route::get('/security', [ExpertAccountController::class, 'security'])->name('client.account.security');
+            Route::get('/notification', [ExpertAccountController::class, 'notification'])->name('client.account.notification');
+            Route::get('/activity', [ExpertAccountController::class, 'activity'])->name('client.account.activity');
+        });
     });
 
     // Expert Routes
@@ -208,6 +243,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::post('/linkedin_sync', [ExpertProfileController::class, 'linkedin_sync'])->name('expert.profile.linkedin_sync');
             Route::post('/cv', [ExpertProfileController::class, 'cv'])->name('expert.profile.cv');
             Route::post('/job_add', [ExpertProfileController::class, 'job_add'])->name('expert.profile.job_add');
+            Route::delete('/job-remove', [ExpertProfileController::class, 'jobRemove'])->name('expert.profile.job-remove');
             Route::post('/skills', [ExpertProfileController::class, 'skills'])->name('expert.profile.skills');
             Route::post('/industry', [ExpertProfileController::class, 'industry'])->name('expert.profile.industry');
         });
@@ -223,13 +259,10 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/{pid}', [AwardedController::class, 'show'])->name('expert.awarded.show');
         });
         Route::group(["prefix" => "account"], function () {
-            Route::get('/', [AccountController::class, 'index'])->name('expert.account.index');
-            Route::get('/security', [AccountController::class, 'security'])->name('expert.account.security');
-            Route::get('/notification', [AccountController::class, 'notification'])->name('expert.account.notification');
-            Route::get('/activity', [AccountController::class, 'activity'])->name('expert.account.activity');
-            Route::get('/social', [AccountController::class, 'social'])->name('expert.account.social');
-            Route::post('/job-add', [ExpertDataController::class, 'jobAdd'])->name('expert.profile.job-add');
-            Route::delete('/job-remove', [ExpertDataController::class, 'jobRemove'])->name('expert.profile.job-remove');
+            Route::get('/', [ExpertAccountController::class, 'index'])->name('expert.account.index');
+            Route::get('/security', [ExpertAccountController::class, 'security'])->name('expert.account.security');
+            Route::get('/notification', [ExpertAccountController::class, 'notification'])->name('expert.account.notification');
+            Route::get('/activity', [ExpertAccountController::class, 'activity'])->name('expert.account.activity');
         });
     });
 
@@ -240,26 +273,13 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
     Route::post('/project/updateEvent', [AwardedController::class, 'updateEvent'])->name('expert.awarded.update');
     Route::get('/chat/{pid}', [ChatController::class, 'getMessage'])->name('expert.chat.get');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('expert.chat.send');
-
-    // Deal Management Routes
-    Route::resource('deal_management', DealManagementController::class);
-    Route::post('/deal_management/approve', [DealManagementController::class, 'approve'])->name('deal_management.approve');
-    Route::post('/deal_management/archive', [DealManagementController::class, 'archive'])->name('deal_management.archive');
-    Route::post('/deal_management/remove', [DealManagementController::class, 'remove'])->name('deal_management.remove');
-    Route::post('/deal_management/reject', [DealManagementController::class, 'reject'])->name('deal_management.reject');
-
-    // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile/upload', [ProfileController::class, 'uploadImage'])->name('profile.upload');
-    Route::get('/profile/activity', [ProfileController::class, 'activity'])->name('profile.activity');
-    Route::get('/profile/security', [ProfileController::class, 'security'])->name('profile.security');
-    Route::get('/profile/social', [ProfileController::class, 'social'])->name('profile.social');
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/companies/search', [CompaniesController::class, 'search'])->name('companies.search');
-    Route::get('/companies/types', [CompaniesController::class, 'getTypes'])->name('companies.types');
-    Route::get('/hubs', [HubController::class, 'index'])->name('hubs');
+    Route::put('/company/update', [CompaniesController::class, 'update'])->name('company.update');
+    Route::get('/company/search', [CompaniesController::class, 'search'])->name('company.search');
+    Route::get('/company/types', [CompaniesController::class, 'types'])->name('company.types');
+
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries.index');
     Route::get('/industries/{type}', [IndustryController::class, 'type'])->name('industries.type');
     Route::get('/industry_expert', [IndustryExpertController::class, 'main'])->name('industries_expert.main');

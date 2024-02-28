@@ -24,6 +24,7 @@
     @vite('resources/scss/user/app.scss')
     @vite('resources/css/app.css')
     <link id="skin-theme" rel="stylesheet" href="/assets/css/red.css?ver=3.2.3">
+
 </head>
 
 <body class="nk-body bg-lighter ui-shady">
@@ -36,7 +37,7 @@
                         <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-menu"></em></a>
                     </div>
                     <div class="nk-header-brand">
-                        <a href="{{route('login', ['type' => 'expert'])}}" class="logo-link">
+                        <a href="{{route('login.index', ['type' => 'expert'])}}" class="logo-link">
                             <img class="logo-light logo-img tw-h-[32px]" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo">
                             <img class="logo-dark logo-img" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo-dark">
                             <span class="nio-version tw-text-slate-300">
@@ -61,17 +62,17 @@
                         <!-- Menu -->
                         <ul class="nk-menu nk-menu-main">
                             <li class="nk-menu-item">
-                                <a href="{{route('client.overview')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">FOR EXPERTS</span>
+                                <a href="{{route('others.terms')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Terms & Conditions</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="{{route('client.overview')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">WHO WE ARE</span>
+                                <a href="{{route('others.policy')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Privacy Policy</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="{{route('client.overview')}}" class="nk-menu-link">
+                                <a href="{{route('others.faq')}}" class="nk-menu-link">
                                     <span class="nk-menu-text">FAQ</span>
                                 </a>
                             </li>

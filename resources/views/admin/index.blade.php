@@ -87,7 +87,7 @@
                     <div class="card-inner">
                         <div class="card-title-group">
                             <div class="card-title">
-                                <h6 class="title">Latest Project & Status</h6>
+                                <h6 class="title">Active Project & Status</h6>
                             </div>
                             <div class="card-tools">
                                 <a href="{{route('admin.projects.index')}}" class="link">View All</a>

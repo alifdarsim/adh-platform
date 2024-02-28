@@ -36,5 +36,53 @@
                 </li>
             </ul>
         </li>
+        <li class="nk-menu-item has-sub">
+            <a href="#" class="nk-menu-link nk-menu-toggle">
+                <span class="nk-menu-icon"><i class="fa-regular fa-box-dollar fs-5"></i></span>
+                <span class="nk-menu-text">COMPANY</span>
+            </a>
+            <ul class="nk-menu-sub">
+                <li class="nk-menu-item">
+                    <a href="{{route('client.company.index')}}" class="nk-menu-link">
+                        <span class="nk-menu-text">My Company</span>
+                    </a>
+                </li>
+                <li class="nk-menu-item">
+                    <a href="{{route('client.company.create')}}" class="nk-menu-link">
+                        <span class="nk-menu-text">Create Company</span>
+                    </a>
+                </li>
+                <li class="nk-menu-item">
+                    <a href="{{route('client.team.index')}}" class="nk-menu-link">
+                        <span class="nk-menu-text">Manage My Team</span>
+                    </a>
+                </li>
+                <li class="nk-menu-item">
+                    <a href="{{route('client.team.create')}}" class="nk-menu-link">
+                        <span class="nk-menu-text">Create Team</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>
+@push('scripts')
+    <script>
+        if (localStorage.getItem('dark')) {
+            $('#dark-switch').prop('checked', true);
+        }
+
+        $('#dark-switch').on('change', function () {
+            console.log(this.checked);
+            if (this.checked) {
+                localStorage.setItem('dark', 'true');
+                $('.nk-body').addClass('dark-mode');
+            }
+            else {
+                localStorage.removeItem('dark');
+                $('.nk-body').removeClass('dark-mode');
+            }
+        });
+
+    </script>
+@endpush

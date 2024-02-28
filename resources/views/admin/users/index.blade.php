@@ -127,7 +127,7 @@
                     <th class="nk-tb-col"><span class="sub-text">User</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Email</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Phone</span></th>
-                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Email Confirm</span></th>
+                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Email Verify</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Last Access</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end">Action</th>
                 </tr>
@@ -161,7 +161,7 @@
                     render: function (data, type, row) {
                         return `
                               <div class="user-card">
-                                    <div class="user-avatar bg-primary d-none d-sm-flex">
+                                    <div class="user-avatar bg-white d-none d-sm-flex">
                                         <img src="${row.user_avatar}" alt="user">
                                     </div>
                                     <div class="user-info">
@@ -179,14 +179,13 @@
                 {
                     data: 'status',
                     render: function (data) {
-                        let status = data === 1 ? 'Confirm' : 'Unconfirmed';
+                        let status = data === 1 ? 'Verified' : 'Unverified';
                         let color = data === 1 ? 'success' : 'danger'
                         return ` <span class="badge text-capitalize bg-${color}">${status}</span>`
                     },
                 },
                 {
                     data: 'last_login_at',
-                    className: 'nk-tb-col'
                 },
                 {
                     data: 'id',

@@ -10,20 +10,7 @@
                     <img class="logo-dark logo-img" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo-dark">
                     <span class="nio-version tw-text-slate-300">ADMIN DASHBOARD</span>
                 </a>
-            </div><!-- .nk-header-brand -->
-{{--            <div class="nk-header-news d-none d-xl-block">--}}
-{{--                <div class="nk-news-list">--}}
-{{--                    <a class="nk-news-item" href="#">--}}
-{{--                        <div class="nk-news-icon">--}}
-{{--                            <em class="icon ni ni-card-view"></em>--}}
-{{--                        </div>--}}
-{{--                        <div class="nk-news-text">--}}
-{{--                            <p>Do you know the latest update of 2022? <span> A overview of our is now available on YouTube</span></p>--}}
-{{--                            <em class="icon ni ni-external"></em>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--            </div><!-- .nk-header-news -->--}}
+            </div>
             <div class="nk-header-tools">
                 <ul class="nk-quick-nav">
                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
@@ -160,10 +147,15 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                    <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                    <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                    <li><a href="{{route('admin.account.index')}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                    <li><a href="{{route('admin.account.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                    <li class="d-flex justify-between">
+                                        <a><em class="icon ni ni-moon"></em><span>Dark Mode</span></a>
+                                        <div class="custom-control custom-switch justify-center tw-mt-2">
+                                            <input  id="dark-switch" type="checkbox" class="custom-control-input">
+                                            <label class="custom-control-label" for="dark-switch"></label>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="dropdown-inner">
@@ -178,3 +170,23 @@
         </div><!-- .nk-header-wrap -->
     </div><!-- .container-fliud -->
 </div>
+@push('scripts')
+    <script>
+        if (localStorage.getItem('dark')) {
+            $('#dark-switch').prop('checked', true);
+        }
+
+        $('#dark-switch').on('change', function () {
+            console.log(this.checked);
+            if (this.checked) {
+                localStorage.setItem('dark', 'true');
+                $('.nk-body').addClass('dark-mode');
+            }
+            else {
+                localStorage.removeItem('dark');
+                $('.nk-body').removeClass('dark-mode');
+            }
+        });
+
+    </script>
+@endpush

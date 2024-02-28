@@ -1,3 +1,5 @@
+<h6>Meeting Slot Suggestion</h6>
+<p>You will need to suggest on your available time slot for the meeting. You can suggest multiple time slots for the meeting</p>
 <div class=" tw-relative h-min-500px h-500px mt-2">
     <div class="card card-bordered tw-absolute tw-z-50 tw-w-80 tw-hidden" id="confirmTimeSlot">
         <div class="card-inner">

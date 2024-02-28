@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
     css: {
-        devSourcemap: true,
+        devSourcemap: process.env.APP_ENV === 'local', //
     },
     plugins: [
         laravel({
@@ -15,7 +15,13 @@ export default defineConfig({
                 'resources/js/app.js'
             ],
             refresh: true,
-            transformOnServe: (code) => code.replaceAll('/assets', 'http://localhost:8000/assets'),
+            transformOnServe: (code) => {
+                if (process.env.APP_ENV === 'production') {
+                    return code.replaceAll('/assets', 'https://app.asiadealhub.com/assets');
+                } else {
+                    return code.replaceAll('/assets', 'http://localhost:8000/assets');
+                }
+            },
         }),
     ],
 });

@@ -19,11 +19,11 @@
                     <i class="fa-regular fa-briefcase fs-5 me-1"></i><span>Client Company</span>
                 </a>
             </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#tabItem8" aria-selected="false" tabindex="-1" role="tab">
-                    <i class="fa-regular fa-file fs-5 me-1"></i><span>Documents</span>
-                </a>
-            </li>
+{{--            <li class="nav-item" role="presentation">--}}
+{{--                <a class="nav-link" data-bs-toggle="tab" href="#tabItem8" aria-selected="false" tabindex="-1" role="tab">--}}
+{{--                    <i class="fa-regular fa-file fs-5 me-1"></i><span>Documents</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tabItem5" role="tabpanel">
@@ -207,604 +207,604 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="tabItem8" role="tabpanel">
-                <div id="company_section" class="mt-2">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="px-0" id="company_holder">
-                                <div class="nk-fmg-listing nk-block-lg">
-                                    <div class="nk-block-head-xs">
-                                        <div class="nk-block-between g-2">
-                                            <div class="nk-block-head-content">
-                                                <h6 class="nk-block-title title">Related Documents</h6>
-                                            </div>
-                                            <div class="nk-block-head-content">
-                                                <ul class="nk-block-tools g-3 nav">
-                                                    <li><a data-bs-toggle="tab" href="#file-grid-view" class="nk-switch-icon active"><em class="icon ni ni-view-grid3-wd"></em></a></li>
-                                                    <li><a data-bs-toggle="tab" href="#file-group-view" class="nk-switch-icon"><em class="icon ni ni-view-group-wd"></em></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div><!-- .nk-block-head -->
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="file-grid-view">
-                                            <div class="nk-files nk-files-view-grid">
-                                                <div class="nk-files-list">
-                                                    <div class="nk-file-item nk-file">
-                                                        <div class="nk-file-info">
-                                                            <div class="nk-file-title">
-                                                                <div class="nk-file-icon">
-                                                                    <a class="nk-file-icon-link" href="#">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <g>
-                                                                                            <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                            <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                            <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                            <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="36" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="41" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="46" width="12" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="nk-file-name">
-                                                                    <div class="nk-file-name-text">
-                                                                        <a href="#" class="title">Quotation.doc</a>
-                                                                        <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <ul class="nk-file-desc">
-                                                                <li class="date">06 Jan</li>
-                                                                <li class="size">1.2 MB</li>
-                                                                <li class="members">3 Members</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="nk-file-actions">
-                                                            <div class="dropdown">
-                                                                <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <ul class="link-list-plain no-bdr">
-                                                                        <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                        <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                        <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                        <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                        <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                        <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                        <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- .nk-file -->
-                                                    <div class="nk-file-item nk-file">
-                                                        <div class="nk-file-info">
-                                                            <div class="nk-file-title">
-                                                                <div class="nk-file-icon">
-                                                                    <a class="nk-file-icon-link" href="#">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="35" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="39" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="43" width="14" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="47" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="nk-file-name">
-                                                                    <div class="nk-file-name-text">
-                                                                        <a href="#" class="title">Work-to-do.txt</a>
-                                                                        <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <ul class="nk-file-desc">
-                                                                <li class="date">06 Jan</li>
-                                                                <li class="size">525 Kb</li>
-                                                                <li class="members">3 Members</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="nk-file-actions">
-                                                            <div class="dropdown">
-                                                                <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <ul class="link-list-plain no-bdr">
-                                                                        <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>View</span></a></li>
-                                                                        <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy Link</span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="file-group-view">
-                                            <div class="nk-files nk-files-view-group">
-                                                <div class="nk-files-group">
-                                                    <div class="nk-files-list">
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <path d="M42,31H30a3.0033,3.0033,0,0,0-3,3V45a3.0033,3.0033,0,0,0,3,3H42a3.0033,3.0033,0,0,0,3-3V34A3.0033,3.0033,0,0,0,42,31ZM29,38h6v3H29Zm8,0h6v3H37Zm6-4v2H37V33h5A1.001,1.001,0,0,1,43,34ZM30,33h5v3H29V34A1.001,1.001,0,0,1,30,33ZM29,45V43h6v3H30A1.001,1.001,0,0,1,29,45Zm13,1H37V43h6v2A1.001,1.001,0,0,1,42,46Z" style="fill:#36c684" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">Database.xlsx</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">Today</li>
-                                                                    <li class="size">235 KB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <g>
-                                                                                            <rect x="18" y="16" width="36" height="40" rx="5" ry="5" style="fill:#e3edfc" />
-                                                                                            <path d="M19.03,54A4.9835,4.9835,0,0,0,23,56H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                            <rect x="32" y="20" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <rect x="32" y="25" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <rect x="32" y="30" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <rect x="32" y="35" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <path d="M35,16.0594h2a0,0,0,0,1,0,0V41a1,1,0,0,1-1,1h0a1,1,0,0,1-1-1V16.0594A0,0,0,0,1,35,16.0594Z" style="fill:#7e95c4" />
-                                                                                            <path d="M38.0024,40H33.9976A1.9976,1.9976,0,0,0,32,41.9976v2.0047A1.9976,1.9976,0,0,0,33.9976,46h4.0047A1.9976,1.9976,0,0,0,40,44.0024V41.9976A1.9976,1.9976,0,0,0,38.0024,40Zm-.0053,4H34V42h4Z" style="fill:#7e95c4" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">dashlite...1.2.zip</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">03 May</li>
-                                                                    <li class="size">235 KB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <g>
-                                                                                            <rect x="18" y="16" width="36" height="40" rx="5" ry="5" style="fill:#e3edfc" />
-                                                                                            <path d="M19.03,54A4.9835,4.9835,0,0,0,23,56H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                            <rect x="32" y="20" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <rect x="32" y="25" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <rect x="32" y="30" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <rect x="32" y="35" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                            <path d="M35,16.0594h2a0,0,0,0,1,0,0V41a1,1,0,0,1-1,1h0a1,1,0,0,1-1-1V16.0594A0,0,0,0,1,35,16.0594Z" style="fill:#7e95c4" />
-                                                                                            <path d="M38.0024,40H33.9976A1.9976,1.9976,0,0,0,32,41.9976v2.0047A1.9976,1.9976,0,0,0,33.9976,46h4.0047A1.9976,1.9976,0,0,0,40,44.0024V41.9976A1.9976,1.9976,0,0,0,38.0024,40Zm-.0053,4H34V42h4Z" style="fill:#7e95c4" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">covstats.zip</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">01 May</li>
-                                                                    <li class="size">235 KB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <g>
-                                                                                            <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                            <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                            <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                            <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="36" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="41" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="46" width="12" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">Price List.doc</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">25 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <g>
-                                                                                            <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                            <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                            <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                            <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="36" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="41" width="18" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                            <rect x="27" y="46" width="12" height="2" rx="1" ry="1" style="fill:#599def" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">Quotation.doc</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">06 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="35" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="39" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="43" width="14" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                        <rect x="27" y="47" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">Work-to-do.txt</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">02 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <path d="M27.2223,43H44.7086s2.325-.2815.7357-1.897l-5.6034-5.4985s-1.5115-1.7913-3.3357.7933L33.56,40.4707a.6887.6887,0,0,1-1.0186.0486l-1.9-1.6393s-1.3291-1.5866-2.4758,0c-.6561.9079-2.0261,2.8489-2.0261,2.8489S25.4268,43,27.2223,43Z" style="fill:#755de0" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">DashLite_v1.psd</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">02 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <path d="M46,46.5v-13A3.5042,3.5042,0,0,0,42.5,30h-13A3.5042,3.5042,0,0,0,26,33.5v13A3.5042,3.5042,0,0,0,29.5,50h13A3.5042,3.5042,0,0,0,46,46.5ZM40,45v3H37V45Zm-3-2V37h7v6Zm0-8V32h3v3Zm-2-3v3H32V32Zm0,5v6H28V37Zm0,8v3H32V45Zm7.5,3H42V45h2v1.5A1.5016,1.5016,0,0,1,42.5,48ZM44,33.5V35H42V32h.5A1.5016,1.5016,0,0,1,44,33.5ZM29.5,32H30v3H28V33.5A1.5016,1.5016,0,0,1,29.5,32ZM28,46.5V45h2v3h-.5A1.5016,1.5016,0,0,1,28,46.5Z" style="fill:#f74141" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">New Movie.mp4</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">02 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <path d="M42,31H30a3.0033,3.0033,0,0,0-3,3V45a3.0033,3.0033,0,0,0,3,3H42a3.0033,3.0033,0,0,0,3-3V34A3.0033,3.0033,0,0,0,42,31ZM29,38h6v3H29Zm8,0h6v3H37Zm6-4v2H37V33h5A1.001,1.001,0,0,1,43,34ZM30,33h5v3H29V34A1.001,1.001,0,0,1,30,33ZM29,45V43h6v3H30A1.001,1.001,0,0,1,29,45Zm13,1H37V43h6v2A1.001,1.001,0,0,1,42,46Z" style="fill:#36c684" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">Project List.xls</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">02 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- .nk-file -->
-                                                        <div class="nk-file-item nk-file">
-                                                            <div class="nk-file-info">
-                                                                <div class="nk-file-title">
-                                                                    <div class="nk-file-icon">
-                                                                                <span class="nk-file-icon-type">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />
-                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />
-                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />
-                                                                                        <path d="M44.1405,46H27.8595A1.86,1.86,0,0,1,26,44.1405V34.8595A1.86,1.86,0,0,1,27.8595,33H44.14A1.86,1.86,0,0,1,46,34.86v9.2808A1.86,1.86,0,0,1,44.1405,46ZM29.1454,44H42.8546A1.1454,1.1454,0,0,0,44,42.8546V36.1454A1.1454,1.1454,0,0,0,42.8546,35H29.1454A1.1454,1.1454,0,0,0,28,36.1454v6.7093A1.1454,1.1454,0,0,0,29.1454,44Z" style="fill:#f25168" />
-                                                                                        <path d="M36.4218,34.268a.7112.7112,0,0,1-.5048-.2093l-2.1431-2.1428a.7143.7143,0,0,1,1.01-1.01l2.1428,2.1431a.7142.7142,0,0,1-.5051,1.2192Z" style="fill:#f25168" />
-                                                                                        <path d="M36.4218,34.268a.7142.7142,0,0,1-.5048-1.2192L38.06,30.9057a.7141.7141,0,0,1,1.01,1.01l-2.1426,2.1428A.7113.7113,0,0,1,36.4218,34.268Z" style="fill:#f25168" />
-                                                                                        <path d="M32.1356,49.268a.7054.7054,0,0,1-.3665-.102.7145.7145,0,0,1-.2451-.98l2.1431-3.5713a.7142.7142,0,0,1,1.2247.735l-2.1426,3.5711A.7144.7144,0,0,1,32.1356,49.268Z" style="fill:#f25168" />
-                                                                                        <path d="M40.7083,49.268a.7138.7138,0,0,1-.6129-.3463L37.9526,45.35a.7143.7143,0,0,1,1.225-.735L41.32,48.1866a.7137.7137,0,0,1-.6121,1.0814Z" style="fill:#f25168" />
-                                                                                        <path d="M35.12,37H30.9a.5007.5007,0,1,1,0-1h4.22a.5007.5007,0,1,1,0,1Z" style="fill:#f25168" />
-                                                                                        <path d="M41.9758,43H37.5471a.5056.5056,0,1,1,0-1.0065h4.4286a.5056.5056,0,1,1,0,1.0065Z" style="fill:#f25168" />
-                                                                                        <path d="M38.14,40H33.9775a.5.5,0,1,1,0-1H38.14a.5.5,0,1,1,0,1Z" style="fill:#f25168" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                    </div>
-                                                                    <div class="nk-file-name">
-                                                                        <div class="nk-file-name-text">
-                                                                            <a href="#" class="title">Presentation.ppt</a>
-                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="nk-file-desc">
-                                                                    <li class="date">02 Apr</li>
-                                                                    <li class="size">23 MB</li>
-                                                                    <li class="members">3 Members</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="nk-file-actions">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-plain no-bdr">
-                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>
-                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>
-                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>
-                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>
-                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="tab-pane" id="tabItem8" role="tabpanel">--}}
+{{--                <div id="company_section" class="mt-2">--}}
+{{--                    <div class="row g-3">--}}
+{{--                        <div class="col-12">--}}
+{{--                            <div class="px-0" id="company_holder">--}}
+{{--                                <div class="nk-fmg-listing nk-block-lg">--}}
+{{--                                    <div class="nk-block-head-xs">--}}
+{{--                                        <div class="nk-block-between g-2">--}}
+{{--                                            <div class="nk-block-head-content">--}}
+{{--                                                <h6 class="nk-block-title title">Related Documents</h6>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="nk-block-head-content">--}}
+{{--                                                <ul class="nk-block-tools g-3 nav">--}}
+{{--                                                    <li><a data-bs-toggle="tab" href="#file-grid-view" class="nk-switch-icon active"><em class="icon ni ni-view-grid3-wd"></em></a></li>--}}
+{{--                                                    <li><a data-bs-toggle="tab" href="#file-group-view" class="nk-switch-icon"><em class="icon ni ni-view-group-wd"></em></a></li>--}}
+{{--                                                </ul>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div><!-- .nk-block-head -->--}}
+{{--                                    <div class="tab-content">--}}
+{{--                                        <div class="tab-pane active" id="file-grid-view">--}}
+{{--                                            <div class="nk-files nk-files-view-grid">--}}
+{{--                                                <div class="nk-files-list">--}}
+{{--                                                    <div class="nk-file-item nk-file">--}}
+{{--                                                        <div class="nk-file-info">--}}
+{{--                                                            <div class="nk-file-title">--}}
+{{--                                                                <div class="nk-file-icon">--}}
+{{--                                                                    <a class="nk-file-icon-link" href="#">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <g>--}}
+{{--                                                                                            <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                            <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                            <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                            <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="36" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="41" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="46" width="12" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                        </g>--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </a>--}}
+{{--                                                                </div>--}}
+{{--                                                                <div class="nk-file-name">--}}
+{{--                                                                    <div class="nk-file-name-text">--}}
+{{--                                                                        <a href="#" class="title">Quotation.doc</a>--}}
+{{--                                                                        <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <ul class="nk-file-desc">--}}
+{{--                                                                <li class="date">06 Jan</li>--}}
+{{--                                                                <li class="size">1.2 MB</li>--}}
+{{--                                                                <li class="members">3 Members</li>--}}
+{{--                                                            </ul>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="nk-file-actions">--}}
+{{--                                                            <div class="dropdown">--}}
+{{--                                                                <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                    <ul class="link-list-plain no-bdr">--}}
+{{--                                                                        <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                        <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                        <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                        <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                        <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                        <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                        <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                    </ul>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div><!-- .nk-file -->--}}
+{{--                                                    <div class="nk-file-item nk-file">--}}
+{{--                                                        <div class="nk-file-info">--}}
+{{--                                                            <div class="nk-file-title">--}}
+{{--                                                                <div class="nk-file-icon">--}}
+{{--                                                                    <a class="nk-file-icon-link" href="#">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="35" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="39" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="43" width="14" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="47" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </a>--}}
+{{--                                                                </div>--}}
+{{--                                                                <div class="nk-file-name">--}}
+{{--                                                                    <div class="nk-file-name-text">--}}
+{{--                                                                        <a href="#" class="title">Work-to-do.txt</a>--}}
+{{--                                                                        <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <ul class="nk-file-desc">--}}
+{{--                                                                <li class="date">06 Jan</li>--}}
+{{--                                                                <li class="size">525 Kb</li>--}}
+{{--                                                                <li class="members">3 Members</li>--}}
+{{--                                                            </ul>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="nk-file-actions">--}}
+{{--                                                            <div class="dropdown">--}}
+{{--                                                                <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                    <ul class="link-list-plain no-bdr">--}}
+{{--                                                                        <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>View</span></a></li>--}}
+{{--                                                                        <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy Link</span></a></li>--}}
+{{--                                                                    </ul>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="tab-pane" id="file-group-view">--}}
+{{--                                            <div class="nk-files nk-files-view-group">--}}
+{{--                                                <div class="nk-files-group">--}}
+{{--                                                    <div class="nk-files-list">--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <path d="M42,31H30a3.0033,3.0033,0,0,0-3,3V45a3.0033,3.0033,0,0,0,3,3H42a3.0033,3.0033,0,0,0,3-3V34A3.0033,3.0033,0,0,0,42,31ZM29,38h6v3H29Zm8,0h6v3H37Zm6-4v2H37V33h5A1.001,1.001,0,0,1,43,34ZM30,33h5v3H29V34A1.001,1.001,0,0,1,30,33ZM29,45V43h6v3H30A1.001,1.001,0,0,1,29,45Zm13,1H37V43h6v2A1.001,1.001,0,0,1,42,46Z" style="fill:#36c684" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">Database.xlsx</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">Today</li>--}}
+{{--                                                                    <li class="size">235 KB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <g>--}}
+{{--                                                                                            <rect x="18" y="16" width="36" height="40" rx="5" ry="5" style="fill:#e3edfc" />--}}
+{{--                                                                                            <path d="M19.03,54A4.9835,4.9835,0,0,0,23,56H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                            <rect x="32" y="20" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <rect x="32" y="25" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <rect x="32" y="30" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <rect x="32" y="35" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <path d="M35,16.0594h2a0,0,0,0,1,0,0V41a1,1,0,0,1-1,1h0a1,1,0,0,1-1-1V16.0594A0,0,0,0,1,35,16.0594Z" style="fill:#7e95c4" />--}}
+{{--                                                                                            <path d="M38.0024,40H33.9976A1.9976,1.9976,0,0,0,32,41.9976v2.0047A1.9976,1.9976,0,0,0,33.9976,46h4.0047A1.9976,1.9976,0,0,0,40,44.0024V41.9976A1.9976,1.9976,0,0,0,38.0024,40Zm-.0053,4H34V42h4Z" style="fill:#7e95c4" />--}}
+{{--                                                                                        </g>--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">dashlite...1.2.zip</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">03 May</li>--}}
+{{--                                                                    <li class="size">235 KB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <g>--}}
+{{--                                                                                            <rect x="18" y="16" width="36" height="40" rx="5" ry="5" style="fill:#e3edfc" />--}}
+{{--                                                                                            <path d="M19.03,54A4.9835,4.9835,0,0,0,23,56H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                            <rect x="32" y="20" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <rect x="32" y="25" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <rect x="32" y="30" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <rect x="32" y="35" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                            <path d="M35,16.0594h2a0,0,0,0,1,0,0V41a1,1,0,0,1-1,1h0a1,1,0,0,1-1-1V16.0594A0,0,0,0,1,35,16.0594Z" style="fill:#7e95c4" />--}}
+{{--                                                                                            <path d="M38.0024,40H33.9976A1.9976,1.9976,0,0,0,32,41.9976v2.0047A1.9976,1.9976,0,0,0,33.9976,46h4.0047A1.9976,1.9976,0,0,0,40,44.0024V41.9976A1.9976,1.9976,0,0,0,38.0024,40Zm-.0053,4H34V42h4Z" style="fill:#7e95c4" />--}}
+{{--                                                                                        </g>--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">covstats.zip</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">01 May</li>--}}
+{{--                                                                    <li class="size">235 KB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <g>--}}
+{{--                                                                                            <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                            <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                            <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                            <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="36" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="41" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="46" width="12" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                        </g>--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">Price List.doc</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">25 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <g>--}}
+{{--                                                                                            <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                            <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                            <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                            <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="36" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="41" width="18" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                            <rect x="27" y="46" width="12" height="2" rx="1" ry="1" style="fill:#599def" />--}}
+{{--                                                                                        </g>--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">Quotation.doc</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">06 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <rect x="27" y="31" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="35" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="39" width="18" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="43" width="14" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                        <rect x="27" y="47" width="8" height="2" rx="1" ry="1" style="fill:#7e95c4" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">Work-to-do.txt</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">02 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <path d="M27.2223,43H44.7086s2.325-.2815.7357-1.897l-5.6034-5.4985s-1.5115-1.7913-3.3357.7933L33.56,40.4707a.6887.6887,0,0,1-1.0186.0486l-1.9-1.6393s-1.3291-1.5866-2.4758,0c-.6561.9079-2.0261,2.8489-2.0261,2.8489S25.4268,43,27.2223,43Z" style="fill:#755de0" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">DashLite_v1.psd</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">02 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <path d="M46,46.5v-13A3.5042,3.5042,0,0,0,42.5,30h-13A3.5042,3.5042,0,0,0,26,33.5v13A3.5042,3.5042,0,0,0,29.5,50h13A3.5042,3.5042,0,0,0,46,46.5ZM40,45v3H37V45Zm-3-2V37h7v6Zm0-8V32h3v3Zm-2-3v3H32V32Zm0,5v6H28V37Zm0,8v3H32V45Zm7.5,3H42V45h2v1.5A1.5016,1.5016,0,0,1,42.5,48ZM44,33.5V35H42V32h.5A1.5016,1.5016,0,0,1,44,33.5ZM29.5,32H30v3H28V33.5A1.5016,1.5016,0,0,1,29.5,32ZM28,46.5V45h2v3h-.5A1.5016,1.5016,0,0,1,28,46.5Z" style="fill:#f74141" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">New Movie.mp4</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">02 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <path d="M42,31H30a3.0033,3.0033,0,0,0-3,3V45a3.0033,3.0033,0,0,0,3,3H42a3.0033,3.0033,0,0,0,3-3V34A3.0033,3.0033,0,0,0,42,31ZM29,38h6v3H29Zm8,0h6v3H37Zm6-4v2H37V33h5A1.001,1.001,0,0,1,43,34ZM30,33h5v3H29V34A1.001,1.001,0,0,1,30,33ZM29,45V43h6v3H30A1.001,1.001,0,0,1,29,45Zm13,1H37V43h6v2A1.001,1.001,0,0,1,42,46Z" style="fill:#36c684" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">Project List.xls</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">02 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div><!-- .nk-file -->--}}
+{{--                                                        <div class="nk-file-item nk-file">--}}
+{{--                                                            <div class="nk-file-info">--}}
+{{--                                                                <div class="nk-file-title">--}}
+{{--                                                                    <div class="nk-file-icon">--}}
+{{--                                                                                <span class="nk-file-icon-type">--}}
+{{--                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">--}}
+{{--                                                                                        <path d="M49,61H23a5.0147,5.0147,0,0,1-5-5V16a5.0147,5.0147,0,0,1,5-5H40.9091L54,22.1111V56A5.0147,5.0147,0,0,1,49,61Z" style="fill:#e3edfc" />--}}
+{{--                                                                                        <path d="M54,22.1111H44.1818a3.3034,3.3034,0,0,1-3.2727-3.3333V11s1.8409.2083,6.9545,4.5833C52.8409,20.0972,54,22.1111,54,22.1111Z" style="fill:#b7d0ea" />--}}
+{{--                                                                                        <path d="M19.03,59A4.9835,4.9835,0,0,0,23,61H49a4.9835,4.9835,0,0,0,3.97-2Z" style="fill:#c4dbf2" />--}}
+{{--                                                                                        <path d="M44.1405,46H27.8595A1.86,1.86,0,0,1,26,44.1405V34.8595A1.86,1.86,0,0,1,27.8595,33H44.14A1.86,1.86,0,0,1,46,34.86v9.2808A1.86,1.86,0,0,1,44.1405,46ZM29.1454,44H42.8546A1.1454,1.1454,0,0,0,44,42.8546V36.1454A1.1454,1.1454,0,0,0,42.8546,35H29.1454A1.1454,1.1454,0,0,0,28,36.1454v6.7093A1.1454,1.1454,0,0,0,29.1454,44Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M36.4218,34.268a.7112.7112,0,0,1-.5048-.2093l-2.1431-2.1428a.7143.7143,0,0,1,1.01-1.01l2.1428,2.1431a.7142.7142,0,0,1-.5051,1.2192Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M36.4218,34.268a.7142.7142,0,0,1-.5048-1.2192L38.06,30.9057a.7141.7141,0,0,1,1.01,1.01l-2.1426,2.1428A.7113.7113,0,0,1,36.4218,34.268Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M32.1356,49.268a.7054.7054,0,0,1-.3665-.102.7145.7145,0,0,1-.2451-.98l2.1431-3.5713a.7142.7142,0,0,1,1.2247.735l-2.1426,3.5711A.7144.7144,0,0,1,32.1356,49.268Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M40.7083,49.268a.7138.7138,0,0,1-.6129-.3463L37.9526,45.35a.7143.7143,0,0,1,1.225-.735L41.32,48.1866a.7137.7137,0,0,1-.6121,1.0814Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M35.12,37H30.9a.5007.5007,0,1,1,0-1h4.22a.5007.5007,0,1,1,0,1Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M41.9758,43H37.5471a.5056.5056,0,1,1,0-1.0065h4.4286a.5056.5056,0,1,1,0,1.0065Z" style="fill:#f25168" />--}}
+{{--                                                                                        <path d="M38.14,40H33.9775a.5.5,0,1,1,0-1H38.14a.5.5,0,1,1,0,1Z" style="fill:#f25168" />--}}
+{{--                                                                                    </svg>--}}
+{{--                                                                                </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                    <div class="nk-file-name">--}}
+{{--                                                                        <div class="nk-file-name-text">--}}
+{{--                                                                            <a href="#" class="title">Presentation.ppt</a>--}}
+{{--                                                                            <div class="asterisk"><a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a></div>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <ul class="nk-file-desc">--}}
+{{--                                                                    <li class="date">02 Apr</li>--}}
+{{--                                                                    <li class="size">23 MB</li>--}}
+{{--                                                                    <li class="members">3 Members</li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="nk-file-actions">--}}
+{{--                                                                <div class="dropdown">--}}
+{{--                                                                    <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
+{{--                                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                                        <ul class="link-list-plain no-bdr">--}}
+{{--                                                                            <li><a href="#file-details" data-bs-toggle="modal"><em class="icon ni ni-eye"></em><span>Details</span></a></li>--}}
+{{--                                                                            <li><a href="#file-share" data-bs-toggle="modal"><em class="icon ni ni-share"></em><span>Share</span></a></li>--}}
+{{--                                                                            <li><a href="#file-copy" data-bs-toggle="modal"><em class="icon ni ni-copy"></em><span>Copy</span></a></li>--}}
+{{--                                                                            <li><a href="#file-move" data-bs-toggle="modal"><em class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>--}}
+{{--                                                                            <li><a href="#" class="file-dl-toast"><em class="icon ni ni-download"></em><span>Download</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>--}}
+{{--                                                                            <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>--}}
+{{--                                                                        </ul>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 </div>

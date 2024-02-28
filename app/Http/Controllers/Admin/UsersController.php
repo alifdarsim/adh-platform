@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\AdminInvitation;
 use App\Models\User;
-use Carbon\Carbon;
+use Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +21,12 @@ class UsersController extends Controller
      */
     public function index()
     {
+//        $date = \Carbon\Carbon::now('Asia/Singapore');
+//        $date->setTimezone('Asia/Gaza');
+//        $date->setTimezone('Asia/Gaza');
+//        return $date->timezone->getName(); // This should output 'Asia/Singapore'
+//        return $date;
+
         $usersCount = User::whereHas('roles', function ($query) {
             $query->where('name', 'user');
         })->count();
@@ -52,7 +58,7 @@ class UsersController extends Controller
                 return $user->name;
             })
             ->addColumn('user_avatar', function ($user) {
-                return $user->user_avatar();
+                return $user->user_avatar($user->name);
             })
             ->addColumn('last_login_at', function ($user) {
                 return $user->last_login_at;

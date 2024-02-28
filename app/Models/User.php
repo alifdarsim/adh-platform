@@ -46,6 +46,7 @@ class User extends Authenticatable implements HasMedia
         'status',
         'role',
         'token',
+        'timezone',
         'token_expires_at',
     ];
 
@@ -106,9 +107,9 @@ class User extends Authenticatable implements HasMedia
         return Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150);
     }
 
-    public function user_avatar(): string | \Laravolt\Avatar\Avatar | null
+    public function user_avatar($name = null): string | \Laravolt\Avatar\Avatar | null
     {
-        return $this->expert->img_url == null ? Avatar::create($this->name ?? 'NA')->setDimension(150) : $this->expert->img_url;
+        return $this->expert->img_url == null ? Avatar::create($name)->toBase64() : $this->expert->img_url;
     }
 
     public function expert(): HasOne
@@ -138,6 +139,12 @@ class User extends Authenticatable implements HasMedia
     public function projects(): HasManyThrough
     {
         return $this->hasManyThrough(Projects::class,ProjectInvited::class, 'email', 'id', 'email', 'project_id');
+    }
+
+    public function client(): HasOne
+    {
+        Client::where('user_id', auth()->id())->firstOrCreate(['user_id' => auth()->id()]);
+        return $this->hasOne(Client::class, 'user_id', 'id');
     }
 
 }

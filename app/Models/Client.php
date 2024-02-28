@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -14,30 +15,27 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Client extends Model
 {
-    use LogsActivity;
-
-    protected $table = 'clients';
+    protected $table = 'client';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'website', 'type', 'establish', 'overview', 'contact', 'email', 'status', 'registered_by'];
+    protected $guarded = [];
 
-    public function getActivitylogOptions(): LogOptions
+    //if user dont have client id, then create one
+//    public static function boot(): void
+//    {
+//        Client::where('user_id', auth()->id())->firstOrCreate(['id' => auth()->id()]);
+//    }
+
+    public function company(): HasOne
     {
-        return LogOptions::defaults()->useLogName('Company')->logFillable()->logOnlyDirty();
+        return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
-    public function country(): HasOne
+    public function projects(): HasMany
     {
-        return $this->hasOne(Country::class, 'id', 'country_id');
-    }
-
-    public function city(): HasOne
-    {
-        return $this->hasOne(City::class, 'id', 'city_id');
-    }
-
-    public function finance(): HasOne
-    {
-        return $this->hasOne(Finance::class);
+        return $this->hasMany(Projects::class, 'company_id', 'company_id')
+            ->with('createdBy')
+            ->with('hub')
+            ->with('company');
     }
 
 }

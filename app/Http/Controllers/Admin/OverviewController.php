@@ -23,7 +23,10 @@ class OverviewController extends Controller
                 'experts' => ExpertList::count(),
                 'client' => 0
             ],
-            'projects' => Projects::orderBy('id', 'desc')->limit(5)->get(),
+            'projects' => Projects::orderBy('id', 'desc')
+                ->where('status', '!=', 'closed')
+                ->where('status', '!=', 'rejected')
+                ->limit(5)->get(),
             'users' => User::orderBy('id', 'desc')->limit(5)->get(),
             'hub' => [
                 'partner' => $projects->where('hub_id', 1)->count(),

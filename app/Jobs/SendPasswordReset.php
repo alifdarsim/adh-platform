@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Mail\PasswordResetMail;
-use App\Mail\ProjectInvitation;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

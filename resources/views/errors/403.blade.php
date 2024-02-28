@@ -14,7 +14,7 @@
                 <img class="email-logo mb-5" src="{{config('app.url') . '/images/logo-dark.png'}}" alt="logo">
             </div>
             <img class="nk-error-gfx w-50 pb-4" src="/images/gfx/error-404.svg" alt="">
-            <div class="wide-xs mx-auto"><h3 class="nk-error-title">Opps. URL not exist</h3>
+            <div class="wide-xs mx-auto"><h3 class="nk-error-title">Oppss. URL not exist</h3>
                 <p class="nk-error-text">We are very sorry for inconvenience. It looks like you’re try to access a page
                     that either has been deleted or never existed.</p>
                 <a href="{{config('app.url')}}" class="btn btn-lg btn-danger mt-2">

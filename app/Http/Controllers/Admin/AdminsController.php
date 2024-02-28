@@ -48,10 +48,13 @@ class AdminsController extends Controller
                 return $user->email;
             })
             ->addColumn('user_avatar', function ($user) {
-                return $user->user_avatar();
+                return $user->user_avatar($user->name);
+            })
+            ->addColumn('role', function ($user) {
+                return $user->getRoleNames()->first();
             })
             ->addColumn('last_login_at', function ($user) {
-                return $user->last_login_at;
+                return $user->authentications()->orderBy('id', 'desc')->first()->login_at;
             })
             ->make(true);
     }

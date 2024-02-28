@@ -27,15 +27,7 @@ class CompaniesController extends Controller
             ->get();
     }
 
-    public function get($id)
-    {
-        return Company::select(['id', 'name', 'website', 'establish', 'industry', 'type_id', 'img_url'])
-            ->where('id', $id)
-            ->with('address', 'type')
-            ->first();
-    }
-
-    public function getTypes()
+    public function types()
     {
         return CompanyType::all();
     }
@@ -48,9 +40,10 @@ class CompaniesController extends Controller
             ->get();
     }
 
-    public function getDetails()
+    public function update()
     {
-        $id = request()->get('id');
-        return Company::where('id', $id)->with('country', 'city', 'type')->get()->first();
+        $insert = auth()->user()->client->update(request()->all());
+        if ($insert) return success('Company updated');
+        return error('Company not updated');
     }
 }

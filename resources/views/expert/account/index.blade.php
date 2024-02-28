@@ -62,12 +62,12 @@
                 <div class="data-item">
                     <div class="data-col">
                         <span class="data-label">Timezone</span>
-                        <span class="data-value">Bangladesh (GMT +6)</span>
+                        <span class="data-value">{{auth()->user()->timezone}}</span>
                     </div>
                     <div class="data-col data-col-end"><a href="#" class="link link-primary">Change</a></div>
                 </div>
-            </div><!-- .nk-data -->
-        </div><!-- .card -->
+            </div>
+        </div>
     </div>
 @endsection
 

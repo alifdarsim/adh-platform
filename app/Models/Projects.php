@@ -67,7 +67,6 @@ class Projects extends Model
     }
 
     // after this is new one
-
     public function shortlist(): hasOne
     {
         return $this->hasOne(ProjectShortlist::class, 'project_id', 'id');
@@ -78,12 +77,12 @@ class Projects extends Model
         return $this->hasOne(ProjectInvited::class, 'project_id', 'id');
     }
 
-    public function created_by(): BelongsTo|User
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id')->first();
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function company(): Model|HasOne
+    public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }

@@ -6,6 +6,7 @@ namespace App\Mail;
 use App\Jobs\SendAdminInvitation;
 use App\Jobs\SendPasswordReset;
 use App\Jobs\SendProjectInvitation;
+use App\Jobs\SendVerificationEmail;
 use Illuminate\Support\Facades\Mail;
 
 class MailSender
@@ -15,11 +16,7 @@ class MailSender
      */
     public function sendRegistrationEmail($email, $token): void
     {
-        $mailData = [
-            'email' => $email,
-            'token' => $token,
-        ];
-        Mail::to($email)->send(new RegisterUser($mailData));
+        SendVerificationEmail::dispatch($email, $token);
     }
 
     /**

@@ -188,14 +188,11 @@ const _Swal = {
         $(_link).each(function () {
             var self = $(this),
                 _self_link = self.attr('href');
-            // if (fileName.match(_self_link)) {
-            // if currentURL contains /edit then remove whatever after /edit from currentURL
-            const regex = /\/admin\/projects\/[a-zA-Z0-9]+$/;
+            const regex = /\/projects\/[a-zA-Z0-9]+$/;
             if (regex.test(_currentURL)) {
-                _currentURL = _currentURL.substring(0, _currentURL.lastIndexOf('/'));
-            }
-            if (_currentURL.includes('/edit')) {
-                _currentURL = _currentURL.substring(0, _currentURL.indexOf("/edit") === -1 ? _currentURL.length : _currentURL.indexOf("/edit"));
+                if(!_currentURL.includes('/projects/create')){
+                    _currentURL = _currentURL.substring(0, _currentURL.lastIndexOf('/'));
+                }
             }
             // console.log(self[0].href)
             if (self[0].href === _currentURL) {

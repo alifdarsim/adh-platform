@@ -12,8 +12,9 @@
                                 <div class="lead-text fs-5">{{$project->name}}</div>
                                 <div class="sub-text">
                                     <span class="d-none d-sm-inline me-1">Participant: </span>
-                                    <span class="d-none d-sm-inline me-1">John Doe</span>(Admin),
-                                    <span class="d-none d-sm-inline me-1 ms-1">Alif Darsim</span>
+{{--                                    <span class="d-none d-sm-inline me-1">{{auth()->user()->name}}</span>(ADH Member),--}}
+                                    <span class="d-none d-sm-inline">You</span>,
+                                    <span class="d-none d-sm-inline me-1 ms-1">{{$project->awardedTo->name}}</span>
                                 </div>
                             </div>
                         </div>

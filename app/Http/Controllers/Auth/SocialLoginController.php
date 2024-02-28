@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Auth;
 use Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -11,8 +12,10 @@ use Str;
 
 class SocialLoginController extends Controller
 {
-    public function redirectToDriver($driver, $user_type)
+    public function redirectToDriver($driver, $user_type, $timezone)
     {
+        $timezone = Str::of($timezone)->replace('__', '/');
+        session(['timezone' => $timezone]);
         return Socialite::driver($driver)->with(['state' => $user_type])->redirect();
     }
 
@@ -24,8 +27,8 @@ class SocialLoginController extends Controller
             $user = Socialite::driver($driver)->stateless()->user();
         }
         $user_type = request()->input('state');
+        $this->userDetails($user, $user_type, session()->get('timezone'));
         $this->updateUserAvatar($user, $driver);
-        $this->userDetails($user);
         return redirect()->route($user_type == 'client' ? 'client.overview' : 'expert.overview');
     }
 
@@ -35,27 +38,32 @@ class SocialLoginController extends Controller
         if ($user) {
             if ($provider == 'google') {
                 $_user->google_avatar = $user->avatar;
-            } else if ($provider == 'linkedin') {
+            } else if ($provider == 'linkedin-openid') {
                 $_user->linkedin_avatar = $user->avatar_original;
             }
             $_user->save();
         }
     }
 
-    public function userDetails($user){
+    public function userDetails($socialite_data, $user_type, $timezone){
         // if there is user login then logut first
         if (auth()->user()) auth()->logout();
-        $existingUser = User::where('email', $user->email)->first();
-        if ($existingUser) {
-            auth()->login($existingUser);
+        $user = User::where('email', $socialite_data->email)->first();
+        if ($user) {
+            // add to session user type
+            session(['user_type' => $user_type]);
+            auth()->login($user);
         } else {
             // if user does not exist
             $newUser = new User();
-            $newUser->name = $user->name;
-            $newUser->email = $user->email;
+            $newUser->status = 1;
+            $newUser->name = $socialite_data->name;
+            $newUser->email = $socialite_data->email;
             $newUser->email_verified_at = now();
-            $newUser->password = Hash::make(Str::random(24));
+            $newUser->timezone = $timezone;
             $newUser->save();
+            //set user role to 'user'
+            $newUser->assignRole('user');
             auth()->login($newUser, true);
         }
     }

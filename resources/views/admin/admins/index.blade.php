@@ -1,6 +1,5 @@
 @extends('layouts.admin.main')
 @section('content')
-
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
@@ -14,14 +13,17 @@
                     <a href="{{route('admin.admins.create')}}" class="btn btn-primary toggle-expand" data-target="pageMenu"><span>Create Admin</span></a>
                     <div class="toggle-expand-content" data-content="pageMenu">
                         <ul class="nk-block-tools g-3">
-                            <li class="nk-block-tools-opt"><a href="{{route('admin.admins.create')}}" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Register New Admins</span></a></li>
+                            <li class="nk-block-tools-opt">
+                                <a href="{{route('admin.admins.create')}}" class="btn btn-primary"><em class="icon ni ni-plus"></em>
+                                    <span>Register New Admins</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="nk-block">
         <div class="card card-bordered card-preview">
             <div class="card-inner position-relative card-tools-toggle py-3">
@@ -137,6 +139,7 @@
                     <th class="nk-tb-col"><span class="sub-text">User</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Email</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Last Access</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Role</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Confirm Email</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end">Action</th>
                 </tr>
@@ -170,7 +173,7 @@
                     render: function (data, type, row) {
                         return `
                               <div class="user-card">
-                                    <div class="user-avatar bg-primary d-none d-sm-flex">
+                                    <div class="user-avatar d-none d-sm-flex">
                                         <img src="${row.user_avatar}" alt="user">
                                     </div>
                                     <div class="user-info">
@@ -184,7 +187,15 @@
                 },
                 {
                     data: 'last_login_at',
-                    className: 'nk-tb-col'
+                    render: function (data) {
+                        return data ? moment(data).format(' DD MMM YYYY, hh:mm A') : 'N/A';
+                    }
+                },
+                {
+                    data: 'role',
+                    render: function (data) {
+                        return data.replace(/\b\w/g, l => l.toUpperCase());
+                    }
                 },
                 {
                     data: 'status',
@@ -196,7 +207,7 @@
                 },
                 {
                     data: 'id',
-                    className: 'nk-tb-col nk-tb-col-tools',
+                    className: 'nk-tb-col-tools',
                     render: function (data) {
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>

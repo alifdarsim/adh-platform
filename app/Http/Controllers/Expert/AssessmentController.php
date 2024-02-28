@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Expert;
 
+use App\Http\Controllers\Controller;
 use App\Models\Assessment;
 use App\Models\AssessmentQuestions;
-use Illuminate\Http\Request;
 use Response;
-use Route;
-use Session;
-use Str;
 
 class AssessmentController extends Controller
 {

@@ -31,6 +31,11 @@
 .is-dark .nk-menu-link:hover .nk-menu-icon, .is-dark .nk-menu-item.active > .nk-menu-link .nk-menu-icon, .is-dark .nk-menu-item.current-menu > .nk-menu-link .nk-menu-icon {
     color: #e8757d;
 }
+
+.dark-mode .active > .nk-menu-link {
+    color: #e8757d !important;
+}
+
 .is-dark .nk-news-icon .icon {
     color: #e14954;
 }
@@ -232,6 +237,10 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
 }
 
 .dropdown-menu-s1 {
+    border-top-color: #e14954;
+}
+
+.dark-mode .dropdown-menu-s1 {
     border-top-color: #e14954;
 }
 

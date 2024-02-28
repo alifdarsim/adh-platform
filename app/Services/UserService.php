@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function createUser($name, $email, $password, $token)
+    public function createUser($name, $email, $password, $timezone, $token)
     {
         return User::create([
             'email' => $email,
+            'name' => $name,
             'password' => Hash::make($password),
             'token' => $token,
+            'timezone' => $timezone,
             'token_expires_at' => now()->addDays(7),
         ]);
     }
