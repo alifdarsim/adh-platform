@@ -95,9 +95,6 @@
         var timezone = moment.tz.guess();
         $('#timezone').val(timezone);
 
-        // $('#email-address').val('alifdarsim@gmail.com');
-        // $('#password').val('password');
-
         $('#signInSelect').on('change', function () {
             if ($(this).val() === 'user') {
                 $('.btn-primary').html('User Login');

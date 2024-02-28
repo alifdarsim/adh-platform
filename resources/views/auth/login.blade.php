@@ -127,9 +127,6 @@
             window.location.href = "{{route('login.authenticate.social', ['driver' => 'google', 'user_type' => $type, ''])}}/" + timezone.replace('/', '__');
         }
 
-        $('#email-address').val('alifdarsim@gmail.com');
-        $('#password').val('password');
-
         $('#signInSelect').on('change', function () {
             if ($(this).val() === 'user') {
                 $('.btn-primary').html('User Login');
