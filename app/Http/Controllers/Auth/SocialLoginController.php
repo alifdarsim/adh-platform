@@ -49,22 +49,18 @@ class SocialLoginController extends Controller
         // if there is user login then logut first
         if (auth()->user()) auth()->logout();
         $user = User::where('email', $socialite_data->email)->first();
-        if ($user) {
-            // add to session user type
-            session(['user_type' => $user_type]);
-            auth()->login($user);
-        } else {
+        if (!$user) {
             // if user does not exist
-            $newUser = new User();
-            $newUser->status = 1;
-            $newUser->name = $socialite_data->name;
-            $newUser->email = $socialite_data->email;
-            $newUser->email_verified_at = now();
-            $newUser->timezone = $timezone;
-            $newUser->save();
-            //set user role to 'user'
-            $newUser->assignRole('user');
-            auth()->login($newUser, true);
+            $user = new User();
+            $user->status = 1;
+            $user->name = $socialite_data->name;
+            $user->email = $socialite_data->email;
+            $user->email_verified_at = now();
+            $user->timezone = $timezone;
+            $user->save();
+            $user->assignRole('user');
         }
+        session(['user_type' => $user_type]);
+        auth()->login($user, true);
     }
 }

@@ -14,26 +14,35 @@
     <div class="nk-block nk-block-lg">
         <div class="card card-bordered">
             <div class="card-inner">
-                <h5 class="title">1. Your Company information</h5>
+                <h5 class="title">1. Organization information</h5>
                 <div id="company_section" class="mt-2">
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="px-0" id="company_holder">
                                 <h6 class="overline-title mb-2">Company Information</h6>
-                                <div class="card bg-white">
-                                    <li class="nk-support-item">
-                                        <img id="company_image" class="h-100px" src="{{$company->img_url ?? ''}}" alt="">
-                                        <div class="nk-support-content">
-                                            <div class="title">
-                                                <span class="fs-5" id="company_name">{{$company->name}}</span>
-                                                <p id="company_country" class="fs-6">{{$company->address->emoji . ' ' .$company->address->state . ', ' . $company->address->country}}</p>
-                                            </div>
-                                            <p id="company_industry"></p>
-                                            <p><i class="fa-regular fa-globe me-1"></i><span id="company_website">{{$company->website}}</span></p>
-                                            <p><i class="fa-regular fa-calendar me-1"></i><span id="company_establish">{{$company->establish}}</span></p>
+                                @if(!$company)
+                                    <div class="alert alert-secondary">
+                                        <div class="d-flex">
+                                            <p class="align-middle me-2"><em class="icon ni ni ni-alert-circle"></em> You have not set any organization yet. Please set your organization first <a class="text-info tw-underline" href="{{route('client.company.index')}}">here</a>.</p>
+{{--                                            <a href="{{route('client.company.index')}}" class="btn btn-primary">Register Company</a>--}}
                                         </div>
-                                    </li>
-                                </div>
+                                    </div>
+                                @else
+                                    <div class="card bg-white">
+                                        <li class="nk-support-item">
+                                            <img id="company_image" class="h-100px" src="{{$company->img_url}}" alt="">
+                                            <div class="nk-support-content">
+                                                <div class="title">
+                                                    <span class="fs-5" id="company_name">{{$company->name}}</span>
+                                                    <p id="company_country" class="fs-6">{{$company->address->emoji . ' ' .$company->address->state . ', ' . $company->address->country}}</p>
+                                                </div>
+                                                <p id="company_industry"></p>
+                                                <p><i class="fa-regular fa-globe me-1"></i><span id="company_website">{{$company->website}}</span></p>
+                                                <p><i class="fa-regular fa-calendar me-1"></i><span id="company_establish">{{$company->establish}}</span></p>
+                                            </div>
+                                        </li>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -48,7 +57,7 @@
                         <div class="form-group">
                             <label class="form-label" for="project-name">Project Name</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="project-name" name="project-name" required>
+                                <input type="text" class="form-control" id="project-name" name="project-name">
                             </div>
                         </div>
                     </div>
@@ -66,7 +75,7 @@
                             <label class="form-label" for="hub">Hub Type</label>
                             <div class="form-control-wrap">
                                 <select class="form-select js-select2" id="hub" name="hub"
-                                        data-placeholder="Select Hub Type" data-search="on" required>
+                                        data-placeholder="Select Hub Type" data-search="on">
                                     <option value=""></option>
                                     @foreach($hubs as $hub)
                                         <option value="{{ $hub->id }}">{{ $hub->name }}</option>
@@ -220,7 +229,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <btn class="btn btn-primary mt-3 btn-block" onclick="submitProject()">Submit Project</btn>
+                    <btn id="submitBtn" class="btn btn-primary mt-3 btn-block" onclick="submitProject()">Submit Project</btn>
                 </div>
             </div>
         </div>
@@ -398,7 +407,7 @@
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
-                    company_id: {{ $company->id }},
+                    company_id: {{ $company->id ?? 1 }},
                     name: $('#project-name').val(),
                     description: $('#project-description').val(),
                     hub: $('#hub').val(),
@@ -444,6 +453,12 @@
             });
         }
 
+        $(document).ready(function () {
+            $('.form-control').attr('disabled', true)
+            $('.js-select2').select2("enable", false)
+            $('.js-select2').select2("enable", false)
+            $('#submitBtn').addClass('disabled').html('Please assign Organization to submit project')
+        });
     </script>
 @endpush
 
