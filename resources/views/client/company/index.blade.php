@@ -27,8 +27,9 @@
                 <div id="company_section">
                     <div class="row g-3">
                         <div class="col-7">
+                            <p>* If the company not registered yet, you can create new one <a class="text-info tw-underline" href="{{route('client.company.index')}}">here</a></p>
                             <div class="form-group">
-                                <label class="form-label" for="select_company">I'm working for this company</label>
+                                <label class="form-label" for="select_company">Search you company</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select"
                                             id="select_company" name="select_company"
