@@ -188,12 +188,13 @@
                 {
                     data: 'last_login_at',
                     render: function (data) {
-                        return data ? moment(data).format(' DD MMM YYYY, hh:mm A') : 'N/A';
+                        return data ? moment(data).format(' DD MMM YYYY, hh:mm A') : 'Never Login';
                     }
                 },
                 {
                     data: 'role',
                     render: function (data) {
+                        if (data === 'admin') data = 'ADH Staff';
                         return data.replace(/\b\w/g, l => l.toUpperCase());
                     }
                 },

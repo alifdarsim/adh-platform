@@ -19,6 +19,9 @@ class UserRouteProtection
     public function handle(Request $request, Closure $next): \Illuminate\Http\Response | RedirectResponse | Redirector | Response | JsonResponse
     {
         $userType = session('user_type');
+        if ($userType === null) {
+            return redirect()->route('login.index', 'expert');
+        }
         $allowedUserTypes = ['admin', 'client', 'expert'];
         foreach ($allowedUserTypes as $type) {
             $routePrefix = $type . '/*';

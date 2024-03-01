@@ -72,3 +72,17 @@
         <!-- END MODULE: Footer 6 -->
     </td>
 </tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- Fix for Gmail on iOS -->
+<div class="pc-gmail-fix" style="white-space: nowrap; font: 15px courier; line-height: 0;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+</div>
+<img src="https://ea.pstmrk.it/open?m=v3_1.YDzPhIk85V4SzERr0Befqw.LUwnyAralBLwpJ-LuRaoSafbgyy6F5zTyoUPJ1TZmoUWE3oVUh6fEdGVar61EEclKwcyYMgU3M_RY57O6LJPSo5B2qKQYn7rHymit6qOLQRKNtHUNvL8M-m6Cw7-ff9QZwA_gsUXu4hEzomlUhpzlohFmu9hLbYlbernol_Y8VH1djTpGDnErEAYOCa8kC-bcF3Q4MBW0tj1pnRoUdNPZKah00Xk79yXnsvYLjMRJQiFxKUVE_CL-r1daIoxbat_zRS9Gc04EwWDmV3_-LuGiCxe8U5A3V2Tgoi_371ZoOUbAEOFdlZQvDNXRqIF1BwMdnA-UYv90IB6lNwKqjCZ_QwjzZfVQ6tsic_Acg51Nii1vKb16jp7WP_zAZVzvnS5UVBSjZGn6yTMTg1isOYe9NdRqBzb5oRAvJIrFTHqdjc2Z0s6eDuuXBNpFNj6y92jcT8E0rVob3Qkd_XnRU-C4FZE-Nq0JC7nDun9n1PuSsSLH9XDDlTdkRsvO7EnZnJh" width="1" height="1" border="0" alt="" /></body>
+
+</html>
+

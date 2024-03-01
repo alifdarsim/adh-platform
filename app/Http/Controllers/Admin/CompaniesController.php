@@ -19,11 +19,8 @@ class CompaniesController extends Controller
 
     public function index()
     {
-        // count companies
         $count = Company::all()->count();
-        return view('admin.companies.index',
-            compact( 'count')
-        );
+        return view('admin.companies.index', compact( 'count'));
     }
 
     public function create()
@@ -31,10 +28,10 @@ class CompaniesController extends Controller
         return view('admin.companies.create');
     }
 
-    public function show($id)
+    public function edit($id)
     {
-        $company = Company::with('address', 'finance')->find($id);
-        return view('admin.companies.show', compact('company'));
+        $company = Company::with('address', 'finance', 'industry')->find($id);
+        return view('admin.companies.edit', compact('company'));
     }
 
     public function store()
@@ -81,16 +78,61 @@ class CompaniesController extends Controller
             'emoji' => $emoji
         ]);
         // create finance data
-        $company->finance()->create([
-            'company_id' => $company->id,
-            'revenue' => request()->get('revenue'),
-            'operating_profit' => request()->get('profit'),
-            'net_profit' => request()->get('net_profit'),
-            'total_assets' => request()->get('total_assets'),
-            'current_market_capital' => request()->get('current_market_capital'),
-            'capital' => request()->get('capital'),
-        ]);
+//        $company->finance()->create([
+//            'company_id' => $company->id,
+//            'revenue' => request()->get('revenue'),
+//            'operating_profit' => request()->get('profit'),
+//            'net_profit' => request()->get('net_profit'),
+//            'total_assets' => request()->get('total_assets'),
+//            'current_market_capital' => request()->get('current_market_capital'),
+//            'capital' => request()->get('capital'),
+//        ]);
         return success('Company created successfully');
+    }
+
+    public function update($id)
+    {
+        $company = Company::find($id);
+        $image_path = null;
+        if (request()->get('company_image')) {
+            $image_path = request()->get('company_image');
+            if (str_contains($image_path, 'data:image/png;base64')) {
+                $image_path = str_replace('data:image/png;base64,', '', $image_path);
+                $image_path = str_replace(' ', '+', $image_path);
+                $imageName = time() . '.png';
+                \File::put(public_path() . '/images/company/' . $imageName, base64_decode($image_path));
+                request()->merge(['company_image' => $imageName]);
+                $image_path = '/images/company/' . $imageName;
+            }
+        }
+        $company->update([
+            'name' => request()->get('company_name'),
+            'linkedin_vanity' => request()->get('linkedin_vanity'),
+            'slogan' => request()->get('company_slogan'),
+            'type_id' => request()->get('company_type'),
+            'website' => request()->get('company_website'),
+            'establish' => request()->get('company_establish'),
+            'company_size' => request()->get('company_size'),
+            'industry_id' => request()->get('sub_industry'),
+            'about' => request()->get('about'),
+            'img_url' => $image_path,
+            'status' => session('user_type') == 'admin' ? 'active' : 'pending',
+            'specialties' => json_decode(request()->get('specialties_keywords')),
+            'others' => json_decode(request()->get('other_keywords')),
+            'created_by' => auth()->user()->id
+        ]);
+        // update address
+        $emoji = Country::where('name', request()->get('country'))->first()->emoji;
+        $company->address()->update([
+            'company_id' => $company->id,
+            'address' => request()->get('address'),
+            'postal' => request()->get('postal'),
+            'city' => request()->get('city'),
+            'state' => request()->get('state'),
+            'country' => request()->get('country'),
+            'emoji' => $emoji
+        ]);
+        return success('Company updated successfully');
     }
 
     public function destroy($id)
@@ -101,28 +143,19 @@ class CompaniesController extends Controller
     }
 
     public function datatable(){
-        $companies = Company::with('type')->get();
+        $companies = Company::with('address', 'industry', 'type')->get();
         return datatables()->of($companies)
             ->addColumn('name', function ($company) {
                 return $company->name;
             })
             ->addColumn('type', function ($company) {
-                return $company->type == null ? '-' : $company->type->name;
+                return $company->type == null ? 'Not Set' : $company->type->name;
             })
             ->addColumn('country', function ($company) {
                 return $company->address->country;
             })
-            ->addColumn('address', function ($company) {
-                return json_decode($company->address);
-            })
-            ->addColumn('created_at', function ($company) {
-                return $company->created_at->format('d M Y');
-            })
-            ->addColumn('updated_at', function ($company) {
-                return $company->updated_at->format('d M Y');
-            })
-            ->addColumn('industry', function ($company) {
-                return $company->industry == null ? '-' : $company->industry->name;
+            ->addColumn('_industry', function ($company) {
+                return $company->industry == null ? 'Not Set' : $company->industry->main . ' - ' . $company->industry->sub;
             })
             ->make(true);
     }

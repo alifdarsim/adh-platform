@@ -47,9 +47,6 @@ class UsersController extends Controller
             }
             return null;
         });
-        foreach ($users as $user) {
-            $user->last_login_at = formatDateTime($user->lastLoginAt());
-        }
         return datatables()->of($users)
             ->addColumn('email', function ($user) {
                 return $user->email;
@@ -61,9 +58,19 @@ class UsersController extends Controller
                 return $user->user_avatar($user->name);
             })
             ->addColumn('last_login_at', function ($user) {
-                return $user->last_login_at;
+                return $user->lastLoginAt();
             })
             ->make(true);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            return success('User deleted successfully');
+        }
+        return error('User not found');
     }
 }
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\OverviewController as AdminOverviewController;
 use App\Http\Controllers\Admin\PolicyEditor;
 use App\Http\Controllers\Admin\ProjectsController as AdminProjectsController;
 use App\Http\Controllers\Admin\AccountController as AdminAccountController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\LoginController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Client\OverviewController as ClientOverviewController;
 use App\Http\Controllers\Client\ProfileController as ClientProfileController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\CompanyController as ClientCompanyController;
+use App\Http\Controllers\Client\PaymentController as ClientPaymentController;
 use App\Http\Controllers\Client\TeamController;
 use App\Http\Controllers\Cms\AuthorsController;
 use App\Http\Controllers\Cms\CmsAssessmentController;
@@ -33,7 +35,7 @@ use App\Http\Controllers\Expert\OverviewController as ExpertOverviewController;
 use App\Http\Controllers\Expert\ProfileController as ExpertProfileController;
 use App\Http\Controllers\Expert\ProjectsController as ExpertProjectsController;
 use App\Http\Controllers\Expert\AccountController as ExpertAccountController;
-
+use App\Http\Controllers\Expert\PaymentController as ExpertPaymentController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\IndustryExpertController;
 use App\Http\Controllers\PasswordResetController;
@@ -100,8 +102,9 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/create', [AdminCompaniesController::class, 'create'])->name('admin.companies.create');
             Route::get('/datatable', [AdminCompaniesController::class, 'datatable'])->name('admin.companies.datatable');
             Route::post('/store', [AdminCompaniesController::class, 'store'])->name('admin.companies.store');
+            Route::put('/{id}', [AdminCompaniesController::class, 'update'])->name('admin.companies.update');
             Route::delete('/destroy/{id}', [AdminCompaniesController::class, 'destroy'])->name('admin.companies.destroy');
-            Route::get('/{id}', [AdminCompaniesController::class, 'show'])->name('admin.companies.show');
+            Route::get('/{id}', [AdminCompaniesController::class, 'edit'])->name('admin.companies.edit');
         });
         Route::group(["prefix" => "projects"], function () {
             Route::get('/datatable', [AdminProjectsController::class, 'datatable'])->name('admin.projects.datatable');
@@ -144,8 +147,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/datatable', [UsersController::class, 'datatable'])->name('admin.users.datatable');
             Route::get('/{id}', [UsersController::class, 'userShow'])->name('admin.users.show');
             Route::post('/{id}', [UsersController::class, 'userUpdate'])->name('admin.users.update');
-            Route::delete('/{id}', [UsersController::class, 'userDestroy'])->name('admin.users.destroy');
-
+            Route::delete('/{id}', [UsersController::class, 'destroy'])->name('admin.users.destroy');
         });
         Route::group(["prefix" => "admins"], function () {
             Route::get('/', [AdminsController::class, 'index'])->name('admin.admins.index');
@@ -263,6 +265,9 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/security', [ExpertAccountController::class, 'security'])->name('expert.account.security');
             Route::get('/notification', [ExpertAccountController::class, 'notification'])->name('expert.account.notification');
             Route::get('/activity', [ExpertAccountController::class, 'activity'])->name('expert.account.activity');
+        });
+        Route::group(["prefix" => "payment"], function () {
+            Route::get('/', [ExpertPaymentController::class, 'index'])->name('expert.payment.index');
         });
     });
 

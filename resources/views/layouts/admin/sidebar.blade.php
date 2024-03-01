@@ -70,7 +70,7 @@
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><i class="fa-solid fa-user-crown fs-5"></i></span>
-                            <span class="nk-menu-text">ADH Members</span>
+                            <span class="nk-menu-text">ADH Admins</span>
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">

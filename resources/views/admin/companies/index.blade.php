@@ -158,54 +158,57 @@
             order:  [[2, 'desc']],
             columnDefs: [
                 { "className": "nk-tb-col", "targets": "_all" },
+                { "orderable": false, "targets": 6 },
+                {
+                    "className": "clickable",
+                    "targets": [0,1,2,3,5],
+                    "createdCell": function (td, cellData, rowData) {
+                        $(td).on('click', () => window.location.href = '{{route('admin.companies.edit', '')}}/' + rowData.id )
+                    }
+                }
             ],
             pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
                 {
                     data: 'img_url',
-                    className: 'nk-tb-col',
                     render: function (data, type, row) {
                         return `<div><img class="tw-w-10 round-lg" src="${data}" alt=""></div>`
                     }
                 },
                 {
                     data: 'name',
-                    className: 'nk-tb-col tw-cursor-pointer hover:tw-text-blue-500 hover:tw-bg-slate-100',
                     render: function (data, type, row) {
                         return `<span>${data}</span>`
                     }
                 },
                 {
                     data: 'type',
-                    className: 'nk-tb-col',
                     render: function (data, type, row) {
+                        if (data === 'Not Set') return `<span class="text-danger">Not set</span>`
                         return `<span>${data}</span>`
                     }
                 },
                 {
-                    data: 'industry',
-                    className: 'nk-tb-col',
+                    data: '_industry',
                     render: function (data, type, row) {
-                        return `<span>${data}</span>`
+                        if (!row.industry) return `<span class="text-danger">Not set</span>`
+                        return `<span>${row.industry.main}</span><br><span>${row.industry.sub}</span>`
                     }
                 },
                 {
                     data: 'country',
-                    className: 'nk-tb-col',
                     render: function (data, type, row) {
                         return `<span>${row.address.emoji ?? ''} ${data}</span>`
                     }
                 },
                 {
                     data: 'created_at',
-                    className: 'nk-tb-col',
                     render: function (data, type, row) {
                         return `<span>${data}</span>`
                     }
                 },
                 {
                     data: 'id',
-                    className: 'nk-tb-col nk-tb-col-tools',
                     render: function (data, type, row) {
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
@@ -213,9 +216,9 @@
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" href="{{route('admin.companies.show', '')}}/${data}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                {{--<li><a class="clickable" href="{{route('admin.companies.edit', '')}}/${data}"><em class="icon ni ni-edit"></em><span>Edit Details</span></a></li>--}}
-                        <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+{{--                                                <li><a class="clickable" href="{{route('admin.companies.show', '')}}/${data}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>--}}
+                                                <li><a class="clickable" href="{{route('admin.companies.edit', '')}}/${data}"><em class="icon ni ni-edit"></em><span>Edit Details</span></a></li>
+                                                <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>
                                     </div>

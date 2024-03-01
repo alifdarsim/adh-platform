@@ -17,6 +17,14 @@ class Company extends Model
 {
     protected $table = 'companies';
     protected $guarded = [];
+    protected $casts = [
+        'industry_id' => 'integer',
+        'specialties' => 'object',
+        'others' => 'array',
+        'pic' => 'object',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
+    ];
 
     public function type(): HasOne
     {
@@ -40,7 +48,7 @@ class Company extends Model
 
     public function industry(): HasOne
     {
-        return $this->hasOne(Industry::class, 'id', 'industry_id');
+        return $this->hasOne(IndustryExpert::class, 'id', 'industry_id');
     }
 
 }

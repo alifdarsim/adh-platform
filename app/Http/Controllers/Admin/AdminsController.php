@@ -54,7 +54,7 @@ class AdminsController extends Controller
                 return $user->getRoleNames()->first();
             })
             ->addColumn('last_login_at', function ($user) {
-                return $user->authentications()->orderBy('id', 'desc')->first()->login_at;
+                return $user->lastLoginAt();
             })
             ->make(true);
     }
@@ -72,13 +72,12 @@ class AdminsController extends Controller
      */
     public function store(MailSender $mailSender)
     {
-
         request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:' . User::class],
             'terms' => ['required', 'accepted'],
         ]);
-
+        $role = str_replace('_', ' ', request('role'));
         $token = Str::random(32);
         $user = User::create([
             'name' => request('name'),
@@ -88,7 +87,7 @@ class AdminsController extends Controller
             'status' => 0,
         ]);
         //assignRole after creating user using Spatie
-        $user->assignRole('admin');
+        $user->assignRole($role);
         $mailSender->sendAdminInvitation(request('email'), request('name'), $token);
         return success('New Admin created successfully');
     }

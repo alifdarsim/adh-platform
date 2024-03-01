@@ -4,9 +4,9 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Create New ADH Member</h3>
+                <h3 class="nk-block-title page-title">Create New Admin</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Invite new ADH member that will manage AsiaDealHub system.</p>
+                    <p>Invite new Admin that will manage AsiaDealHub system.</p>
                 </div>
             </div>
         </div>
@@ -59,9 +59,8 @@
                                     <label class="form-label" for="role">Role</label>
                                     <div class="form-control-wrap">
                                         <select class="form-select js-select2" id="role">
-                                            <option value="default_option">Admin</option>
-                                            <option value="option_select_name">Moderator</option>
-                                            <option value="option_select_name">Super Admin</option>
+                                            <option value="admin">ADH Staff</option>
+                                            <option value="super_admin">Super Admin</option>
                                         </select>
                                     </div>
                                 </div>
@@ -116,7 +115,7 @@
                             if (data.success) {
                                 Swal.fire(
                                     'Registered!',
-                                    'New admin user has been registered.',
+                                    'New admin user has been registered. Make sure to inform the user about to check their email for setting the password',
                                     'success'
                                 ).then(() => window.open("{{route('admin.admins.index')}}", "_self"));
                             }

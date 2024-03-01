@@ -132,6 +132,7 @@
                                         <ul class="link-list">
                                             <li><a href="{{route(session('user_type') == 'client' ? 'client.account.index' : 'expert.account.index')}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                             <li><a href="{{route(session('user_type') == 'client' ? 'client.account.activity' : 'expert.account.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                            <li><a href="{{route(session('user_type') == 'client' ? 'client.payment.index' : 'expert.payment.index')}}"><em class="icon ni ni-money"></em><span>Payment Details</span></a></li>
                                             <li class="d-flex justify-between">
                                                 <a><em class="icon ni ni-moon"></em><span>Dark Mode</span></a>
                                                 <div class="custom-control custom-switch justify-center tw-mt-2">

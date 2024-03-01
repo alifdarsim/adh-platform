@@ -18,7 +18,6 @@ class RegisterController extends Controller
      * Show the application registration form.
      */
     public function index(){
-        if (auth()->check()) return redirect()->route('overview');
         return view('auth.register');
     }
 
