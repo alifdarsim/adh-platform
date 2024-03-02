@@ -152,8 +152,10 @@
                 },
                 success: function (response) {
                     if (response.isadmin) {
-                        console.log(response);
-                        Swal.fire('Login as ' + response.isSuperAdmin === true ? 'Super Admin' : 'ADH Member', 'User is an admin, you will be directed to the admin page', 'success').then(() => window.location.href = "{{route('admin.overview.index')}}");
+                        console.log(response.isSuperAdmin);
+                        let text = response.isSuperAdmin === true ? 'Super Admin' : 'ADH Member';
+                        console.log(text);
+                        Swal.fire(text, 'User is an admin, you will be directed to the admin page', 'success').then(() => window.location.href = "{{route('admin.overview.index')}}");
                     } else {
                         window.location.href = "{{$type == 'client' ? route('client.overview') : route('expert.overview')}}";
                     }

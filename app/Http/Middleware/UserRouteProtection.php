@@ -29,7 +29,6 @@ class UserRouteProtection
                 return response()->view('errors.unauthorized', [], 403);
             }
         }
-
         return $next($request);
     }
 

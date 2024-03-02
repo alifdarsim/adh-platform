@@ -38,4 +38,11 @@ class AccountController extends Controller
     {
         return view('expert.account.notification');
     }
+
+    public function payment()
+    {
+        $payment = User::find(auth()->user()->id)->payment;
+//        return $payment;
+        return view('expert.account.payment', compact('payment'));
+    }
 }

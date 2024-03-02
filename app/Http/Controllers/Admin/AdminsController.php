@@ -120,9 +120,14 @@ class AdminsController extends Controller
     public function destroy()
     {
         $user = User::find(request('id'));
-         if ($user->hasRole('super admin')) {
-             return error('You can not delete super admin');
-         }
+        if ($user->hasRole('super admin')) {
+            // if there is still at least one super admin in the system, then we can not delete the super admin
+            $superAdmins = User::role('super admin')->get();
+            if ($superAdmins->count() === 1) {
+
+            }
+
+        }
         $user->delete();
         return success('Admin deleted successfully');
     }

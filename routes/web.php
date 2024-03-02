@@ -265,9 +265,10 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/security', [ExpertAccountController::class, 'security'])->name('expert.account.security');
             Route::get('/notification', [ExpertAccountController::class, 'notification'])->name('expert.account.notification');
             Route::get('/activity', [ExpertAccountController::class, 'activity'])->name('expert.account.activity');
+            Route::get('/payment', [ExpertAccountController::class, 'payment'])->name('expert.account.payment');
         });
         Route::group(["prefix" => "payment"], function () {
-            Route::get('/', [ExpertPaymentController::class, 'index'])->name('expert.payment.index');
+            Route::put('/', [ExpertPaymentController::class, 'updatePaymentMethod'])->name('expert.payment.update_method');
         });
     });
 

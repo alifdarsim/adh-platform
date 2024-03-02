@@ -1,7 +1,7 @@
 @extends('layouts.others.main')
 @section('content')
 
-    <x-content_header title="CMS Dashboard" subtitle="Welcome to AsiaDealHub CMS Analytics Dashboard."/>
+{{--    <x-content_header title="CMS Dashboard" subtitle="Welcome to AsiaDealHub CMS Analytics Dashboard."/>--}}
 
     <div class="nk-block">
         <div class="row g-gs">

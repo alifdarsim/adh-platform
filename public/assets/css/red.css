@@ -256,6 +256,19 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
     border-color: #e14954;
 }
 
+.page-item.active .page-link,
+.plan-control:checked + .plan-item-card .plan-label,
+.custom-control-input:checked ~ .custom-control-label::before,
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #e14954;
+    border-color: #e14954;
+}
+
+.dark-mode .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #e14954 !important;
+    border-color: #e14954 !important;
+}
+
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before,
 .custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before,
 .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {

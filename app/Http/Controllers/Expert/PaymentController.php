@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function index()
+    public function updatePaymentMethod()
     {
-        return view('expert.payment.index');
+        $method = request('method');
+        $payment_info = request('payment_info');
+        $user = auth()->user();
+        $user->payment()->updateOrCreate([], ['method' => $method , 'payment_info' => $payment_info]);
+        return success('Payment method updated successfully');
     }
 }

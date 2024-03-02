@@ -15,7 +15,7 @@ class PostController extends Controller
     {
         $pages = CmsPage::all()->load('author');
         foreach ($pages as $page) $page->url = config('app.landing_page') . '/' . $page->type . '/' . $page->slug;
-        return view('cms.list', [
+        return view('admin.cms.list', [
             'pages' => $pages
         ]);
     }
@@ -24,7 +24,7 @@ class PostController extends Controller
     {
         $tags = CmsTag::all();
         $authors = CmsAuthor::all();
-        return view('cms.add', [
+        return view('admin.cms.add', [
             'tags' => $tags,
             'authors' => $authors,
         ]);
@@ -37,7 +37,7 @@ class PostController extends Controller
         if (!$page) return redirect()->route('post.show');
         $tags = CmsTag::all();
         $authors = CmsAuthor::all();
-        return view('cms.edit', [
+        return view('admin.cms.edit', [
             'page' => $page,
             'tags' => $tags,
             'authors' => $authors,
