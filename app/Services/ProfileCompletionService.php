@@ -19,9 +19,17 @@ class ProfileCompletionService
 
         $industry = true;
         $user->expert->industry_id ?? $industry = false;
-        $assessment = ($user->assessment?->status ?? null) === 'complete';
+
+        // if $user->assessment not null and status is complete then $assessment = true else $assessment = false
+        if ($user->assessment ?? null) {
+            if ($user->assessment->status == 'complete') $assessment = true;
+            else $assessment = false;
+        }
+        else $assessment = false;
+
         if ($user->expert->skills ?? null) $skills = true;
         else $skills = false;
+
         $expert_completion = [
             "linkedin" => [
                 'text' => 'LinkedIn Sync',

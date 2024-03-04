@@ -24,10 +24,8 @@ use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\CompanyController as ClientCompanyController;
 use App\Http\Controllers\Client\PaymentController as ClientPaymentController;
 use App\Http\Controllers\Client\TeamController;
-use App\Http\Controllers\Cms\AuthorsController;
 use App\Http\Controllers\Cms\CmsAssessmentController;
 use App\Http\Controllers\Cms\PostController;
-use App\Http\Controllers\Cms\TagsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\Expert\AssessmentController;
 use App\Http\Controllers\Expert\AwardedController;
@@ -167,10 +165,17 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         // CMS Routes
         Route::group(["prefix" => "cms"], function () {
             Route::singleton('/quiz', CmsAssessmentController::class)->creatable();
-            Route::singleton('/post', PostController::class)->creatable();
-            Route::get('/post/quick_view', [PostController::class, 'quick_view'])->name('post.quick_view');
-            Route::singleton('/tags', TagsController::class)->creatable();
-            Route::singleton('/authors', AuthorsController::class)->creatable();
+
+            Route::group(["prefix" => "post"], function () {
+                Route::get('/', [PostController::class, 'index'])->name('admin.post.index');
+                Route::get('/create', [PostController::class, 'create'])->name('admin.post.create');
+                Route::get('/edit/{id}', [PostController::class, 'edit'])->name('admin.post.edit');
+                Route::delete('/', [PostController::class, 'destroy'])->name('admin.post.destroy');
+                Route::post('/', [PostController::class, 'store'])->name('admin.post.store');
+                Route::post('/{id}', [PostController::class, 'update'])->name('admin.post.update');
+                Route::get('/datatable', [PostController::class, 'datatable'])->name('admin.post.datatable');
+                Route::get('/quick_view', [PostController::class, 'quick_view'])->name('admin.post.quick_view');
+            });
         });
         Route::group(["prefix" => "editor"], function () {
             Route::get('/privacy-policy', [PolicyEditor::class, 'privacy'])->name('admin.editor.privacy');

@@ -131,23 +131,13 @@
                             </a>
                             <ul class="nk-menu-sub">
                                 <li class="nk-menu-item">
-                                    <a href="{{route('post.show')}}" class="nk-menu-link">
+                                    <a href="{{route('admin.post.index')}}" class="nk-menu-link">
                                         <span class="nk-menu-text">Posts</span>
                                     </a>
                                 </li>
                                 <li class="nk-menu-item">
-                                    <a href="{{route('post.create')}}" class="nk-menu-link">
+                                    <a href="{{route('admin.post.create')}}" class="nk-menu-link">
                                         <span class="nk-menu-text">Create Post</span>
-                                    </a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="{{route('tags.show')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Tags</span>
-                                    </a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="{{route('authors.show')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Authors</span>
                                     </a>
                                 </li>
                             </ul>

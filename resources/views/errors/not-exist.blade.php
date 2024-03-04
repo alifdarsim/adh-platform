@@ -17,7 +17,7 @@
             <div class="wide-xs mx-auto"><h3 class="nk-error-title">Link Not Exist</h3>
                 <p class="nk-error-text">We are very sorry for inconvenience. It looks like you’re tried to access a
                     page
-                    that either has been deleted or haven't been approved yet.</p>
+                    that either has been deleted or never exist.</p>
                 <a href="{{config('app.url')}}" class="btn btn-lg btn-danger mt-2">
                     Go To Home
                 </a>

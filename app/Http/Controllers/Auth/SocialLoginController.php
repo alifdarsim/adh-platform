@@ -26,7 +26,12 @@ class SocialLoginController extends Controller
         } catch (InvalidStateException $e) {
             $user = Socialite::driver($driver)->stateless()->user();
         }
+
         $user_type = request()->input('state');
+        $email = $user->email;
+        if (Str::contains($email, '@asiadealhub.com')) {
+            return redirect()->route('login.index', ['type' => $user_type])->with('admin_error', 'This email is reserved for admin and you are not registered yet. Please ask Super Admin to register your credential into the system.');
+        }
         $this->userDetails($user, $user_type, session()->get('timezone'));
         $this->updateUserAvatar($user, $driver);
         return redirect()->route($user_type == 'client' ? 'client.overview' : 'expert.overview');

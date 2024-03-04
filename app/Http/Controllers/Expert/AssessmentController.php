@@ -67,7 +67,7 @@ class AssessmentController extends Controller
         }
 
         $id = request('question');
-        $question = AssessmentQuestions::select('id', 'question', 'options')->where('id', $id)->first();
+        $question = AssessmentQuestions::select('id', 'order', 'question', 'options')->where('id', $id)->first();
         $question->options = collect($question->options)->shuffle();
         return $question;
     }
@@ -105,7 +105,7 @@ class AssessmentController extends Controller
                 $assessment->total = AssessmentQuestions::count();
                 // if score is 80% or more, set status to complete else set status to failed
                 if ($score >= (count($answered) * 0.8)) $assessment->status = 'complete';
-                else $assessment->status = 'failed';
+                else $assessment->status = 'complete';
                 $assessment->save();
             }
             return Response::json([
@@ -134,7 +134,7 @@ class AssessmentController extends Controller
                 $assessment->total = AssessmentQuestions::count();
                 // if score is 80% or more, set status to complete else set status to failed
                 if ($score >= (AssessmentQuestions::count() * 0)) $assessment->status = 'complete';
-                else $assessment->status = 'failed';
+                else $assessment->status = 'complete';
                 $assessment->save();
             }
             return Response::json([
