@@ -183,6 +183,14 @@
                 login();
             }
         });
+
+        @if (session('admin_error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Social Login Error',
+            text: 'This email is reserved for admins and admins cannot login using social account. Ask Super Admin to register you as an admin if you are not registered yet. User email and password to login into admin account.',
+        });
+        @endif
     </script>
 @endpush
 

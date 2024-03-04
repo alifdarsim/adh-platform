@@ -269,6 +269,11 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
     border-color: #e14954 !important;
 }
 
+.dark-mode .page-item.active .page-link{
+    background-color: #e14954 !important;
+    border-color: #e14954 !important;
+}
+
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before,
 .custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before,
 .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {

@@ -11,55 +11,47 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function show()
+    public function index()
     {
         $pages = CmsPage::all()->load('author');
         foreach ($pages as $page) $page->url = config('app.landing_page') . '/' . $page->type . '/' . $page->slug;
-        return view('admin.cms.list', [
-            'pages' => $pages
-        ]);
+        return view('admin.cms.post.index', compact('pages'));
     }
 
     public function create()
     {
-        $tags = CmsTag::all();
-        $authors = CmsAuthor::all();
-        return view('admin.cms.add', [
-            'tags' => $tags,
-            'authors' => $authors,
-        ]);
+        return view('admin.cms.post.create');
     }
 
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $id = $request->id;
         $page = CmsPage::where('id', $id)->first();
-        if (!$page) return redirect()->route('post.show');
-        $tags = CmsTag::all();
-        $authors = CmsAuthor::all();
-        return view('admin.cms.edit', [
-            'page' => $page,
-            'tags' => $tags,
-            'authors' => $authors,
-        ]);
+        if (!$page) return view('errors.not-exist');
+        return view('admin.cms.post.edit', compact('page'));
     }
 
     public function update(Request $request)
     {
+        // get page content
         $request->validate([
             'title' => 'required|max:255|min:3',
-            'tags' => 'required',
+            'slug' => 'required|max:255|min:3',
+            'type' => 'required|max:255|min:1',
+            'status' => 'required|max:255|min:1',
+            'author' => 'required|max:255|min:1',
             'content' => 'required|min:3',
+            'post_date' => 'required|date',
         ]);
 
+        // if image is not update then use the old image
         $data = [
             'title' => $request->title,
             'type' => $request->type,
-            'tags' => $request->tags,
             'slug' => $request->slug,
-            'content' => $request->input('content'),  // You can use input() method directly
+            'content' => $request["content"],
             'status' => $request->status,
-            'author_id' => $request->author_id,
+            'author' => $request->author,
+            'post_date' => $request->post_date,
         ];
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -69,11 +61,17 @@ class PostController extends Controller
         }
 
         $updated = CmsPage::where('id', $request->id)->update($data);
-
-        return [
-            'success' => $updated,
-            'message' => $updated ? 'Page updated successfully' : 'Page not updated',
-        ];
+        if ($updated) {
+            return [
+                'success' => true,
+                'message' => 'Page updated successfully'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Page not updated'
+            ];
+        }
     }
 
 
@@ -81,11 +79,10 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255|min:3',
-            'tags' => 'required',
             'slug' => 'required|max:255|min:3',
             'type' => 'required|max:255|min:1',
             'status' => 'required|max:255|min:1',
-            'author_id' => 'required|max:255|min:1',
+            'author' => 'required|max:255|min:1',
             'content' => 'required|min:3',
             'post_date' => 'required|date',
         ]);
@@ -95,12 +92,11 @@ class PostController extends Controller
         $inserted = CmsPage::insert([
             'title' => $request->title,
             'type' => $request->type,
-            'tags' => $request->tags,
             'slug' => $request->slug,
             'featured_image_path' => "/storage/$path",
             'content' => $request["content"],
             'status' => $request->status,
-            'author_id' => $request->author_id,
+            'author' => $request->author,
             'post_date' => $request->post_date,
         ]);
 
@@ -139,6 +135,15 @@ class PostController extends Controller
                 'message' => $e
             ];
         }
+    }
+
+    public function datatable()
+    {
+        $pages = CmsPage::all();
+        foreach ($pages as $page) $page->url = config('app.landing_page') . '/' . $page->type . '/' . $page->slug;
+        return datatables()->of($pages)
+            ->make(true);
+
     }
 
     public function quick_view(Request $request)
