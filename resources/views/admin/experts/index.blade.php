@@ -275,6 +275,7 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a class="clickable" onclick="setIndustry('${row.name}', '${row.img_url}', '${row.url.replace('https://www.linkedin.com/in/','')}', '${row.main_industry}', '${row.sub_industry}', ${row.id})"><em class="icon ni ni-building-fill"></em><span>Set Industry Classification</span></a></li>
+                                                <li><a class="clickable" onclick="setContact(${data}, '${row.email}')"><em class="icon ni ni-mail"></em><span>Set Contact</span></a></li>
                                                 <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>
                                                 <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
@@ -461,5 +462,42 @@
                 }
             });
         }
+
+        function setContact(id, email) {
+            Swal.fire({
+                title: 'Set Contact',
+                input: 'text',
+                inputLabel: 'Contact',
+                inputPlaceholder: 'Enter contact',
+                inputValue: email !== 'null' ? email : ' ',
+                showCancelButton: true,
+                confirmButtonText: 'Set',
+                showLoaderOnConfirm: true,
+                preConfirm: (email) => {
+                    return $.ajax({
+                        url: '{{route('admin.experts.set-contact')}}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            expert_id: id,
+                            email: email
+                        },
+                        success: function (data) {
+                            _Swal.success(data.message);
+                            table.ajax.reload();
+                        },
+                        error: function (data) {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            )
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+        }
+
     </script>
 @endpush
