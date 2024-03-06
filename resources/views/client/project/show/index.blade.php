@@ -48,6 +48,12 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="/assets/js/apps/file-manager.js?ver=3.2.2"></script>
     <script>
+        let tagsElement;
+        $(document).ready(function () {
+            $('#communication_language').val({!! collect($project->projectTargetInfo->communication_language)->map(fn($item) =>  $item )->implode(',') !!}).trigger('change');
+            $('#target_keyword').tagify().data('tagify').addTags('{{$project->keywords->pluck('name')->implode(',  ')}}');
+            tagsElement = $('.tagify').tagify();
+        });
 
         function sendRespond(status) {
             $.ajax({

@@ -17,7 +17,12 @@ class ProjectTargetInfo extends Model
 
     public function industry(): Model|HasOne
     {
-        return $this->hasOne(Industry::class, 'id', 'industry_id');
+        return $this->hasOne(IndustryExpert::class, 'id', 'industry_id');
     }
+
+//    public function industry(): Model|HasOne
+//    {
+//        return $this->hasOne(Industry::class, 'id', 'industry_id');
+//    }
 
 }

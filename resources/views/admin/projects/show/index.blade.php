@@ -14,7 +14,7 @@
                         <ul class="nk-block-tools g-3">
                             <li class="nk-block-tools-opt">
                                 <div class="drodown">
-                                    <a id="award_btn" onclick="openAwardModal()" class="btn btn-white btn-primary {{$project->status == 'pending' ? 'disabled' : ''}}"><i class="fa-solid fa-award fs-6 tw-ms-0.5 me-3"></i><span>Close & Award This Project</span></a>
+                                    <a id="award_btn" onclick="openAwardModal()" class="btn btn-white btn-primary {{$project->status == 'pending' ? 'disabled' : ''}}"><i class="fa-solid fa-award fs-6 tw-ms-0.5 me-3"></i><span>Award Project to an Expert</span></a>
                                 </div>
                             </li>
                         </ul>

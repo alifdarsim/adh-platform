@@ -27,6 +27,14 @@ class CompaniesController extends Controller
             ->get();
     }
 
+    public function get($id)
+    {
+        return Company::select(['id', 'name', 'website', 'establish', 'type_id', 'img_url'])
+            ->where('id', $id)
+            ->with('address', 'type')
+            ->first();
+    }
+
     public function types()
     {
         return CompanyType::all();

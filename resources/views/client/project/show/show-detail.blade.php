@@ -84,20 +84,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label class="form-label" for="target_industry">Target Industry Classification</label>
-                            <div class="form-control-wrap">
-                                <input id="target_industry" type="text"
-                                       class="form-control" value="{{$project->projectTargetInfo->industry->name ?? ''}}" disabled>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-6 mt-2">
                         <div class="form-group">
                             <label class="form-label" for="target_company_size">Target Company Size</label>
                             <div class="form-control-wrap">
                                 <input id="target_company_size" type="text" class="form-control" value="{{$project->projectTargetInfo->company_size}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label" for="target_industry">Main Industry Classification</label>
+                            <div class="form-control-wrap">
+                                <input id="target_industry" type="text"
+                                       class="form-control" value="{{$project->projectTargetInfo->industry->main ?? ''}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label" for="target_industry">Sub Industry Classification</label>
+                            <div class="form-control-wrap">
+                                <input id="target_industry" type="text"
+                                       class="form-control" value="{{$project->projectTargetInfo->industry->sub ?? ''}}" disabled>
                             </div>
                         </div>
                     </div>

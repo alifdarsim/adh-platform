@@ -111,17 +111,6 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-label" for="target_industry">Target Industry Classification<span class="text-danger"> *</span></label>
-                            <div class="form-control-wrap">
-                                <select class="form-select" id="target_industry" name="target_industry"
-                                        data-placeholder="Select Industry Type" data-search="on" required>
-                                    <option value=""></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 mt-2">
-                        <div class="form-group">
                             <label class="form-label" for="target_company_size">Target Company Size</label>
                             <div class="form-control-wrap">
                                 <select class="form-select js-select2" id="target_company_size"
@@ -140,6 +129,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label" for="main-industry">Main Industry Classification</label>
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2 select2-hidden-accessible" id="main-industry">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label" for="sub-industry">Sub Industry Classification</label>
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2 select2-hidden-accessible" id="sub-industry">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+{{--                    <div class="col-6">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label class="form-label" for="target_industry">Target Industry Classification<span class="text-danger"> *</span></label>--}}
+{{--                            <div class="form-control-wrap">--}}
+{{--                                <select class="form-select" id="target_industry" name="target_industry"--}}
+{{--                                        data-placeholder="Select Industry Type" data-search="on" required>--}}
+{{--                                    <option value=""></option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
                     <div class="col-6 mt-2">
                         <div class="form-group">
                             <label class="form-label" for="communication_language">Preferred Communication Language</label>
@@ -215,17 +234,16 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-        <div class="card card-bordered">
+        <div class="card card-bordered mt-3">
             <div class="card-inner">
                 <h5 class="title">4. Submit Project</h5>
                 <div class="col-6 pt-3">
                     <div class="form-group tw-flex tw-justify-items-center">
                         <label class="form-label mt-1 me-2 tw-cursor-default" for="owner">Project Created By: </label>
-                        <input type="text" class="ps-2 tw-w-72" id="owner" name="project-name" value="{{auth()->user()->name}}" disabled required>
+                        <input type="text" class="ps-2 tw-w-72" id="owner" name="owner" value="{{auth()->user()->name}}" disabled required>
                     </div>
                 </div>
                 <div class="col-4">
@@ -243,16 +261,16 @@
     <script>
         // create fake data
         function initFakeData(){
-            // $('#project-name').val('Seeking investor/operator for large-scale noodles company in Thailand');
-            // $('#project-description').val('One of the noodles company in Thailand is looking to develop a large-scale noodles manufacturing and distribution company in Thailand. Seeking an international strategic partner that would invest $100M+ and operate a 10 million noodle packages per year.');
-            // $('#hub').val('2').trigger('change');
-            // $('#deadline').val('30/01/2024');
-            // $('#target_company_size').val('1001-5000').trigger('change');
-            // $('#communication_language').val(['English', 'Chinese', 'Japanese']).trigger('change');
-            // $('#target_industry').val('1').trigger('change');
-            // $('#target_country').val(['1', '2', '3']).trigger('change');
-            // $('#target_keyword').data('tagify').addTags('Noodles, Food Processing, Packaging');
-            // $('#q1').val('What is the main key products your company sells?');
+            $('#project-name').val('Seeking investor/operator for large-scale noodles company in Thailand');
+            $('#project-description').val('One of the noodles company in Thailand is looking to develop a large-scale noodles manufacturing and distribution company in Thailand. Seeking an international strategic partner that would invest $100M+ and operate a 10 million noodle packages per year.');
+            $('#hub').val('2').trigger('change');
+            $('#deadline').val('30/01/2024');
+            $('#target_company_size').val('1001-5000').trigger('change');
+            $('#communication_language').val(['English', 'Chinese', 'Japanese']).trigger('change');
+            $('#target_industry').val('1').trigger('change');
+            $('#target_country').val(['1', '2', '3']).trigger('change');
+            $('#target_keyword').data('tagify').addTags('Noodles, Food Processing, Packaging');
+            $('#q1').val('What is the main key products your company sells?');
         }
 
         tagifyInit();
@@ -413,7 +431,7 @@
                     hub: $('#hub').val(),
                     deadline: $('#deadline').val(),
                     target_country: $('#target_country').val(),
-                    target_industry: $('#target_industry').val(),
+                    target_industry: $('#sub-industry').val(),
                     target_company_size: $('#target_company_size').val(),
                     target_keyword: JSON.parse($('#target_keyword').val()).map(e => e.value),
                     communication_language: $('#communication_language').val(),
@@ -454,10 +472,44 @@
         }
 
         $(document).ready(function () {
+            @if(!$company)
             $('.form-control').attr('disabled', true)
             $('.js-select2').select2("enable", false)
             $('.js-select2').select2("enable", false)
             $('#submitBtn').addClass('disabled').html('Please assign Organization to submit project')
+            @endif
+        });
+
+        $( document ).ready(function() {
+            $.ajax({
+                url: '{{route('industries_expert.main')}}',
+                method: 'GET',
+                success: function (response) {
+                    response.forEach(function (industry) {
+                        $('#main-industry').append('<option value="'+industry+'">'+industry+'</option>');
+                    });
+                }
+            });
+        });
+
+        let sub_industry_classification;
+        $('#main-industry').on('change', function () {
+            let main = $(this).val();
+            if (main === null) return;
+            main = main.replaceAll('/', '_');
+            $.ajax({
+                url: '{{route('industries_expert.sub','')}}/'+main,
+                method: 'GET',
+                success: function (response) {
+                    $('#sub-industry').empty();
+                    response.forEach(function (industry) {
+                        $('#sub-industry').append('<option value="'+industry.id+'">'+industry.sub+'</option>');
+                    });
+                    if (sub_industry_classification) {
+                        $('#sub-industry').val(sub_industry_classification).trigger('change');
+                    }
+                }
+            });
         });
     </script>
 @endpush
