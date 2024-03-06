@@ -11,7 +11,7 @@
                 <span class="nio-version tw-text-slate-300">ADMIN DASHBOARD</span>
             </a>
         </div>
-    </div><!-- .nk-sidebar-element -->
+    </div>
     <div class="nk-sidebar-element nk-sidebar-body">
         <div class="nk-sidebar-content">
             <div class="nk-sidebar-menu" data-simplebar>
@@ -78,11 +78,13 @@
                                     <span class="nk-menu-text">Member List</span>
                                 </a>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="{{route('admin.admins.create')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Create Member</span>
-                                </a>
-                            </li>
+                            @if(auth()->user()->hasRole('super admin'))
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.admins.create')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Create Member</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                     <li class="nk-menu-item has-sub">
@@ -103,6 +105,7 @@
                             </li>
                         </ul>
                     </li>
+                    @if (auth()->user()->hasRole('super admin'))
                     <seciton>
                         <li class="nk-menu-heading pt-3">
                             <h6 class="overline-title text-primary-alt">SYSTEM SETTING</h6>
@@ -142,6 +145,7 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-newspaper fs-5"></i></span>
@@ -165,13 +169,15 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nk-menu-item">
-                            <a href="{{route('quiz.show')}}" class="nk-menu-link">
-                                <span class="nk-menu-icon"><i class="fa-regular fa-user-helmet-safety fs-5"></i></span>
-                                <span class="nk-menu-text">Expert Assessment</span>
-                            </a>
-                        </li>
+                            <li class="nk-menu-item">
+                                <a href="{{route('quiz.show')}}" class="nk-menu-link">
+                                    <span class="nk-menu-icon"><i class="fa-regular fa-user-helmet-safety fs-5"></i></span>
+                                    <span class="nk-menu-text">Expert Assessment</span>
+                                </a>
+                            </li>
                     </seciton>
+                    @endif
+
                     <section>
                         <li class="nk-menu-heading">
                             <h6 class="overline-title text-primary-alt">Misc</h6>
@@ -179,7 +185,7 @@
                         <li class="nk-menu-item">
                             <a href="{{route('admin.account.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-address-card fs-5"></i></span>
-                                <span class="nk-menu-text">User Profile</span>
+                                <span class="nk-menu-text">Account Settings</span>
                             </a>
                         </li>
                         <li class="nk-menu-item">

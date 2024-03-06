@@ -216,7 +216,11 @@
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
+                                             @if(auth()->user()->hasRole('super admin'))
                                                 <li><a onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                             @else
+                                                <li><a class="text-muted tw-cursor-not-allowed"><em class="icon ni ni-trash"></em><span>Remove (Not Allowed)</span></a></li>
+                                             @endif
                                             </ul>
                                         </div>
                                     </div>

@@ -933,11 +933,14 @@
                     </filter>
                 </defs>
             </svg>
-            <div class="wide-xs mx-auto"><h3 class="nk-error-title">Unauthorized Access</h3>
-                <p class="nk-error-text">This page currently is not accessible for you. Please contact support if you
-                    think this is an error.</p>
+            <div class="wide-xs mx-auto"><h3 class="nk-error-title">Wrong Role Access</h3>
+                <p class="nk-error-text">You're trying to access function that different than your current logged in role. You may want to logged out first, then login using correct role.</p>
                 <a href="{{config('app.url')}}" class="btn btn-lg btn-danger mt-2">
-                    Go To Dashboard
+                    Back To Dashboard
+                </a>
+                <br>
+                <a href="{{route('logout', session('user_type'))}}" class="btn btn-lg btn-secondary mt-2">
+                    Log Out
                 </a>
             </div>
         </div>

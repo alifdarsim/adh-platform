@@ -30,7 +30,7 @@ class ProjectController extends Controller
     public function show($pid)
     {
         $project = Projects::where('pid', $pid)->first();
-//        return $project;
+        if (!$project) return view('errors.not-exist');
         return view('client.project.show.index', compact('project'));
     }
 

@@ -20,7 +20,9 @@
                                 <a class="tw-cursor-default btn btn-success">
                                     <em class="d-none d-sm-inline icon ni ni-check me-1"></em>Invitation Accepted
                                 </a>
-                                <p>You will be notified when the client select you for this project.</p>
+                                <div class="alert alert-success mt-2">
+                                    <p>Expert selection is in progress. You will be notified through email once the client selects you.</p>
+                                </div>
                             </div>
                         @else
                             <div class="drodown">
@@ -39,12 +41,12 @@
                     <div class="border my-3"></div>
 {{--                    @dd($project->answered()->answers)--}}
                     <div class="pb-2">
-                        <div class="d-flex">
-                            <p class="tw-font-semibold tw-text-gray-700 me-2 mb-0 pt-1 fs-16px">Client Questions Answered: {{count(array_filter($project->answered() == null ? [] : $project->answered()->answers ))}} / {{count($project->questions)}}</p>
-                        </div>
-                        <a onclick="answerEnquiries()" class="btn btn-outline-secondary btn-sm mt-1">Answer Enquiries</a>
-                        <div class="alert-success py-0 sub-text mt-1">
+                        <div class="alert alert-secondary">
                             <p>* To be rank high in the selection process, you may want to answer several enquiries from the client. This will help the client to understand your expertise and experience in the field.</p>
+                            <div class="d-flex">
+                                <p class="tw-font-semibold tw-text-gray-700 me-2 mb-0 pt-1 fs-16px">Client Questions Answered: {{count(array_filter($project->answered() == null ? [] : $project->answered()->answers ))}} / {{count($project->questions)}}</p>
+                                <a onclick="answerEnquiries()" class="btn btn-primary btn-sm mt-1">Answer Enquiries</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,7 +206,7 @@
                                 icon: 'success',
                                 confirmButtonText: 'Answer Client Questions',
                                 showCancelButton: true,
-                                cancelButtonText: 'OK'
+                                cancelButtonText: 'Will Answer Later'
                             }).then((result) => {
                                 if (result.isConfirmed) answerEnquiries();
                             })

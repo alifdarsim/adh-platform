@@ -157,7 +157,7 @@
                             <div class="card-inner-group" style="border-right: 1px #333b45">
                                 <div class="card-inner">
                                     <h5>Let’s Finish Profile</h5>
-                                    <p>Only few minutes required to complete your profile and set up your account.</p>
+                                    <p>In order to rank higher in selection process, you might want to complete your expert profile for the client to review.</p>
                                 </div>
                                 <div class="card-inner">
                                     <ul class="list list-step">

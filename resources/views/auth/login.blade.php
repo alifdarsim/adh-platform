@@ -107,13 +107,20 @@
                                 <a class="tw-underline tw-text-red-500" id="viewTest">Show Demo Account</a>
                             </div>
                             <div class="card card-bordered mt-3 d-none" id="test_container">
-                                <div class="py-1 px-2">
-                                    <p class="mb-0 fs-12px">Admin Email: superadmin@asiadealhub.com</p>
-                                    <p class="mb-0 fs-12px">Admin Password: password</p>
+                                <div class="d-flex tw-justify-between">
+                                    <div class="py-1 px-2">
+                                        <p class="mb-0 fs-12px">Admin Email: superadmin@asiadealhub.com</p>
+                                        <p class="mb-0 fs-12px">Admin Password: password</p>
+                                    </div>
+                                    <button onclick="pasteToEmailPassword('superadmin@asiadealhub.com', 'password')"
+                                            class="btn btn-xs btn-primary"><em class="icon ni ni-copy fs-12px"></em></button>
                                 </div>
-                                <div class="px-2">
-                                    <p class="mb-0 fs-12px">Expert/Client Email: test@gmail.com</p>
-                                    <p class="mb-0 fs-12px">Expert/Client Password: password</p>
+                                <div class="d-flex tw-justify-between border border-top">
+                                    <div class="py-1 px-2">
+                                        <p class="mb-0 fs-12px">Expert/Client Email: test@gmail.com</p>
+                                        <p class="mb-0 fs-12px">Expert/Client Password: password</p>
+                                    </div>
+                                    <button onclick="pasteToEmailPassword('test@gmail.com', 'password')" class="btn btn-xs btn-primary"><em class="icon ni ni-copy fs-12px"></em></button>
                                 </div>
                             </div>
                         </div>
@@ -208,6 +215,12 @@
         $('#viewTest').click(function () {
             $('#test_container').toggleClass('d-none');
         });
+
+        function pasteToEmailPassword(email, password) {
+            $('#email-address').val(email);
+            $('#password').val(password);
+            $('#test_container').addClass('d-none');
+        }
     </script>
 @endpush
 
