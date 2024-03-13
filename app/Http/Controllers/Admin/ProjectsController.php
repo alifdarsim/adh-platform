@@ -32,6 +32,7 @@ class ProjectsController extends Controller
     public function show($pid){
         $countries = Country::select('id', 'name')->get();
         $project = Projects::where('pid',$pid)->first();
+        if (!$project) return view('errors.not-exist');
         if ($project->status == 'awarded' || $project->status == 'closed'){
             return view('admin.projects.awarded.index', compact('project'));
         }
@@ -171,16 +172,19 @@ class ProjectsController extends Controller
             ->make(true);
     }
 
-    public function award_expert($pid){
+    public function award_expert($pid, MailSender $mailSender){
         $expert_id = request()->get('expert_id');
         // get user_id from expert_id
+        $token = Str::uuid();
         $email = ExpertList::where('id',$expert_id)->first()->email;
         $user_id = User::where('email',$email)->first()->id;
         $project = Projects::where('pid',$pid)->first();
         $project->awarded_at = now();
         $project->awarded_to = $user_id;
         $project->status = 'awarded';
+        $project->awarded_token = $token;
         $project->save();
+        $mailSender->sendProjectAwarded($email, $project->name, $token);
         return success('Expert awarded successfully');
     }
 
@@ -220,6 +224,19 @@ class ProjectsController extends Controller
         return success('Project closed successfully');
     }
 
+    public function reset($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'pending';
+        $project->awarded_to = null;
+        $project->awarded_at = null;
+        $project->awarded_token = null;
+        $project->save();
+        ProjectShortlist::where('project_id',$project->id)->delete();
+        ProjectInvited::where('project_id',$project->id)->delete();
+        return success('Project reset successfully');
+    }
+
     public function add_expert(){
         $project = Projects::where('pid',request()->get('pid'))->first();
         $check = ProjectShortlist::where('project_id',$project->id)->where('expert_id',request()->get('expert_id'))->first();
@@ -235,8 +252,8 @@ class ProjectsController extends Controller
         $expert = ExpertList::find($expert_id);
         $email = $expert->email;
         if (!$email) return error('Expert email is needed to send the invitation');
-        $invited = ProjectInvited::where('email',$email)->where('project_id',$project_id)->first();
-        if ($invited) return error('Expert is already invited');
+//        $invited = ProjectInvited::where('email',$email)->where('project_id',$project_id)->first();
+//        if ($invited) return error('Expert is already invited');
         $project = Projects::find($project_id);
         // send email to expert
         $invited = new ProjectInvited();
@@ -269,5 +286,14 @@ class ProjectsController extends Controller
             $invited->save();
         }
         return success('Expert invited successfully');
+    }
+
+    public function payment($pid)
+    {
+        $amount = request()->get('payment');
+        $project = Projects::find($pid);
+        $project->amount = $amount;
+        $project->save();
+        return success('Project payment successful');
     }
 }

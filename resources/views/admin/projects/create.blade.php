@@ -19,7 +19,7 @@
                     <div class="row g-3">
                         <div class="col-7">
                             <div class="form-group">
-                                <label class="form-label" for="select_company">Which company this project for?</label>
+                                <label class="form-label" for="select_company">Create project on behalf of which company?</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select"
                                             id="select_company" name="select_company"
@@ -126,17 +126,6 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-label" for="target_industry">Target Industry Classification<span class="text-danger"> *</span></label>
-                            <div class="form-control-wrap">
-                                <select class="form-select" id="target_industry" name="target_industry"
-                                        data-placeholder="Select Industry Type" data-search="on" required>
-                                    <option value=""></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 mt-2">
-                        <div class="form-group">
                             <label class="form-label" for="target_company_size">Target Company Size</label>
                             <div class="form-control-wrap">
                                 <select class="form-select js-select2" id="target_company_size"
@@ -155,6 +144,35 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label" for="main-industry">Main Industry Classification</label>
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2 select2-hidden-accessible" id="main-industry">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label" for="sub-industry">Sub Industry Classification</label>
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2 select2-hidden-accessible" id="sub-industry">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+{{--                    <div class="col-6">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label class="form-label" for="target_industry">Target Industry Classification<span class="text-danger"> *</span></label>--}}
+{{--                            <div class="form-control-wrap">--}}
+{{--                                <select class="form-select" id="target_industry" name="target_industry"--}}
+{{--                                        data-placeholder="Select Industry Type" data-search="on" required>--}}
+{{--                                    <option value=""></option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-6 mt-2">
                         <div class="form-group">
                             <label class="form-label" for="communication_language">Preferred Communication Language</label>
@@ -270,6 +288,7 @@
         //     $('#q1').val('What is the main key products your company sells?');
         // }
 
+        $('#deadline').datepicker('setDate', new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()));
         tagifyInit();
         function tagifyInit(){
             $('#target_keyword').tagify({
@@ -428,7 +447,7 @@
                     hub: $('#hub').val(),
                     deadline: $('#deadline').val(),
                     target_country: $('#target_country').val(),
-                    target_industry: $('#target_industry').val(),
+                    target_industry: $('#sub-industry').val(),
                     target_company_size: $('#target_company_size').val(),
                     target_keyword: JSON.parse($('#target_keyword').val()).map(e => e.value),
                     communication_language: $('#communication_language').val(),
@@ -467,6 +486,38 @@
                 }
             });
         }
+
+        $( document ).ready(function() {
+            $.ajax({
+                url: '{{route('industries_expert.main')}}',
+                method: 'GET',
+                success: function (response) {
+                    response.forEach(function (industry) {
+                        $('#main-industry').append('<option value="'+industry+'">'+industry+'</option>');
+                    });
+                }
+            });
+        });
+
+        let sub_industry_classification;
+        $('#main-industry').on('change', function () {
+            let main = $(this).val();
+            if (main === null) return;
+            main = main.replaceAll('/', '_');
+            $.ajax({
+                url: '{{route('industries_expert.sub','')}}/'+main,
+                method: 'GET',
+                success: function (response) {
+                    $('#sub-industry').empty();
+                    response.forEach(function (industry) {
+                        $('#sub-industry').append('<option value="'+industry.id+'">'+industry.sub+'</option>');
+                    });
+                    if (sub_industry_classification) {
+                        $('#sub-industry').val(sub_industry_classification).trigger('change');
+                    }
+                }
+            });
+        });
 
     </script>
 @endpush

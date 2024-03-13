@@ -9,6 +9,10 @@ class OverviewController extends Controller
 {
     public function index()
     {
-        return view('client.overview');
+        $projects = auth()->user()->client->projects;
+        $projects = $projects->filter(function($project){
+            return $project->createdBy->id == auth()->user()->id;
+        });
+        return view('client.overview', compact('projects'));
     }
 }

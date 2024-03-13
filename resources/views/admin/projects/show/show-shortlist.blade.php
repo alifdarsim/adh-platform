@@ -16,7 +16,7 @@
             </div>
             <div class="card-tools me-n1">
                 <ul class="btn-toolbar gx-1">
-                    <button id="award_btn" class="btn btn-sm bg-outline-info hover:tw-text-white hover:tw-bg-blue-500 {{$project->status == 'pending' ? 'disabled' : ''}}" onclick="inviteAll()"><i class="fa-solid fa-envelope fs-6 tw-ms-0.5 me-3"></i><span>Invite All</span></button>
+                    <button id="invite_all" class="btn btn-sm bg-outline-info hover:tw-text-white hover:tw-bg-blue-500 {{$project->status == 'pending' ? 'disabled' : ''}}" onclick="inviteAll()"><i class="fa-solid fa-envelope fs-6 tw-ms-0.5 me-3"></i><span>Invite All</span></button>
                     <button id="add_expert_btn" class="ms-2 btn btn-sm bg-outline-info  hover:tw-text-white hover:tw-bg-blue-500 {{$project->status == 'pending' ? 'disabled' : ''}}" onclick="openModal()"><em class="icon ni ni-plus"></em><span>Add Shortlisted Expert</span></button>
                 </ul>
             </div>
@@ -95,7 +95,7 @@
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" onclick="invite(${row.expert_id})"><em class="icon ni ni-user-add"></em><span>Invite To Project</span></a></li>
+                                                <li><a class="clickable" onclick="invite(${row.expert_id}, ${row.invited})"><em class="icon ni ni-user-add"></em><span>Invite To Project</span></a></li>
                                                 <li><a class="clickable" onclick="setContact(${row.expert_id})"><em class="icon ni ni-mail"></em><span>Set Contact</span></a></li>
                                                 <li><a class="clickable" onclick="remove(${row.expert_id})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
@@ -176,32 +176,61 @@
             })
         }
 
-        function invite(expert_id) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Send invitation to this expert?",
-                icon: 'info',
-                showCancelButton: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    _Swal.loading('Sending invitation', 'Pleas wait...');
-                    $.ajax({
-                        url: '{{route('admin.projects.invite-expert',['project_id' => $project->id, ''])}}/' + expert_id,
-                        type: 'GET',
-                        data: {
-                            _token: '{{csrf_token()}}'
-                        },
-                        success: function (data) {
-                            Swal.close();
-                            _Swal.success(data.message);
-                            window['datatable'].ajax.reload();
-                        },
-                        error: function (data) {
-                            _Swal.error(data.responseJSON.message)
-                        }
-                    });
-                }
-            })
+        function invite(expert_id, invited) {
+            if (invited) {
+                Swal.fire({
+                    title: 'Already Invited',
+                    text: "Do you want to send invitation again?",
+                    icon: 'info',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        _Swal.loading('Sending invitation', 'Pleas wait...');
+                        $.ajax({
+                            url: '{{route('admin.projects.invite-expert',['project_id' => $project->id, ''])}}/' + expert_id,
+                            type: 'GET',
+                            data: {
+                                _token: '{{csrf_token()}}'
+                            },
+                            success: function (data) {
+                                Swal.close();
+                                _Swal.success(data.message);
+                                window['datatable'].ajax.reload();
+                            },
+                            error: function (data) {
+                                _Swal.error(data.responseJSON.message)
+                            }
+                        });
+                    }
+                });
+            }
+            else{
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Send invitation to this expert?",
+                    icon: 'info',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        _Swal.loading('Sending invitation', 'Pleas wait...');
+                        $.ajax({
+                            url: '{{route('admin.projects.invite-expert',['project_id' => $project->id, ''])}}/' + expert_id,
+                            type: 'GET',
+                            data: {
+                                _token: '{{csrf_token()}}'
+                            },
+                            success: function (data) {
+                                Swal.close();
+                                _Swal.success(data.message);
+                                window['datatable'].ajax.reload();
+                            },
+                            error: function (data) {
+                                _Swal.error(data.responseJSON.message)
+                            }
+                        });
+                    }
+                });
+            }
         }
 
         function openModal() {
@@ -211,7 +240,7 @@
         function inviteAll(){
             Swal.fire({
                 title: 'Send Invitation?',
-                text: "Send invitation to all uninvited shortlisted expert?",
+                text: "Send invitation to all uninvited shortlisted expert? Already send invitation will not be send again. Confirm?",
                 icon: 'info',
                 showCancelButton: true,
             }).then((result) => {

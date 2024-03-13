@@ -1,9 +1,15 @@
+@php
+    $projects = auth()->user()->client->projects;
+    $projects = $projects->filter(function ($project) {
+        return $project->createdBy->name == auth()->user()->name;
+    });
+@endphp
 @extends('layouts.user.main')
 @section('content')
 
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
-            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Manage Your Project</h3>
+            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Project Created By You</h3>
                 <div class="nk-block-des text-soft"><p>Manage all projects that you create as a Client</p></div>
             </div>
             <div class="nk-block-head-content">
@@ -22,7 +28,8 @@
         </div>
     </div>
     <div class="nk-block">
-        @if(auth()->user()->client->projects->count() == 0)
+
+        @if($projects->count() == 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
                 <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
@@ -133,11 +140,11 @@
                                                 </li>
                                             </ul><!-- .btn-toolbar -->
                                         </div><!-- .toggle-content -->
-                                    </div><!-- .toggle-wrap -->
-                                </li><!-- li -->
-                            </ul><!-- .btn-toolbar -->
-                        </div><!-- .card-tools -->
-                    </div><!-- .card-title-group -->
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="card-search search-wrap" data-search="search">
                         <div class="card-body">
                             <div class="search-content">
@@ -146,8 +153,8 @@
                                 <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
                             </div>
                         </div>
-                    </div><!-- .card-search -->
-                </div><!-- .card-inner -->
+                    </div>
+                </div>
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">

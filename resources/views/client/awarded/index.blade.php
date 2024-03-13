@@ -30,27 +30,27 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#contract">
                             <i class="fa-regular fa-file-signature me-1"></i><span>Contract</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#payment">
-                            <i class="fa-regular fa-money-bill me-1"></i><span>Payment</span></a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link" data-bs-toggle="tab" href="#payment">--}}
+{{--                            <i class="fa-regular fa-money-bill me-1"></i><span>Payment</span></a>--}}
+{{--                    </li>--}}
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="detail">
-                        @include('expert.awarded._details')
+                        @include('client.awarded._details')
                     </div>
                     <div class="tab-pane" id="meeting">
-                        @include('expert.awarded._meeting')
+                        @include('client.awarded._meeting')
                     </div>
                     <div class="tab-pane" id="chatLink">
-                        @include('expert.awarded._chat')
+                        @include('client.awarded._chat')
                     </div>
                     <div class="tab-pane" id="contract">
-                        @include('expert.awarded._contract')
+                        @include('client.awarded._contract')
                     </div>
-                    <div class="tab-pane" id="payment">
-                        @include('expert.awarded._payment')
-                    </div>
+{{--                    <div class="tab-pane" id="payment">--}}
+{{--                        @include('client.awarded._payment')--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>

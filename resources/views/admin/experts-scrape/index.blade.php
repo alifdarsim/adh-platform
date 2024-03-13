@@ -216,10 +216,6 @@
         function scrape(id) {
             _Swal.loading('Scraping profile', 'Please wait...');
             // set timeout to simulate the request
-            setTimeout(() => {
-                _Swal.error('API Limit reached, please upgrade API LinkedIn scraping plan.', 'API Limit')
-            }, 1000)
-            return;
             $.ajax({
                 url: `{{route('admin.expert_scrape.scrape','')}}/${id}`,
                 type: 'GET',

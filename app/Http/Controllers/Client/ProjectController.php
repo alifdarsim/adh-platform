@@ -16,7 +16,9 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = auth()->user()->client->projects;
-//        return $projects;
+        $projects = $projects->filter(function($project){
+            return $project->createdBy->id == auth()->user()->id;
+        });
         return view('client.project.index');
     }
 
@@ -31,6 +33,7 @@ class ProjectController extends Controller
     {
         $project = Projects::where('pid', $pid)->first();
         if (!$project) return view('errors.not-exist');
+        if ($project->status == 'awarded') return view('client.awarded.index', compact('project'));
         return view('client.project.show.index', compact('project'));
     }
 
@@ -70,8 +73,12 @@ class ProjectController extends Controller
 
     public function datatable()
     {
-        $project = auth()->user()->client->projects;
-        return datatables()->of($project)
+        $projects = auth()->user()->client->projects;
+        // if created_by is not this user, then it is not his project
+        $projects = $projects->filter(function($project){
+            return $project->createdBy->id == auth()->user()->id;
+        });
+        return datatables()->of($projects)
             ->addColumn('action', function ($project) {
                 return '<a href="' . route('admin.projects.edit', $project->id) . '" class="btn btn-sm btn-primary">Edit</a>';
             })

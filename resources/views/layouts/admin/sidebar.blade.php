@@ -122,6 +122,30 @@
                                 <span class="nk-menu-text">Industry Classification</span>
                             </a>
                         </li>
+{{--                        <li class="nk-menu-item">--}}
+{{--                            <a href="{{route('admin.contract.index')}}" class="nk-menu-link">--}}
+{{--                                <span class="nk-menu-icon"><i class="fa-regular fa-file-signature fs-5"></i></span>--}}
+{{--                                <span class="nk-menu-text">Default Contract</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-file-signature fs-5"></i></span>
+                                <span class="nk-menu-text">Contract</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.contract.show', 'expert')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Expert Contract</span>
+                                    </a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{route('admin.contract.show', 'client')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Client Contract</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </seciton>
                     <seciton>
                         <li class="nk-menu-heading pt-3">
@@ -169,12 +193,12 @@
                                 </li>
                             </ul>
                         </li>
-                            <li class="nk-menu-item">
-                                <a href="{{route('quiz.show')}}" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><i class="fa-regular fa-user-helmet-safety fs-5"></i></span>
-                                    <span class="nk-menu-text">Expert Assessment</span>
-                                </a>
-                            </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('quiz.show')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-user-helmet-safety fs-5"></i></span>
+                                <span class="nk-menu-text">Expert Assessment</span>
+                            </a>
+                        </li>
                     </seciton>
                     @endif
 

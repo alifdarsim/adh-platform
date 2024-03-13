@@ -179,7 +179,6 @@
 
 <script>
     let dark_mode = localStorage.getItem('dark') || 'light';
-    console.log(dark_mode)
     if (dark_mode === 'true') {
         $('.nk-body').addClass('dark-mode');
     }

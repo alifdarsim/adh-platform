@@ -91,4 +91,9 @@ class Projects extends Model
     {
         return $this->belongsTo(User::class, 'awarded_to', 'id');
     }
+
+    public function contract(): hasMany
+    {
+        return $this->hasMany(ProjectContract::class, 'project_id', 'id');
+    }
 }

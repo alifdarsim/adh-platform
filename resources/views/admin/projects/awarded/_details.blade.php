@@ -23,7 +23,6 @@
                 </div>
             @endif
         </div>
-{{--        Project Status: <span class="text-capitalize badge badge-sm bg-info px-3 rounded">{{$project->status}}</span>--}}
     </h6>
     <div class="d-flex mt-2">
         <h4 class="my-0">Project: {{$project->name}}</h4>

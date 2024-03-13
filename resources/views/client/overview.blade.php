@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">1</span>
+                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">{{$projects->count()}}</span>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">1</span>
+                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">{{$projects->count()}}</span>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">0</span>
+                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">{{$projects->count()}}</span>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">$0</span>
+                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">{{$projects->count()}}</span>
                     </div>
                 </div>
             </div>
