@@ -24,9 +24,11 @@
         </div>
     </div>
     <div class="nk-block">
+{{--        @include('project_status')--}}
         <div class="card card-bordered">
             <div class="card-inner">
                 <div class="tw-flex tw-justify-between">
+
                     <div>
                         <div class="me-4"><strong>Project Name:</strong> {{$project->name}}</div>
                         <div class="me-4"><strong>Project ID:</strong> {{request()->segment(3)}}</div>
@@ -93,7 +95,7 @@
                         if (status === 'active') {
                             $('#status-btn').html(`<h6 class="fs-14px">Project Status</h6><a class="tw-cursor-default dropdown-toggle btn btn-info"><span class="tw-uppercase">SHORTLISTING</span></a>`);
                             $('#add_expert_btn').removeClass('disabled');
-                            $('#award_btn').removeClass('disabled');
+                            $('#invite_all').removeClass('disabled');
                             return;
                         }
                         $('#status-btn').html(`<h6 class="fs-14px">Project Status</h6><a class="tw-cursor-default dropdown-toggle btn btn-danger"><span class="tw-uppercase">REJECTED</span></a>`);
@@ -140,5 +142,6 @@
             else sendRespond(status);
         }
 
+        $('.collapse').collapse()
     </script>
 @endpush

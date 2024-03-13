@@ -16,27 +16,41 @@
             <div class="card px-4 pb-3">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#detail">
+                        <a class="nav-link {{request()->tab ?? 'active'}}" data-bs-toggle="tab" href="#detail">
                             <i class="fa-regular fa-memo-circle-info me-1"></i><span>Detail</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#meeting" id="meetingLink">
+                        <a class="nav-link {{request()->tab == 'meeting' ? 'active' : ''}}" data-bs-toggle="tab" href="#meeting" id="meetingLink">
                             <i class="fa-regular fa-handshake-simple me-1"></i><span>Meeting</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#chatLink">
+                        <a class="nav-link {{request()->tab == 'chatLink' ? 'active' : ''}}" data-bs-toggle="tab" href="#chatLink">
                             <i class="fa-regular fa-messages me-1"></i><span>Chat</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{request()->tab == 'contract' ? 'active' : ''}}" data-bs-toggle="tab" href="#contract">
+                            <i class="fa-regular fa-file-signature me-1"></i><span>Contract</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{request()->tab == 'payment' ? 'active' : ''}}" data-bs-toggle="tab" href="#payment">
+                            <i class="fa-regular fa-money-bill me-1"></i><span>Payment</span></a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="detail">
+                    <div class="tab-pane {{request()->tab ?? 'active'}}" id="detail">
                         @include('admin.projects.awarded._details')
                     </div>
-                    <div class="tab-pane" id="meeting">
+                    <div class="tab-pane {{request()->tab == 'meeting' ? 'active' : ''}}" id="meeting">
                         @include('admin.projects.awarded._meeting')
                     </div>
-                    <div class="tab-pane" id="chatLink">
+                    <div class="tab-pane {{request()->tab == 'chatLink' ? 'active' : ''}}" id="chatLink">
                         @include('admin.projects.awarded._chat')
+                    </div>
+                    <div class="tab-pane {{request()->tab == 'contract' ? 'active' : ''}}" id="contract">
+                        @include('admin.projects.awarded._contract')
+                    </div>
+                    <div class="tab-pane {{request()->tab == 'payment' ? 'active' : ''}}" id="payment">
+                        @include('admin.projects.awarded._payment')
                     </div>
                 </div>
             </div>

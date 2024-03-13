@@ -4,6 +4,7 @@
 namespace App\Mail;
 
 use App\Jobs\SendAdminInvitation;
+use App\Jobs\SendExpertAwarded;
 use App\Jobs\SendPasswordReset;
 use App\Jobs\SendProjectInvitation;
 use App\Jobs\SendVerificationEmail;
@@ -35,5 +36,10 @@ class MailSender
     public function sendAdminInvitation($email, $name, $token): void
     {
         SendAdminInvitation::dispatch($email, $name, $token);
+    }
+
+    public function sendProjectAwarded($email, $project_name, $token): void
+    {
+        SendExpertAwarded::dispatch($email, $project_name, $token);
     }
 }

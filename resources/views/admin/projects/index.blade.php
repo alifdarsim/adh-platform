@@ -220,6 +220,7 @@
                                                 <li><a class="clickable" href="{{route('admin.projects.show',"")}}/${row.pid}"><em class="icon ni ni-eye"></em><span>Show Details</span></a></li>
                                                 <li><a class="clickable" onclick="approve('${row.pid}')"><em class="icon ni ni-check "></em><span>Approve</span></a></li>
                                                 <li><a class="clickable" onclick="remove('${row.pid}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                                <li><a class="clickable" onclick="reset('${row.pid}')"><em class="icon ni ni-reload"></em><span>Reset Project</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -289,6 +290,44 @@
                             Swal.fire(
                                 'Deleted!',
                                 'Company has been removed from database.',
+                                'success'
+                            ).then((result) => {
+                                table.ajax.reload();
+                            })
+                        },
+                        error: function (data) {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            )
+                        }
+                    });
+                }
+            })
+        }
+
+        function reset(pid){
+            Swal.fire({
+                title: 'Reset Project?',
+                text: "This will reset the project to pending status. This process is irreversible.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#D94148',
+                cancelButtonColor: '#6E768F',
+                confirmButtonText: 'Yes, reset it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{route('admin.projects.reset', '')}}/" + pid,
+                        type: 'PUT',
+                        data: {
+                            _token: "{{csrf_token()}}",
+                        },
+                        success: function (data) {
+                            Swal.fire(
+                                'Reset!',
+                                'Project has been reset.',
                                 'success'
                             ).then((result) => {
                                 table.ajax.reload();

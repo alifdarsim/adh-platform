@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AdminsController;
 use App\Http\Controllers\Admin\CompaniesController as AdminCompaniesController;
+use App\Http\Controllers\Admin\ContractController;
 use App\Http\Controllers\Admin\ExpertsController;
 use App\Http\Controllers\Admin\ExpertsScrapeController;
 use App\Http\Controllers\Admin\HubsController;
@@ -37,15 +38,17 @@ use App\Http\Controllers\Expert\PaymentController as ExpertPaymentController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\IndustryExpertController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ProjectAwardedController;
 use App\Http\Controllers\ProjectInvitationController;
+use App\Models\ProjectAwarded;
 
 Route::get('/test', function () {
-    return view('auth.email-verified');
+    return view('mail.award_project');
 });
 
-Route::group(["prefix" => "project-invitation"], function () {
-    Route::get('/{token}', [ProjectInvitationController::class, 'index'])->name('project-invitation.index');
-});
+Route::get('project-invitation/{token}', [ProjectInvitationController::class, 'index'])->name('project-invitation.index');
+Route::get('project-awarded/{token}', [ProjectAwardedController::class, 'index'])->name('project-awarded.index');
+
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -112,10 +115,12 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::delete('/{pid}/{id}', [AdminProjectsController::class, 'expert_remove'])->name('admin.projects.remove-expert');
 
             Route::post('/add-expert', [AdminProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
+            Route::post('/payment/{pid}', [AdminProjectsController::class, 'payment'])->name('admin.projects.payment');
             Route::get('/invite-expert/{project_id}/{expert_id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
             Route::get('/invite-expert-all/{project_id}', [AdminProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
             Route::post('/respond/{pid}', [AdminProjectsController::class, 'respond'])->name('admin.projects.respond');
             Route::put('/close/{pid}', [AdminProjectsController::class, 'close'])->name('admin.projects.close');
+            Route::put('/reset/{pid}', [AdminProjectsController::class, 'reset'])->name('admin.projects.reset');
 
             // show project
             Route::get('/', [AdminProjectsController::class, 'index'])->name('admin.projects.index');
@@ -192,6 +197,8 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
 
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
+        Route::resource('contract', ContractController::class, ['names' => 'admin.contract']);
+//        Route::post('contract/upload/{pid}/{type}', [ContractController::class, 'upload'])->name('admin.contract.upload');
         Route::resource('industry_classification', IndustryClassificationController::class, ['names' => 'admin.industry_classification'])->withDatatable();
     });
 
@@ -275,6 +282,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         Route::group(["prefix" => "payment"], function () {
             Route::put('/', [ExpertPaymentController::class, 'updatePaymentMethod'])->name('expert.payment.update_method');
         });
+
     });
 
     // Awarded Project Route
@@ -300,5 +308,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/address/states/search', [AddressController::class, 'states_search'])->name('states.search');
     Route::get('/address/countries', [AddressController::class, 'countries'])->name('countries.index');
     Route::get('/address/countries/search', [AddressController::class, 'countries_search'])->name('countries.search');
+
+    Route::post('/contract/upload/{pid}/{type}/{status}', [ContractController::class, 'upload'])->name('contract.upload_signed');
 });
+
 

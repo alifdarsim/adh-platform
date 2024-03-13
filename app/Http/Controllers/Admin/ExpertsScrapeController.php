@@ -68,7 +68,7 @@ class ExpertsScrapeController extends Controller
     }
 
     public function storeInfo($url, $data){
-        $_data = $data->data->data;
+        $_data = $data->data;
         $import = ExpertLinkedInQueue::where('url', $url)->first();
         $import->status = 1;
         $import->result = $_data;

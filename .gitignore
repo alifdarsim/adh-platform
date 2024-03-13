@@ -1,6 +1,7 @@
 /.phpunit.cache
 /node_modules
 /public/build
+/public/contracts
 /public/hot
 /public/compile.php
 /public/storage
