@@ -336,18 +336,18 @@
                 }),
                 placeholder: 'Select Sub Industry',
             });
-            window['datatable_2'].column(6).search(this.value).draw();
+            window['datatable_2'].column(7).search(this.value).draw();
 
         });
 
         $('#sub_industry_classification').on('change', function (e) {
             console.log(e.target.value)
-            window['datatable_2'].column(7).search(e.target.value).draw();
+            window['datatable_2'].column(8).search(e.target.value).draw();
         });
 
         $('#select_countries').on('change', function (e) {
             if (e.target.value === '') return;
-            window['datatable_2'].column(5).search(this.value).draw();
+            window['datatable_2'].column(6).search(this.value).draw();
         });
 
 
