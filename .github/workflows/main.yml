@@ -28,11 +28,8 @@ jobs:
         chmod 644 ~/.ssh/known_hosts
           
     - name: Deploy to Server
-      env:
-        HOST_NAME: app.asiadealhub.com
-        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
-        ssh -i ~/.ssh/id_rsa -p 522 appdev1@$HOST_NAME '
+        ssh -i ~/.ssh/id_rsa -p 522 appdev1@app.asiadealhub.com '
           cd /home/apps/application/app
           git pull origin master
         '
