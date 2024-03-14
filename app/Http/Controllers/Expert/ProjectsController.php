@@ -28,10 +28,10 @@ class ProjectsController extends Controller
                 return $projects->company->name;
             })
             ->addColumn('invited_at', function ($projects) {
-                return $projects->invited->invited_at;
+                return $projects->invited->first()->created_at;
             })
             ->addColumn('accepted', function ($projects) {
-                return $projects->invited->accepted;
+                return $projects->invited->first()->accepted;
             })
             ->addColumn('deadline', function ($projects) {
                 return $projects->deadline;

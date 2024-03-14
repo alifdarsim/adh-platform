@@ -77,9 +77,14 @@ class Projects extends Model
         return $this->hasOne(ProjectShortlist::class, 'project_id', 'id');
     }
 
-    public function invited(): hasOne
+    public function invited(): hasMany
     {
-        return $this->hasOne(ProjectInvited::class, 'project_id', 'id');
+        return $this->hasMany(ProjectInvited::class, 'project_id', 'id');
+    }
+
+    public function invited_user_accepted()
+    {
+        return $this->invited()->where('email', auth()->user()->email)->first()->accepted ?? false;
     }
 
     public function createdBy(): BelongsTo
