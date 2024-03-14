@@ -29,7 +29,7 @@ jobs:
           
     - name: Deploy to Server
       run: |
-        ssh -i ~/.ssh/id_rsa -p 522 appdev1@app.asiadealhub.com '
+        ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts -tt -p 522 appdev1@app.asiadealhub.com '
           cd /home/apps/application/app
           git pull origin master
         '
