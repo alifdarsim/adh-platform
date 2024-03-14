@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI_CD Laravel
 
 on:
   push:
@@ -6,16 +6,21 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-    - name: Run Tests
-      run: ifconfig
-
-    - name: Deploy
+    - name: Deploy to Server
+      env:
+          HOST_NAME: app.asiadealhub.com
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
-        ssh -o "PubkeyAuthentication=yes" -o "IdentitiesOnly=yes" -i /Users/alifdarsim/.ssh/adh_api appdev1@app.asiadealhub.com 'google-authenticator && cd /home/apps/application/app && git pull origin master'
+        mkdir -p ~/.ssh/
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -i ~/.ssh/id_rsa -p 522 appdev1@$HOST_NAME '
+          cd /path/to/your/deployment/directory
+          git pull origin master
+        '
