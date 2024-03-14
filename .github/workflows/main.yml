@@ -1,5 +1,4 @@
 name: CI_CD Laravel
-
 on:
   push:
     branches:
@@ -12,15 +11,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Create SSH Directory
+      run: mkdir -p ~/.ssh/
+
+    - name: Add SSH Private Key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Add Host to Known Hosts
+      env:
+        HOST_NAME: app.asiadealhub.com
+      run: ssh-keyscan -H $HOST_NAME >> ~/.ssh/known_hosts
+
     - name: Deploy to Server
       env:
-          HOST_NAME: app.asiadealhub.com
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        HOST_NAME: app.asiadealhub.com
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
-        mkdir -p ~/.ssh/
-        echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H $HOST_NAME >> ~/.ssh/known_hosts
         ssh -i ~/.ssh/id_rsa -p 522 appdev1@$HOST_NAME '
           cd /home/apps/application/app
           git pull origin master
