@@ -31,7 +31,7 @@ class ProjectsController extends Controller
                 return $projects->invited->first()->created_at;
             })
             ->addColumn('accepted', function ($projects) {
-                return $projects->invited->first()->accepted;
+                return $projects->invited_user_accepted();
             })
             ->addColumn('deadline', function ($projects) {
                 return $projects->deadline;
