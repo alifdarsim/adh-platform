@@ -451,22 +451,6 @@
         </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="intro_expert">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body modal-body-md">
-                    <h4 class="title center">Expert Profile Page</h4>
-                    <div class="px-5">
-                        <p class="mt-3 mb-0 tw-text-center">Here is the page where you view and setup your expert profile. Let's begin setting up your profile. This will help us identify your expertise and match you with the right projects.</p>
-                        <div class="center mt-4">
-                            <button onclick="nextstep()" class="btn btn-primary tw-px-20">Next</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @push('scripts')
@@ -659,7 +643,7 @@
 
         function linkedin_sync(reload = false) {
             Swal.fire({
-                title: 'Sync Profile with LinkedIn?',
+                title: 'Automatically sync with LinkedIn?',
                 html: '<br><br><img alt="linkedin" src="/images/svg/linkedin.svg" style="width: 160px"></img><br><br>Do you want to update your expert profile with LinkedIn data?. If you prefer manual update, click "No"',
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'No',
@@ -745,17 +729,10 @@
         }
 
         function nextstep(){
-            $('#intro_expert').modal('hide');
             $('#editLead').modal('show');
         }
 
         $( document ).ready(function() {
-            {{--            @if(auth()->user()->expert->url)--}}
-            {{--            let modal = $('#intro_expert');--}}
-            {{--            modal.modal({backdrop: 'static', keyboard: false})--}}
-            {{--            modal.modal('show');--}}
-            {{--            @endif--}}
-
             $.ajax({
                 url: '{{route('industries_expert.main')}}',
                 method: 'GET',
@@ -808,6 +785,31 @@
                 }
             });
         }
+
+{{--        @dd($first_time)--}}
+        @if(!$first_time)
+            // first time
+            Swal.fire({
+                title: 'Expert Profile Update',
+                html: 'It seems like you never update your expert profile before. We recommend you to complete your expert profile before continue.',
+                confirmButtonText: 'Let\'s Complete Profile',
+                showCancelButton: true,
+                cancelButtonText: 'Will do later',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#editLead').modal('show');
+                    // delay 1 second
+                    setTimeout(() => {
+                        linkedin_sync();
+                    }, 400);
+                }
+                else{
+                    Swal.fire('', 'You can update you profile later by clicking Update Expert Profile', '');
+                }
+            })
+        @else
+            console.log('Not First Time');
+        @endif
     </script>
 @endpush
 

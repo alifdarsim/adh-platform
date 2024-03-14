@@ -56,3 +56,7 @@
 .tox-promotion {
     display: none !important;
 }
+
+.nk-tb-col:not(:last-child) {
+    padding-right: 0 !important;
+}

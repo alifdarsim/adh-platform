@@ -141,7 +141,5 @@
                 });
             else sendRespond(status);
         }
-
-        $('.collapse').collapse()
     </script>
 @endpush

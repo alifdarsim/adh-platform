@@ -30,7 +30,7 @@
             <ul class="nk-menu-sub">
                 <li class="nk-menu-item">
                     <a href="{{route('expert.profile.index')}}" class="nk-menu-link">
-                        <span class="nk-menu-text">Expert Profile</span>
+                        <span class="nk-menu-text">Your Expert Profile</span>
                     </a>
                 </li>
                 <li class="nk-menu-item">

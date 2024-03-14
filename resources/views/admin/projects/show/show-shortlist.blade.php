@@ -27,8 +27,9 @@
         <tr class="nk-tb-item nk-tb-head">
             <th class="nk-tb-col"><span class="sub-text">Expert</span></th>
             <th class="nk-tb-col"><span class="sub-text">Contact</span></th>
-            <th class="nk-tb-col"><span class="sub-text">Invite</span></th>
-            <th class="nk-tb-col"><span class="sub-text">Respond</span></th>
+            <th class="nk-tb-col"><span class="sub-text">Invited</span></th>
+            <th class="nk-tb-col"><span class="sub-text">Accept?</span></th>
+            <th class="nk-tb-col"><span class="sub-text">Answer</span></th>
             <th class="nk-tb-col nk-tb-col-tools text-end noExport">Action</th>
         </tr>
         </thead>
@@ -45,6 +46,10 @@
             order:  false,
             columnDefs: [
                 { "className": "nk-tb-col", targets: '_all'},
+                {
+                    "targets": [0],
+                    "width": "40%",
+                }
             ],
             simpleTable: true,
             columns: [
@@ -57,7 +62,7 @@
                                 <div class="user-avatar bg-dim-primary d-none d-sm-flex"><span>${row.expert.img_url ? `<img src="${row.expert.img_url}" alt="">` : `<span class="text-white">N/A</span>`}</span></div>
                                 <div class="user-info">
                                     <span class="fs-15px me-2">${row.expert.name}</span>• <span><i class="fa-brands text-info fa-linkedin fs-6 mx-1"></i>${row.expert.url.replace('https://www.linkedin.com/in/','')}</span>
-                                    <p class="mb-0"><span class="fs-13px">${row.expert.experiences[0].position}</span> • <span  class="fs-13px">${row.expert.experiences[0].company}</span> • <span class="fs-13px">${row.expert.experiences[0].duration}</span></p>
+                                    <p class="mb-0"><span class="fs-13px">${row.expert.experiences[0].position}</span> • <span  class="fs-13px">${row.expert.experiences[0].company}</span></p>
                                 </div>
                             </a>
                         </div>`
@@ -80,9 +85,21 @@
                 },
                 {
                     data: 'accepted',
-                    render: function (data) {
+                    render: function (data, type, row) {
+                        if (row.invited === false) return '-'; // not invited yet
                         let color = data ? 'success' : 'danger'
-                        return `<span class="badge bg-${color} text-capitalize">${data ? 'Accept' : (data === null ? 'Pending' : 'Reject')}</span>`;
+                        return `<span class="badge bg-${color} text-capitalize">${data ? 'Accept' : (data === null ? 'No' : 'Reject')}</span>`;
+                    }
+                },
+                {
+                    data: 'answers',
+                    className: 'clickable hover:tw-bg-slate-200 items-center',
+                    render: function (data) {
+                        if (data === null) return '-';
+                        return data.map((answer, index) => {
+                            console.log(answer);
+                            return `<span class="fs-12px">Q${index+1}</span> <i class="fa-solid ${answer === null ? 'fa-circle-xmark text-danger' : 'fa-circle-check text-success'} fs-6"></i>`;
+                        }).join(' ');
                     }
                 },
                 {

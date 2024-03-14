@@ -80,21 +80,6 @@
             }
         });
     }
-
-    function quick_view(id) {
-        $.ajax({
-            url: "{{route('post.quick_view')}}",
-            type: 'GET',
-            data: {
-                "id": id,
-                "_token": "{{ csrf_token() }}",
-            },
-            success: function (data) {
-                $('#modalLarge').modal('show')
-                $('#modalLarge .modal-body').html(data);
-            }
-        });
-    }
 </script>
 </body>
 </html>

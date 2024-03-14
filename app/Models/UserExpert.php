@@ -20,6 +20,7 @@ class UserExpert extends Model implements HasMedia
         'languages' => 'array',
         'experiences' => 'array',
         'educations' => 'array',
+        'firstTime' => 'boolean',
     ];
 
     public function industry(): HasOne

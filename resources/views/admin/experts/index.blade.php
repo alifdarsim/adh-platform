@@ -137,10 +137,11 @@
                 <tr class="nk-tb-item nk-tb-head">
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Name</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Industry Classification</span></th>
-                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Email</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Email & Phone</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Position</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Company</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Address</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
                 </tr>
                 </thead>
@@ -212,11 +213,13 @@
         datatableInit('#datatable', {
             ajax: '{{route('admin.experts.datatable')}}',
             order:  false,
+            stateSave : true,
             columnDefs: [
                 { "orderable": false, "targets": [0,1,2, 3,4] },
                 { "className": "nk-tb-col", "targets": "_all" },
                 {
                     "className": "clickable",
+                    width: "20%",
                     "targets": [0],
                     "createdCell": function (td, cellData, rowData) {
                         $(td).on('click', () => window.location.href = rowData.url )
@@ -229,20 +232,22 @@
                     render: function (data, type, row) {
                         return `<div class="user-card">
                             <div class="user-avatar bg-dim-primary d-none d-sm-flex"><span>${row.img_url ? `<img src="${row.img_url}" alt="">` : `<span class="text-white">N/A</span>`}</span></div>
-                            <div class="user-info"><span class="tb-lead">${data}</span><span><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>${row.url.replace('https://www.linkedin.com/in/','')}</span></div>
+                            <div class="user-info"><span class="tb-lead">${data}${row.registered ? '<i class="fa-solid fa-badge-check fs-13px ms-1 text-info"></i>' : ''}</span><span><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>${row.url.replace('https://www.linkedin.com/in/','')}</span></div>
                         </div>`;
                     }
                 },
                 {
                     data: 'industry_classification',
                     render: function (data, type, row) {
-                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-1"></i>Not Set</span>' : '<span>'+data+'</span>';
+                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-xmark text-danger me-1"></i></span>' : '<span>'+data+'</span>';
                     }
                 },
                 {
                     data: '_email',
                     render: function (data, type, row) {
-                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-circle-xmark text-danger me-1"></i>Not Set</span>' : '<span>'+data+'</span>';
+                        let email = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-envelope"></i>${data === 'Not Set' ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : data}</div>`;
+                        let phone = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-phone"></i>${row._phone === 'Not Set' ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : row._phone}</div>`;
+                        return email + phone;
                     }
                 },
                 {
@@ -258,10 +263,10 @@
                     }
                 },
                 {
-                    data: 'address',
-                    render: function (data, type, row) {
-                        return data + ', ' + row.country;
-                    }
+                    data: 'address'
+                },
+                {
+                    data: 'country'
                 },
                 {
                     data: 'id',
@@ -275,7 +280,8 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a class="clickable" onclick="setIndustry('${row.name}', '${row.img_url}', '${row.url.replace('https://www.linkedin.com/in/','')}', '${row.main_industry}', '${row.sub_industry}', ${row.id})"><em class="icon ni ni-building-fill"></em><span>Set Industry Classification</span></a></li>
-                                                <li><a class="clickable" onclick="setContact(${data}, '${row.email}')"><em class="icon ni ni-mail"></em><span>Set Contact</span></a></li>
+                                                <li><a class="clickable" onclick="setEmail(${data}, '${row.email}')"><em class="icon ni ni-mail"></em><span>Set Email</span></a></li>
+                                                <li><a class="clickable" onclick="setPhone(${data}, '${row.phone}')"><em class="icon ni ni-call"></em><span>Set Phone</span></a></li>
                                                 <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>
                                                 <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
@@ -355,10 +361,6 @@
         {{--        }--}}
         {{--    })--}}
         {{--}--}}
-
-        // function re_scrape(){
-        //     alert('Something is wrong, please contact support')
-        // }
 
         function setIndustry(expert_name, expert_avatar, expert_linkedin, main_industry, sub_industry, expert_id){
             $('#expert_id').val(expert_id)
@@ -454,7 +456,7 @@
                 success: function (response) {
                     _Swal.success('Industry Updated', response.message, function () {
                         $('#modal_industry').modal('hide');
-                        table.ajax.reload();
+                        table.ajax.reload(null, false);
                     })
                 },
                 error: function (response) {
@@ -463,12 +465,12 @@
             });
         }
 
-        function setContact(id, email) {
+        function setEmail(id, email) {
             Swal.fire({
-                title: 'Set Contact',
+                title: 'Set Email',
                 input: 'text',
                 inputLabel: 'Contact',
-                inputPlaceholder: 'Enter contact',
+                inputPlaceholder: 'Enter email',
                 inputValue: email !== 'null' ? email : ' ',
                 showCancelButton: true,
                 confirmButtonText: 'Set',
@@ -484,7 +486,43 @@
                         },
                         success: function (data) {
                             _Swal.success(data.message);
-                            table.ajax.reload();
+                            table.ajax.reload(null, false);
+                        },
+                        error: function (data) {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            )
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+        }
+
+        function setPhone(id, phone) {
+            Swal.fire({
+                title: 'Set Phone',
+                input: 'text',
+                inputLabel: 'Contact',
+                inputPlaceholder: 'Enter phone',
+                inputValue: phone !== 'null' ? phone : ' ',
+                showCancelButton: true,
+                confirmButtonText: 'Set',
+                showLoaderOnConfirm: true,
+                preConfirm: (phone) => {
+                    return $.ajax({
+                        url: '{{route('admin.experts.set-contact')}}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            expert_id: id,
+                            phone: phone
+                        },
+                        success: function (data) {
+                            _Swal.success(data.message);
+                            table.ajax.reload(null, false);
                         },
                         error: function (data) {
                             Swal.fire(

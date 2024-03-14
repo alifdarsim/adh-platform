@@ -16,9 +16,13 @@ class ProfileController extends Controller
     public function index(ProfileCompletionService $service)
     {
         $data = $service->getCompletionData();
+        $expert = auth()->user()->expert;
+        $expert->email = $expert->email ?? auth()->user()->email;
+        $expert->url = ExpertList::where('email', $expert->email)->first()->url ?? $expert->url;
+        $expert->save();
         $expert_completion = $data['completion'];
         $expert_completion_count = $data['count'];
-        return view('expert.profile.index', compact('expert_completion', 'expert_completion_count'));
+        return view('expert.profile.index', compact('expert_completion', 'expert_completion_count'))->with('first_time', $expert->firstTime);
     }
 
     public function linkedin_sync(ProcessScrapeService $scrapeProcess)
@@ -27,6 +31,7 @@ class ProfileController extends Controller
         if ($url == null) return error('LinkedIn URL not set yet');
         $expert_list = ExpertList::where('url', $url)->first();
         $expert = auth()->user()->expert;
+        $this->markFirstTime();
         if ($expert_list) {
             // update user expert_id to $expert_exist->id
             $expert->email = $expert_list->email;
@@ -36,6 +41,7 @@ class ProfileController extends Controller
             $expert->address = $expert_list->address;
             $expert->languages = $expert_list->languages;
             $expert->skills = $expert_list->skills;
+            $expert->industry_id = $expert_list->industry_id;
             $expert->experiences = $expert_list->experiences;
             $expert->save();
             return success('LinkedIn URL added successfully', ['expert_exist' => true]);
@@ -74,6 +80,7 @@ class ProfileController extends Controller
         $expert = auth()->user()->expert;
         $expert->url = $request->linkedin_url;
         $expert->save();
+        $this->markFirstTime();
         return success('LinkedIn URL added successfully');
     }
 
@@ -85,6 +92,7 @@ class ProfileController extends Controller
         $expert = auth()->user()->expert;
         $expert->addMediaFromRequest('upload_cv')->toMediaCollection('cv');
         $expert->save();
+        $this->markFirstTime();
         return success('CV uploaded successfully');
     }
 
@@ -103,6 +111,7 @@ class ProfileController extends Controller
         }
         $expert->skills = $modifiedSkills;
         $expert->save();
+        $this->markFirstTime();
         return success('Skills added successfully');
     }
 
@@ -127,6 +136,7 @@ class ProfileController extends Controller
         $expert = $user->expert;
         $expert->about = $request->about;
         $expert->save();
+        $this->markFirstTime();
         return success('Profile updated successfully');
     }
 
@@ -174,6 +184,7 @@ class ProfileController extends Controller
         usort($position, $comparePositions);
         $expert->position = $position;
         $expert->save();
+        $this->markFirstTime();
         return success('Job experience added successfully');
     }
 
@@ -196,6 +207,15 @@ class ProfileController extends Controller
         array_splice($position, $index, 1);
         $expert->position = $position;
         $expert->save();
+        $this->markFirstTime();
         return success('Job experience removed successfully');
+    }
+
+    public function markFirstTime()
+    {
+        $expert = auth()->user()->expert;
+        $expert->firstTime = 1;
+        $expert->save();
+        return success('First time marked');
     }
 }

@@ -66,6 +66,11 @@ class Projects extends Model
         return ProjectAnswer::where('project_id', $this->id)->where('user_id', auth()->user()->id)->first();
     }
 
+    public function answer(): hasMany
+    {
+        return $this->hasMany(ProjectAnswer::class, 'project_id', 'id');
+    }
+
     // after this is new one
     public function shortlist(): hasOne
     {

@@ -7,8 +7,7 @@
                         <div class="card-inner tw-py-3">
                             <div class="user-card user-card-s2">
                                 <div class="tw-relative">
-                                    <div class="tw-w-28 tw-h-28 user-avatar bg-dim-primary d-none d-sm-flex" id="detail_image">
-                                    </div>
+                                    <div class="tw-w-28 tw-h-28 user-avatar bg-dim-primary d-none d-sm-flex" id="detail_image"></div>
                                 </div>
                                 <div class="!tw-mt-0 user-info tw-grid tw-gap-y-1">
                                     <h4 id="detail_name" class="tw-text-slate-200"></h4>

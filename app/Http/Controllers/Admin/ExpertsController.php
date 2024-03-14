@@ -7,6 +7,7 @@ use App\Models\ExpertList;
 use App\Models\IndustryExpert;
 use App\Models\Projects;
 use App\Models\ProjectShortlist;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,7 @@ class ExpertsController extends Controller
     }
 
     public function datatable(){
-        $experts = ExpertList::with('industry')->get();
+        $experts = ExpertList::with('industry')->orderBy('id', 'desc')->get();
         // Preload shortlisted expert IDs for the given project
         $projectShortlistIds = $this->getProjectShortlistedIds(request()->get('project_id'));
         return datatables()->of($experts)
@@ -38,6 +39,11 @@ class ExpertsController extends Controller
                     $companies[] = $p['company'];
                 }
                 return implode(' ', $companies);
+            })
+            ->addColumn('registered', function ($e) {
+                $email = $e->email;
+                $user = User::where('email', $email)->first();
+                return (bool)$user;
             })
             ->addColumn('position', function ($e) {
                 return $e->experiences[0]['position'];
@@ -68,6 +74,9 @@ class ExpertsController extends Controller
             ->addColumn('_email', function ($e) {
                 return $e->email == null ? 'Not Set' : $e->email;
             })
+            ->addColumn('_phone', function ($e) {
+                return $e->phone == null ? 'Not Set' : $e->phone;
+            })
             ->addColumn('shortlisted', function ($e) use ($projectShortlistIds) {
                 return in_array($e->id, $projectShortlistIds);
             })
@@ -85,7 +94,12 @@ class ExpertsController extends Controller
 
     public function set_contact(){
         $expert = ExpertList::find(request()->get('expert_id'));
-        $expert->email = request()->get('email');
+        if (request()->get('phone') != null) {
+            $expert->phone = request()->get('phone');
+        }
+        if (request()->get('email') != null) {
+            $expert->email = request()->get('email');
+        }
         $expert->save();
         return success('Contact updated successfully');
     }

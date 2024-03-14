@@ -132,16 +132,16 @@ class ProjectsController extends Controller
 
     public function datatable_shortlist($pid)
     {
-        //TODO: optimize all datatable queries
-        $id = Projects::where('pid',$pid)->first()->id;
-        $shortlist = ProjectShortlist::where('project_id', $id)
+        $project = Projects::where('pid',$pid)->first();
+        $shortlist = ProjectShortlist::where('project_id', $project->id)
             ->with('expert_email')
             ->get();
         $shortlist->transform(function ($item) {
             $item->email = $item->expert->email;
             return $item;
         });
-        $invitation = ProjectInvited::where('project_id', $id)->get();
+        $answer = $project->answer;
+        $invitation = ProjectInvited::where('project_id', $project->id)->get();
         return datatables()->of($shortlist)
             ->addColumn('invited', function ($shortlist) use ($invitation) {
                 $email = $shortlist->email;
@@ -149,6 +149,11 @@ class ProjectsController extends Controller
                     return $item->email == $email;
                 });
                 return $invited !== null;
+            })
+            ->addColumn('answers', function ($shortlist) use ($invitation, $answer) {
+                if (User::where('email', $shortlist->email)->first() === null) return null;
+                $user_id = User::where('email', $shortlist->email)->first()->id;
+                return $answer->where('user_id', $user_id)->first()->answers;
             })
             ->addColumn('accepted', function ($shortlist) use ($invitation) {
                 $email = $shortlist->email;
