@@ -24,7 +24,7 @@ jobs:
     - name: Add Host to Known Hosts
       env:
         HOST_NAME: app.asiadealhub.com
-      run: ssh-keyscan -H $HOST_NAME >> ~/.ssh/known_hosts
+      run: ssh -i ~/.ssh/id_rsa -p 522 appdev1@$HOST_NAME
 
     - name: Deploy to Server
       env:
