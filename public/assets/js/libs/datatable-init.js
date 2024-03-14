@@ -106,6 +106,47 @@ const datatableInit = (datatable_element, object, tableInstance = null) => {
                 else $('#column_search').prop('checked', true).change();
             },
             drawCallback: function (settings) {
+
+                //this is for shortlisting table only
+                $('.answer-cell').click(function () {
+                    console.log('clicked')
+                    let data = window['datatable'].row($(this).parents('tr')).data();
+                    console.log(data)
+                    if (data.answers === null) return;
+                    let answers = data.answers.map((answer, index) => {
+                        // write the answer
+                        let question = $(`#q${index+1}`).val();
+                        console.log(question)
+                        return `
+                            <div class="d-flex mt-3">
+                                 <div class="tw-w-6 tw-h-6 tw-flex tw-items-center tw-justify-center tw-bg-primary tw-text-white tw-rounded-full tw-mr-2">Q${index + 1}: </div>
+                                 <div class="fs-16px ms-1">${question}</div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="tw-w-6 tw-h-6 tw-flex tw-items-center tw-justify-center tw-bg-primary tw-text-white tw-rounded-full tw-mr-2">A${index + 1}: </div>
+                                <input class="mt-1 form-control fs-15px ps-1 ms-1" value="${answer === null ? '-' : answer}" disabled/>
+                            </div>`;
+
+                    }).join(' ');
+                    let experts = `
+                        <div class="d-flex py-3 justify-center !tw-bg-slate-200 round-xl ">
+                             <a class="user-card me-2" href="${data.expert.url}"  target="_blank">
+                                <div class="user-avatar bg-dim-primary d-none d-sm-flex me-2"><span>${data.expert.img_url ? `<img src="${data.expert.img_url}" alt="">` : `<span class="text-white">N/A</span>`}</span></div>
+                                <div class="user-info">
+                                    <div class="fs-16px text-dark">${data.expert.name}</div>
+                                    <div><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>${data.expert.url.replace('https://www.linkedin.com/in/','')}</div>
+                                </div>
+                            </a>
+                        </div>`
+                    answers = `${experts} ${answers}`;
+                    Swal.fire({
+                        title: 'Expert Answer',
+                        html: answers,
+                        showCloseButton: true,
+                        showConfirmButton: false,
+                    })
+                });
+
                 if (tableIsExpert)
                 experts_info = settings.json.data;
             }

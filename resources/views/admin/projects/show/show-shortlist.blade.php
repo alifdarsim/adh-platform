@@ -93,7 +93,7 @@
                 },
                 {
                     data: 'answers',
-                    className: 'clickable hover:tw-bg-slate-200 items-center',
+                    className: 'clickable hover:tw-bg-slate-200 items-center answer-cell',
                     render: function (data) {
                         if (data === null) return '-';
                         return data.map((answer, index) => {
@@ -281,6 +281,7 @@
                 }
             })
         }
+
 
     </script>
 @endpush
