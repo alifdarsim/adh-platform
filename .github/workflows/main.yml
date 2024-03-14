@@ -1,0 +1,21 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Run Tests
+      run: php artisan test
+
+    - name: Deploy
+      run: |
+        ssh -o "PubkeyAuthentication=yes" -o "IdentitiesOnly=yes" -i /Users/alifdarsim/.ssh/adh_api appdev1@app.asiadealhub.com 'google-authenticator && cd /home/apps/application/app && git pull origin master'
