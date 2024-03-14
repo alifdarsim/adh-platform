@@ -18,45 +18,7 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
-        echo "-----BEGIN RSA PRIVATE KEY-----
-        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
-        -----END RSA PRIVATE KEY-----" > ~/.ssh/id_rsa
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
           
     - name: Deploy to Server
