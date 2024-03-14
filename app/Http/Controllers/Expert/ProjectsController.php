@@ -21,20 +21,20 @@ class ProjectsController extends Controller
     {
         $projects = auth()->user()->projects()->with('invited')->get();
         return datatables()->of($projects)
-            ->addColumn('project_name', function ($projects) {
-                return $projects->name;
+            ->addColumn('project_name', function ($project) {
+                return $project->name;
             })
-            ->addColumn('client', function ($projects) {
-                return $projects->company->name;
+            ->addColumn('client', function ($project) {
+                return $project->company->name;
             })
-            ->addColumn('invited_at', function ($projects) {
-                return $projects->invited->first()->created_at;
+            ->addColumn('invited_at', function ($project) {
+                return $project->invited->first()->created_at;
             })
             ->addColumn('accepted', function ($projects) {
                 return $projects->invited_user_accepted();
             })
-            ->addColumn('deadline', function ($projects) {
-                return $projects->deadline;
+            ->addColumn('deadline', function ($project) {
+                return $project->deadline;
             })
             ->addColumn('pid', function ($project) {
                 return $project->pid;
