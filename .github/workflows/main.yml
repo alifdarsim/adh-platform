@@ -26,6 +26,12 @@ jobs:
         HOST_NAME: app.asiadealhub.com
       run: ssh -i ~/.ssh/id_rsa -p 522 appdev1@$HOST_NAME
 
+    - name: Add Host to Known Hosts
+      run: |
+        mkdir -p ~/.ssh/
+        echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDxOmOqGAIJI+cJvdgxUzlAlT49EvGc1kPuxj/YZA5LqnGnKR9YrD0pafU9/eyXJoyEEfYVxATjPLrppbW97DArsc6j3d9WtAtzyhwjR+uw6Y1Hhz8leEMrd1Gs8bGFboyk1JjhCc/z1MmlXCXiWv1C5BEQC6TYOMg1cb+rMg5tVdb447tPNwCr3WoWGqwIOzHioPGdfVDTolXD07kFEl/Zcl0XN+zCEg/7eQIXIzTh7mWgg81vKxSkK6LytV/EqRb7b7IwJwgr0RKUmcelqWJQoDVVy1/rVIJx/dBtdJ3GRPSuT9qDQt6AUQ8s+Gs9d1siU0QVJAJ1oM1PyU6dR4JwjsmnzkH3sUeBPbjSRr/kEkiSl0lWh6M8U+FHEBx9uT/1lwSvtICuB7ndlFuSUHom07xQtPyqMZmVPX9CWBULsbR0eUAzPpEsvLUbLsIhvnCt9s/nBWer2vGpu9ohwQ/L7nU/Xq+yfxzQHOiW0dPIilRYZLR66uFMe5oN7RNfK38= root@ip-172-31-16-93" >> ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
+          
     - name: Deploy to Server
       env:
         HOST_NAME: app.asiadealhub.com
