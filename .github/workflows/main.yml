@@ -20,7 +20,8 @@ jobs:
         mkdir -p ~/.ssh/
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $HOST_NAME >> ~/.ssh/known_hosts
         ssh -i ~/.ssh/id_rsa -p 522 appdev1@$HOST_NAME '
-          cd /path/to/your/deployment/directory
+          cd /home/apps/application/app
           git pull origin master
         '
