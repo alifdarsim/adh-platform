@@ -52,9 +52,10 @@ Route::get('project-awarded/{token}', [ProjectAwardedController::class, 'index']
 
 Route::get('/', function () {
     if (Auth::check()) {
-        if (str_contains(Auth::user()->getRoleNames()[0], 'admin')) return redirect()->route('admin.companies.index');
-        if (session('user_type') == 'expert') return redirect()->route('expert.overview');
-        if (session('user_type') == 'client') return redirect()->route('client.overview');
+        if (session('user_type') == 'admin' || session('user_type') == 'super admin') return redirect()->route('admin.companies.index');
+        else if (session('user_type') == 'expert') return redirect()->route('expert.overview');
+        else if (session('user_type') == 'client') return redirect()->route('client.overview');
+        else auth()->logout();
     }
     return redirect()->route('login.index', ['type' => 'expert']);
 });
