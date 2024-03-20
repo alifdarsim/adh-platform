@@ -174,7 +174,6 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         // CMS Routes
         Route::group(["prefix" => "cms"], function () {
             Route::singleton('/quiz', CmsAssessmentController::class)->creatable();
-
             Route::group(["prefix" => "post"], function () {
                 Route::get('/', [PostController::class, 'index'])->name('admin.post.index');
                 Route::get('/create', [PostController::class, 'create'])->name('admin.post.create');
@@ -198,18 +197,16 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/notification', [AdminAccountController::class, 'notification'])->name('admin.account.notification');
             Route::get('/activity', [AdminAccountController::class, 'activity'])->name('admin.account.activity');
         });
-
         Route::group(["prefix" => "payment"], function () {
             Route::get('/', [AdminPaymentController::class, 'index'])->name('admin.payment.index');
             Route::get('/datatable', [AdminPaymentController::class, 'datatable'])->name('admin.payment.datatable');
             Route::post('/confirm', [AdminPaymentController::class, 'confirm'])->name('admin.payment.confirm');
             Route::post('/release', [AdminPaymentController::class, 'release'])->name('admin.payment.release');
         });
-
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
         Route::get('contract/{type}', [ContractController::class, 'default'])->name('admin.contract.default');
-        Route::resource('contract', ContractController::class, ['names' => 'admin.contract']);
+        Route::resource('contracts', ContractController::class, ['names' => 'admin.contract']);
         Route::resource('industry_classification', IndustryClassificationController::class, ['names' => 'admin.industry_classification'])->withDatatable();
     });
 
