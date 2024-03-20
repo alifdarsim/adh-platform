@@ -1,6 +1,5 @@
 @extends('layouts.user.main')
 @section('content')
-
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
@@ -20,25 +19,33 @@
                         <div class="col-12">
                             <div class="px-0" id="company_holder">
                                 <h6 class="overline-title mb-2">Company Information</h6>
-                                @if(!$company)
+                                @if (!$company)
                                     <div class="alert alert-secondary">
                                         <div class="d-flex">
-                                            <p class="align-middle me-2"><em class="icon ni ni ni-alert-circle"></em> You have not set any organization yet. Please set your organization first <a class="text-info tw-underline" href="{{route('client.company.index')}}">here</a>.</p>
-{{--                                            <a href="{{route('client.company.index')}}" class="btn btn-primary">Register Company</a>--}}
+                                            <p class="align-middle me-2"><em class="icon ni ni ni-alert-circle"></em> You
+                                                have not set any organization yet. Please set your organization first <a
+                                                    class="text-info tw-underline"
+                                                    href="{{ route('client.company.index') }}">here</a>.</p>
+                                            {{--                                            <a href="{{route('client.company.index')}}" class="btn btn-primary">Register Company</a> --}}
                                         </div>
                                     </div>
                                 @else
                                     <div class="card bg-white">
                                         <li class="nk-support-item">
-                                            <img id="company_image" class="h-100px" src="{{$company->img_url}}" alt="">
+                                            <img id="company_image" class="h-100px" src="{{ $company->img_url }}"
+                                                alt="">
                                             <div class="nk-support-content">
                                                 <div class="title">
-                                                    <span class="fs-5" id="company_name">{{$company->name}}</span>
-                                                    <p id="company_country" class="fs-6">{{$company->address->emoji . ' ' .$company->address->state . ', ' . $company->address->country}}</p>
+                                                    <span class="fs-5" id="company_name">{{ $company->name }}</span>
+                                                    <p id="company_country" class="fs-6">
+                                                        {{ $company->address->emoji . ' ' . $company->address->state . ', ' . $company->address->country }}
+                                                    </p>
                                                 </div>
                                                 <p id="company_industry"></p>
-                                                <p><i class="fa-regular fa-globe me-1"></i><span id="company_website">{{$company->website}}</span></p>
-                                                <p><i class="fa-regular fa-calendar me-1"></i><span id="company_establish">{{$company->establish}}</span></p>
+                                                <p><i class="fa-regular fa-globe me-1"></i><span
+                                                        id="company_website">{{ $company->website }}</span></p>
+                                                <p><i class="fa-regular fa-calendar me-1"></i><span
+                                                        id="company_establish">{{ $company->establish }}</span></p>
                                             </div>
                                         </li>
                                     </div>
@@ -66,7 +73,8 @@
                             <label class="form-label" for="project-description">Project
                                 Description</label>
                             <div class="form-control-wrap">
-                                <textarea class="form-control form-control-sm" id="project-description" name="project-description" placeholder="Write Project Description" required></textarea>
+                                <textarea class="form-control form-control-sm" id="project-description" name="project-description"
+                                    placeholder="Write Project Description" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -75,9 +83,9 @@
                             <label class="form-label" for="hub">Hub Type</label>
                             <div class="form-control-wrap">
                                 <select class="form-select js-select2" id="hub" name="hub"
-                                        data-placeholder="Select Hub Type" data-search="on">
+                                    data-placeholder="Select Hub Type" data-search="on">
                                     <option value=""></option>
-                                    @foreach($hubs as $hub)
+                                    @foreach ($hubs as $hub)
                                         <option value="{{ $hub->id }}">{{ $hub->name }}</option>
                                     @endforeach
                                 </select>
@@ -89,7 +97,8 @@
                             <label class="form-label" for="deadline">Deadline Date</label>
                             <div class="form-control-wrap">
                                 <div class="form-icon form-icon-left"><em class="icon ni ni-calendar"></em></div>
-                                <input id="deadline" type="text" class="form-control date-picker" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" required>
+                                <input id="deadline" type="text" class="form-control date-picker"
+                                    placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" required>
                             </div>
                         </div>
                     </div>
@@ -102,9 +111,11 @@
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label" for="target_country">Target Country<span class="text-danger"> *</span></label>
+                            <label class="form-label" for="target_country">Target Country<span class="text-danger">
+                                    *</span></label>
                             <div class="form-control-wrap">
-                                <select class="form-select" id="target_country" name="target_country" multiple="multiple" data-placeholder="Select Target Country" data-search="on" required>
+                                <select class="form-select" id="target_country" name="target_country" multiple="multiple"
+                                    data-placeholder="Select Target Country" data-search="on" required>
                                 </select>
                             </div>
                         </div>
@@ -114,8 +125,7 @@
                             <label class="form-label" for="target_company_size">Target Company Size</label>
                             <div class="form-control-wrap">
                                 <select class="form-select js-select2" id="target_company_size"
-                                        name="target_company_size"
-                                        data-placeholder="Select Number of Employee" required>
+                                    name="target_company_size" data-placeholder="Select Number of Employee" required>
                                     <option value=""></option>
                                     <option value="1-10">1-10</option>
                                     <option value="11-50">11-50</option>
@@ -147,24 +157,26 @@
                             </div>
                         </div>
                     </div>
-{{--                    <div class="col-6">--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label class="form-label" for="target_industry">Target Industry Classification<span class="text-danger"> *</span></label>--}}
-{{--                            <div class="form-control-wrap">--}}
-{{--                                <select class="form-select" id="target_industry" name="target_industry"--}}
-{{--                                        data-placeholder="Select Industry Type" data-search="on" required>--}}
-{{--                                    <option value=""></option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="col-6"> --}}
+                    {{--                        <div class="form-group"> --}}
+                    {{--                            <label class="form-label" for="target_industry">Target Industry Classification<span class="text-danger"> *</span></label> --}}
+                    {{--                            <div class="form-control-wrap"> --}}
+                    {{--                                <select class="form-select" id="target_industry" name="target_industry" --}}
+                    {{--                                        data-placeholder="Select Industry Type" data-search="on" required> --}}
+                    {{--                                    <option value=""></option> --}}
+                    {{--                                </select> --}}
+                    {{--                            </div> --}}
+                    {{--                        </div> --}}
+                    {{--                    </div> --}}
 
                     <div class="col-6 mt-2">
                         <div class="form-group">
-                            <label class="form-label" for="communication_language">Preferred Communication Language</label>
+                            <label class="form-label" for="communication_language">Preferred Communication
+                                Language</label>
                             <div class="form-control-wrap">
-                                <select class="form-select js-select2" id="communication_language" name="communication_language"
-                                        multiple="multiple" data-placeholder="Select Language" data-search="on" required>
+                                <select class="form-select js-select2" id="communication_language"
+                                    name="communication_language" multiple="multiple" data-placeholder="Select Language"
+                                    data-search="on" required>
                                     <option value=""></option>
                                     <option value="English">English</option>
                                     <option value="Chinese">Chinese (漢語)</option>
@@ -202,35 +214,49 @@
                     </div>
                     <div class="col-12 mt-4">
                         <div class="form-group">
-                            <label class="form-label" for="target_keyword">Target Product/Service/Industry Keyword<i class="fs-6 ms-1 text-info fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="These keyword will be use to match the best potential partners for this project. (Max. 20 keyword)"></i></label>
+                            <label class="form-label" for="target_keyword">Target Product/Service/Industry Keyword<i
+                                    class="fs-6 ms-1 text-info fa-solid fa-info-circle" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="These keyword will be use to match the best potential partners for this project. (Max. 20 keyword)"></i></label>
                             <div class="form-control-wrap">
-                                <input type="text" id="target_keyword" class="form-control tagify" placeholder="Add Keyword">
+                                <input type="text" id="target_keyword" class="form-control tagify"
+                                    placeholder="Add Keyword">
                             </div>
                             <span class="sub-text tw-mt-0.5">Eg: Food Processing, Packaging, Noodles, Mobile Apps</span>
                         </div>
                     </div>
                     <div class="col-12 mt-4 mb-2">
                         <div class="form-control-wrap">
-                            <label class="form-label" for="target_industry">Key Questions to Potential Partner (Leave empty if no question)<i class="fs-6 ms-1 text-info fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="A set of questions that will be asked to a potential partners before they will be match as potential partner"></i></label>
+                            <label class="form-label" for="target_industry">Key Questions to Potential Partner (Leave
+                                empty if no question)<i class="fs-6 ms-1 text-info fa-solid fa-info-circle"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="A set of questions that will be asked to a potential partners before they will be match as potential partner"></i></label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">Q1</span></div>
-                                <input type="text" id="q1" class="form-control target_question" placeholder="Eg: Care to share your portfolio?" required="">
+                                <input type="text" id="q1" class="form-control target_question"
+                                    placeholder="Eg: Care to share your portfolio?" required="">
                             </div>
                             <div class="input-group mt-2">
                                 <div class="input-group-prepend"><span class="input-group-text">Q2</span></div>
-                                <input type="text" id="q2" class="form-control target_question" placeholder="Eg: Which sector is the customer base and who is the major clients?" required="">
+                                <input type="text" id="q2" class="form-control target_question"
+                                    placeholder="Eg: Which sector is the customer base and who is the major clients?"
+                                    required="">
                             </div>
                             <div class="input-group mt-2">
                                 <div class="input-group-prepend"><span class="input-group-text">Q3</span></div>
-                                <input type="text" id="q3" class="form-control target_question" placeholder="Eg: Are you able to buy at least 2 units of the machine to start demonstration and distribution (value at least USD 50,000)" required="">
+                                <input type="text" id="q3" class="form-control target_question"
+                                    placeholder="Eg: Are you able to buy at least 2 units of the machine to start demonstration and distribution (value at least USD 50,000)"
+                                    required="">
                             </div>
                             <div class="input-group mt-2">
                                 <div class="input-group-prepend"><span class="input-group-text">Q4</span></div>
-                                <input type="text" id="q4" class="form-control target_question" placeholder="Eg: What is the company revenue for past 5 year" required="">
+                                <input type="text" id="q4" class="form-control target_question"
+                                    placeholder="Eg: What is the company revenue for past 5 year" required="">
                             </div>
                             <div class="input-group mt-2">
                                 <div class="input-group-prepend"><span class="input-group-text">Q5</span></div>
-                                <input type="text" id="q4" class="form-control target_question" placeholder="Eg: What is the main key products your company sells" required="">
+                                <input type="text" id="q4" class="form-control target_question"
+                                    placeholder="Eg: What is the main key products your company sells" required="">
                             </div>
                         </div>
                     </div>
@@ -243,16 +269,17 @@
                 <div class="col-6 pt-3">
                     <div class="form-group tw-flex tw-justify-items-center">
                         <label class="form-label mt-1 me-2 tw-cursor-default" for="owner">Project Created By: </label>
-                        <input type="text" class="ps-2 tw-w-72" id="owner" name="owner" value="{{auth()->user()->name}}" disabled required>
+                        <input type="text" class="ps-2 tw-w-72" id="owner" name="owner"
+                            value="{{ auth()->user()->name }}" disabled required>
                     </div>
                 </div>
                 <div class="col-4">
-                    <btn id="submitBtn" class="btn btn-primary mt-3 btn-block" onclick="submitProject()">Submit Project</btn>
+                    <btn id="submitBtn" class="btn btn-primary mt-3 btn-block" onclick="submitProject()">Submit Project
+                    </btn>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('scripts')
@@ -260,9 +287,11 @@
 
     <script>
         // create fake data
-        function initFakeData(){
+        function initFakeData() {
             $('#project-name').val('Seeking investor/operator for large-scale noodles company in Thailand');
-            $('#project-description').val('One of the noodles company in Thailand is looking to develop a large-scale noodles manufacturing and distribution company in Thailand. Seeking an international strategic partner that would invest $100M+ and operate a 10 million noodle packages per year.');
+            $('#project-description').val(
+                'One of the noodles company in Thailand is looking to develop a large-scale noodles manufacturing and distribution company in Thailand. Seeking an international strategic partner that would invest $100M+ and operate a 10 million noodle packages per year.'
+                );
             $('#hub').val('2').trigger('change');
             $('#deadline').val('30/01/2024');
             $('#target_company_size').val('1001-5000').trigger('change');
@@ -274,31 +303,32 @@
         }
 
         tagifyInit();
-        function tagifyInit(){
+
+        function tagifyInit() {
             $('#target_keyword').tagify({
                 maxTags: 20,
             });
         }
 
-        $('#select_company').on('select2:select', function (e) {
+        $('#select_company').on('select2:select', function(e) {
             $('#company_holder').removeClass('d-none');
             getCompanyDetail(e.params.data.id);
         });
 
         $('#select_company').select2({
             ajax: {
-                url: '{{route('company.search')}}',
+                url: '{{ route('company.search') }}',
                 dataType: 'json',
                 delay: 250,
-                data: function (params) {
+                data: function(params) {
                     return {
                         query: params.term, // search term
                         page: params.page
                     };
                 },
-                processResults: function (data, params) {
+                processResults: function(data, params) {
                     return {
-                        results: data.map(function (item) {
+                        results: data.map(function(item) {
                             return {
                                 id: item.id,
                                 text: item.name,
@@ -316,13 +346,14 @@
         });
 
         initCountry();
-        function initCountry(){
+
+        function initCountry() {
             $.ajax({
-                url: '{{route('countries.index')}}',
+                url: '{{ route('countries.index') }}',
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#target_country').select2({
-                        data: data.map(function (item) {
+                        data: data.map(function(item) {
                             return {
                                 id: item.id,
                                 text: item.emoji + ' ' + item.name + ' ',
@@ -336,13 +367,14 @@
         }
 
         initIndustry();
-        function initIndustry(){
+
+        function initIndustry() {
             $.ajax({
-                url: '{{route('industries.index')}}',
+                url: '{{ route('industries.index') }}',
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#target_industry').select2({
-                        data: data.map(function (item) {
+                        data: data.map(function(item) {
                             return {
                                 id: item.id,
                                 text: item.name,
@@ -365,6 +397,7 @@
                 '</div>'
             );
         }
+
         function formatSelection(result) {
             if (!result.id) return result.text;
             return $(
@@ -384,16 +417,16 @@
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false,
-                onOpen: function () {
+                onOpen: function() {
                     Swal.showLoading();
                 }
             });
             $.ajax({
                 url: '{{ route('companies.get', '') }}/' + id,
                 type: 'GET',
-                success: function (data) {
+                success: function(data) {
                     //add delay of 500ms then close swal
-                    setTimeout(function () {
+                    setTimeout(function() {
                         Swal.close();
                         $('#company_name').text(data.name);
                         $('#company_image').attr('src', data.img_url);
@@ -408,6 +441,15 @@
         }
 
         function submitProject() {
+            let keywords = $('#target_keyword').val();
+            if (keywords.length < 1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'At least a keyword is needed for project creation',
+                });
+                return;
+            }
             Swal.fire({
                 text: 'Submit project...',
                 showCancelButton: false,
@@ -415,7 +457,7 @@
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false,
-                onOpen: function () {
+                onOpen: function() {
                     Swal.showLoading();
                 }
             });
@@ -435,13 +477,13 @@
                     target_company_size: $('#target_company_size').val(),
                     target_keyword: JSON.parse($('#target_keyword').val()).map(e => e.value),
                     communication_language: $('#communication_language').val(),
-                    target_question: $('.target_question').map(function () {
+                    target_question: $('.target_question').map(function() {
                         return $(this).val();
                     }).get(),
                 },
-                success: function (data) {
+                success: function(data) {
                     //add delay of 500ms then close swal
-                    setTimeout(function () {
+                    setTimeout(function() {
                         Swal.close();
                         Swal.fire({
                             icon: 'success',
@@ -453,13 +495,13 @@
                             allowEscapeKey: false,
                             allowEnterKey: false,
                         });
-                        setTimeout(function () {
+                        setTimeout(function() {
                             Swal.close();
-                            window.location.href = '{{route('client.projects.index')}}';
+                            window.location.href = '{{ route('client.projects.index') }}';
                         }, 1000);
                     }, 100);
                 },
-                error: function (data) {
+                error: function(data) {
                     console.log(data)
                     Swal.close();
                     Swal.fire({
@@ -471,39 +513,41 @@
             });
         }
 
-        $(document).ready(function () {
-            @if(!$company)
-            $('.form-control').attr('disabled', true)
-            $('.js-select2').select2("enable", false)
-            $('.js-select2').select2("enable", false)
-            $('#submitBtn').addClass('disabled').html('Please assign Organization to submit project')
+        $(document).ready(function() {
+            @if (!$company)
+                $('.form-control').attr('disabled', true)
+                $('.js-select2').select2("enable", false)
+                $('.js-select2').select2("enable", false)
+                $('#submitBtn').addClass('disabled').html('Please assign Organization to submit project')
             @endif
         });
 
-        $( document ).ready(function() {
+        $(document).ready(function() {
             $.ajax({
-                url: '{{route('industries_expert.main')}}',
+                url: '{{ route('industries_expert.main') }}',
                 method: 'GET',
-                success: function (response) {
-                    response.forEach(function (industry) {
-                        $('#main-industry').append('<option value="'+industry+'">'+industry+'</option>');
+                success: function(response) {
+                    response.forEach(function(industry) {
+                        $('#main-industry').append('<option value="' + industry + '">' +
+                            industry + '</option>');
                     });
                 }
             });
         });
 
         let sub_industry_classification;
-        $('#main-industry').on('change', function () {
+        $('#main-industry').on('change', function() {
             let main = $(this).val();
             if (main === null) return;
             main = main.replaceAll('/', '_');
             $.ajax({
-                url: '{{route('industries_expert.sub','')}}/'+main,
+                url: '{{ route('industries_expert.sub', '') }}/' + main,
                 method: 'GET',
-                success: function (response) {
+                success: function(response) {
                     $('#sub-industry').empty();
-                    response.forEach(function (industry) {
-                        $('#sub-industry').append('<option value="'+industry.id+'">'+industry.sub+'</option>');
+                    response.forEach(function(industry) {
+                        $('#sub-industry').append('<option value="' + industry.id + '">' +
+                            industry.sub + '</option>');
                     });
                     if (sub_industry_classification) {
                         $('#sub-industry').val(sub_industry_classification).trigger('change');
@@ -513,6 +557,3 @@
         });
     </script>
 @endpush
-
-
-

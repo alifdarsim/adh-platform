@@ -231,7 +231,7 @@ class ProjectsController extends Controller
         $project->save();
         if ($status == 'active') return success('Project approved successfully');
         else if ($status == 'reject') return success('Project is rejected');
-        else return success('Project set to pending');
+        else return success('Project Approve');
     }
 
     public function close($pid)

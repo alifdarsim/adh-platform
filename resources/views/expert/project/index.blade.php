@@ -1,19 +1,23 @@
 @extends('layouts.user.main')
 @section('content')
-
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
-            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Manage Your Projects</h3>
-                <div class="nk-block-des text-soft"><p>Only project that you are invited and awarded will be shown here. Total project: {{ auth()->user()->projects->count() }} projects</p></div>
+            <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Manage Your Projects</h3>
+                <div class="nk-block-des text-soft">
+                    <p>Only project that you are invited and awarded will be shown here. Total project:
+                        {{ auth()->user()->projects->count() }} projects</p>
+                </div>
             </div>
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1"
-                       data-target="pageMenu"><em class="icon ni ni-more-v"></em>
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em
+                            class="icon ni ni-more-v"></em>
                     </a>
                     <div class="toggle-expand-content" data-content="pageMenu">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary text-white btn-outline-primary"><i class="fa-solid fa-person me-1"></i>As Expert</button>
+                            <button type="button" class="btn btn-primary text-white btn-outline-primary"><i
+                                    class="fa-solid fa-person me-1"></i>As Expert</button>
                         </div>
                     </div>
                 </div>
@@ -21,7 +25,7 @@
         </div>
     </div>
     <div class="nk-block">
-        @if(auth()->user()->projects->count() == 0)
+        @if (auth()->user()->projects->count() == 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
                 <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
@@ -34,8 +38,11 @@
                         <div class="card-tools">
                             <div class="form-inline flex-nowrap gx-3">
                                 <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left form-control"><i class="fa-regular fa-magnifying-glass"></i></div>
-                                    <input type="text" class="tw-w-96 form-control form-control tw-rounded !tw-ps-12 focus:tw-border focus:tw-border-blue-500" id="searchbar" placeholder="Search Project, User name">
+                                    <div class="form-icon form-icon-left form-control"><i
+                                            class="fa-regular fa-magnifying-glass"></i></div>
+                                    <input type="text"
+                                        class="tw-w-96 form-control form-control tw-rounded !tw-ps-12 focus:tw-border focus:tw-border-blue-500"
+                                        id="searchbar" placeholder="Search Project, User name">
                                 </div>
                             </div>
                         </div>
@@ -43,18 +50,22 @@
                             <ul class="btn-toolbar gx-1">
                                 <li>
                                     <div class="toggle-wrap">
-                                        <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                        <a href="#" class="btn btn-icon btn-trigger toggle"
+                                            data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
                                         <div class="toggle-content" data-content="cardTools">
                                             <ul class="btn-toolbar gx-1">
                                                 <li class="toggle-close">
-                                                    <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
+                                                    <a href="#" class="btn btn-icon btn-trigger toggle"
+                                                        data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
                                                 </li>
                                                 <li>
                                                     <div class="dropdown">
-                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle"
+                                                            data-bs-toggle="dropdown">
                                                             <em class="icon ni ni-filter-alt"></em>
                                                         </a>
-                                                        <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                        <div
+                                                            class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
                                                             <div class="dropdown-head">
                                                                 <span class="sub-title dropdown-title">Filter Table</span>
                                                             </div>
@@ -62,22 +73,33 @@
                                                                 <div class="row gx-6 gy-3">
                                                                     <div class="col-6">
                                                                         <div class="form-group">
-                                                                            <label class="overline-title overline-title-alt" for="status">STATUS</label>
-                                                                            <select class="form-select js-select2 js-select2-sm" id="status">
+                                                                            <label class="overline-title overline-title-alt"
+                                                                                for="status">STATUS</label>
+                                                                            <select
+                                                                                class="form-select js-select2 js-select2-sm"
+                                                                                id="status">
                                                                                 <option value="all">All Status</option>
-                                                                                <option value="interested">Waiting Selection</option>
-                                                                                <option value="not-interested">Not Interested</option>
-                                                                                <option value="pending">Pending Respond</option>
+                                                                                <option value="interested">Waiting Selection
+                                                                                </option>
+                                                                                <option value="not-interested">Not
+                                                                                    Interested</option>
+                                                                                <option value="pending">Pending Respond
+                                                                                </option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <div class="form-group">
-                                                                            <label class="overline-title overline-title-alt">COLUMN SEARCH</label>
+                                                                            <label
+                                                                                class="overline-title overline-title-alt">COLUMN
+                                                                                SEARCH</label>
                                                                             <br>
                                                                             <div class="custom-control custom-switch mt-1">
-                                                                                <input type="checkbox" class="custom-control-input" id="column_search">
-                                                                                <label class="custom-control-label" for="column_search">Hide</label>
+                                                                                <input type="checkbox"
+                                                                                    class="custom-control-input"
+                                                                                    id="column_search">
+                                                                                <label class="custom-control-label"
+                                                                                    for="column_search">Hide</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -88,7 +110,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="dropdown">
-                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle"
+                                                            data-bs-toggle="dropdown">
                                                             <em class="icon ni ni-eye"></em>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu dropdown-menu-end">
@@ -102,7 +125,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="dropdown">
-                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle"
+                                                            data-bs-toggle="dropdown">
                                                             <em class="icon ni ni-setting"></em>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
@@ -117,15 +141,25 @@
                                                 </li>
                                                 <li>
                                                     <div class="dropdown">
-                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <a href="#" class="btn btn-trigger btn-icon dropdown-toggle"
+                                                            data-bs-toggle="dropdown">
                                                             <em class="icon ni ni-download-cloud"></em>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu dropdown-menu-end">
                                                             <ul class="link-check">
                                                                 <li><span>Export As</span></li>
-                                                                <li><a class="export-btn py-2 clickable" val="excel"><span><i class="fa-solid fa-file-excel fs-7 me-1"></i>Export Excel</span></a></li>
-                                                                <li><a class="export-btn py-2 clickable" val="pdf"><span><i class="fa-solid fa-file-pdf fs-7 me-1"></i>Export Pdf</span></a></li>
-                                                                <li><a class="export-btn py-2 clickable" val="print"><span><i class="fa-solid fa-print fs-7 me-1"></i>Print Table</span></a></li>
+                                                                <li><a class="export-btn py-2 clickable"
+                                                                        val="excel"><span><i
+                                                                                class="fa-solid fa-file-excel fs-7 me-1"></i>Export
+                                                                            Excel</span></a></li>
+                                                                <li><a class="export-btn py-2 clickable"
+                                                                        val="pdf"><span><i
+                                                                                class="fa-solid fa-file-pdf fs-7 me-1"></i>Export
+                                                                            Pdf</span></a></li>
+                                                                <li><a class="export-btn py-2 clickable"
+                                                                        val="print"><span><i
+                                                                                class="fa-solid fa-print fs-7 me-1"></i>Print
+                                                                            Table</span></a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -140,8 +174,10 @@
                     <div class="card-search search-wrap" data-search="search">
                         <div class="card-body">
                             <div class="search-content">
-                                <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
-                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em
+                                        class="icon ni ni-arrow-left"></em></a>
+                                <input type="text" class="form-control border-transparent form-focus-none"
+                                    placeholder="Search by user or email">
                                 <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
                             </div>
                         </div>
@@ -164,7 +200,6 @@
             </div>
         @endif
     </div>
-
 @endsection
 
 @push('scripts')
@@ -173,24 +208,30 @@
     <script src="/assets/js/libs/datatable-init.js?ver=3.2.2"></script>
     <script>
         datatableInit('#datatable', {
-            ajax: '{{route('expert.projects.datatable')}}',
+            ajax: '{{ route('expert.projects.datatable') }}',
             // order:  [[4, 'desc']],
-            columnDefs: [
-                { "orderable": false, "targets": [0,1,2,3,4] },
-                { "className": "nk-tb-col", "targets": "_all" },
+            columnDefs: [{
+                    "orderable": false,
+                    "targets": [0, 1, 2, 3, 4]
+                },
+                {
+                    "className": "nk-tb-col",
+                    "targets": "_all"
+                },
                 {
                     "className": "clickable",
-                    "targets": [0,1,2,3,4],
-                    "createdCell": function (td, cellData, rowData) {
-                        $(td).on('click', () => window.location.href = '{{route('expert.projects.show', '')}}/' + rowData.pid )
+                    "targets": [0, 1, 2, 3, 4],
+                    "createdCell": function(td, cellData, rowData) {
+                        $(td).on('click', () => window.location.href =
+                            '{{ route('expert.projects.show', '') }}/' + rowData.pid)
                     }
                 }
             ],
-            columns: [
-                {
+            columns: [{
                     data: 'status',
-                    render: function (data) {
-                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' : 'info');
+                    render: function(data) {
+                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' :
+                            'info');
                         return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center tw-w-28">${data === 'shortlisted' ? 'Expert Shortlisting' : data}</span>`;
                     }
                 },
@@ -202,29 +243,30 @@
                 },
                 {
                     data: 'invited_at',
-                    "render": function (data) {
+                    "render": function(data) {
                         return moment(data).format('DD MMM YYYY');
                     }
                 },
                 {
                     data: 'deadline',
-                    "render": function (data) {
+                    "render": function(data) {
                         return moment(data).format('DD MMM YYYY');
                     }
                 },
                 {
                     data: 'accepted',
-                    render: function (data) {
+                    render: function(data) {
                         console.log(data)
-                        let color = data === true ? 'success' : (data === false ? 'secondary' :  'danger');
-                        let icon = `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
+                        let color = data === true ? 'success' : (data === false ? 'secondary' : 'danger');
+                        let icon =
+                            `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
                         return `<div class="d-flex"><span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-2">${data === true ? 'Accept' : (data === false ? 'Reject' : 'No Respond')}</span>${data ? icon : ''}</div>`;
                     }
                 }
             ]
         });
 
-        function respond(pid, accept){
+        function respond(pid, accept) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: `You want to ${accept ? 'show interest' : 'reject'} on this project?`,
@@ -235,24 +277,23 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '{{route('expert.projects.respond')}}',
+                        url: '{{ route('expert.projects.respond') }}',
                         type: 'POST',
                         data: {
-                            _token: '{{csrf_token()}}',
+                            _token: '{{ csrf_token() }}',
                             pid: pid,
                             respond: accept
                         },
-                        success: function (response) {
+                        success: function(response) {
                             Swal.fire('Success', response.message, 'success');
                             table.ajax.reload();
                         },
-                        error: function (error) {
+                        error: function(error) {
                             Swal.fire('Error', error.responseJSON.message, 'error');
                         }
                     });
                 }
             });
         }
-
     </script>
 @endpush
