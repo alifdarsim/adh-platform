@@ -140,8 +140,8 @@
                     <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Hub</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Initiated</span></th>
-                    <th class="nk-tb-col"><span class="sub-text">Deadline</span></th>
-                    <th class="nk-tb-col"><span class="sub-text">Created</span></th>
+                    <th class="nk-tb-col"><span class="sub-text">Created By</span></th>
+                    <th class="nk-tb-col"><span class="sub-text">Handle By</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Company</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
                 </tr>
@@ -171,6 +171,10 @@
                     "createdCell": function (td, cellData, rowData) {
                         $(td).on('click', () => window.location.href = '{{route('admin.projects.show', '')}}/' + rowData.pid )
                     }
+                },
+                {
+                    "targets": [1],
+                    width: '35%'
                 }
             ],
             pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
@@ -178,7 +182,7 @@
                 {
                     data: 'status',
                     render: function (data) {
-                        let color = data === 'pending' ? 'danger' : (data === 'active' ? 'info' : (data === 'awarded' ? 'success' : 'secondary'));
+                        let color = data === 'pending' ? 'danger' : (data === 'shortlisted' ? 'info' : (data === 'awarded' ? 'success' : 'secondary'));
                         return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center">${data === 'active' ? 'Shortlisting' : data}</span>`;
                     }
                 },
@@ -195,10 +199,13 @@
                     }
                 },
                 {
-                    data: 'deadline'
+                    data: 'created_by'
                 },
                 {
-                    data: 'created_by'
+                    data: 'handle_by',
+                    "render": function (data) {
+                        return data ? data : "-";
+                    }
                 },
                 {
                     data: 'company',

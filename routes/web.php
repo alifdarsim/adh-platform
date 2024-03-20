@@ -52,7 +52,7 @@ Route::get('project-awarded/{token}', [ProjectAwardedController::class, 'index']
 
 Route::get('/', function () {
     if (Auth::check()) {
-        if (session('user_type') == 'admin' || session('user_type') == 'super admin') return redirect()->route('admin.companies.index');
+        if (session('user_type') == 'admin' || session('user_type') == 'super admin') return redirect()->route('admin.overview.index');
         else if (session('user_type') == 'expert') return redirect()->route('expert.overview');
         else if (session('user_type') == 'client') return redirect()->route('client.overview');
         else auth()->logout();
@@ -116,12 +116,15 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::delete('/{pid}/{id}', [AdminProjectsController::class, 'expert_remove'])->name('admin.projects.remove-expert');
 
             Route::post('/add-expert', [AdminProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
-            Route::post('/payment/{pid}', [AdminProjectsController::class, 'payment'])->name('admin.projects.payment');
             Route::get('/invite-expert/{project_id}/{expert_id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
             Route::get('/invite-expert-all/{project_id}', [AdminProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
             Route::post('/respond/{pid}', [AdminProjectsController::class, 'respond'])->name('admin.projects.respond');
+            Route::post('/award/{pid}', [AdminProjectsController::class, 'award'])->name('admin.projects.award');
             Route::put('/close/{pid}', [AdminProjectsController::class, 'close'])->name('admin.projects.close');
             Route::put('/reset/{pid}', [AdminProjectsController::class, 'reset'])->name('admin.projects.reset');
+            Route::put('/payment/{pid}', [AdminProjectsController::class, 'payment'])->name('admin.projects.payment');
+            Route::post('/payment/{pid}', [AdminProjectsController::class, 'payment_amount'])->name('admin.projects.payment_amount');
+            Route::put('/start/{pid}', [AdminProjectsController::class, 'start'])->name('admin.projects.start');
 
             // show project
             Route::get('/', [AdminProjectsController::class, 'index'])->name('admin.projects.index');
@@ -196,10 +199,17 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/activity', [AdminAccountController::class, 'activity'])->name('admin.account.activity');
         });
 
+        Route::group(["prefix" => "payment"], function () {
+            Route::get('/', [AdminPaymentController::class, 'index'])->name('admin.payment.index');
+            Route::get('/datatable', [AdminPaymentController::class, 'datatable'])->name('admin.payment.datatable');
+            Route::post('/confirm', [AdminPaymentController::class, 'confirm'])->name('admin.payment.confirm');
+            Route::post('/release', [AdminPaymentController::class, 'release'])->name('admin.payment.release');
+        });
+
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
+        Route::get('contract/{type}', [ContractController::class, 'default'])->name('admin.contract.default');
         Route::resource('contract', ContractController::class, ['names' => 'admin.contract']);
-//        Route::post('contract/upload/{pid}/{type}', [ContractController::class, 'upload'])->name('admin.contract.upload');
         Route::resource('industry_classification', IndustryClassificationController::class, ['names' => 'admin.industry_classification'])->withDatatable();
     });
 
@@ -233,6 +243,11 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/security', [ExpertAccountController::class, 'security'])->name('client.account.security');
             Route::get('/notification', [ExpertAccountController::class, 'notification'])->name('client.account.notification');
             Route::get('/activity', [ExpertAccountController::class, 'activity'])->name('client.account.activity');
+        });
+        Route::group(["prefix" => "payment"], function () {
+            Route::get('/', [ClientPaymentController::class, 'index'])->name('client.payment.index');
+            Route::get('/datatable', [ClientPaymentController::class, 'datatable'])->name('client.payment.datatable');
+            Route::post('/store', [ClientPaymentController::class, 'store'])->name('client.payment.store');
         });
     });
 
@@ -281,7 +296,8 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::get('/payment', [ExpertAccountController::class, 'payment'])->name('expert.account.payment');
         });
         Route::group(["prefix" => "payment"], function () {
-            Route::put('/', [ExpertPaymentController::class, 'updatePaymentMethod'])->name('expert.payment.update_method');
+            Route::get('/', [ExpertPaymentController::class, 'index'])->name('expert.payment.index');
+            Route::get('/datatable', [ExpertPaymentController::class, 'datatable'])->name('expert.payment.datatable');
         });
 
     });

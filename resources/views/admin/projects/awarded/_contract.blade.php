@@ -56,7 +56,7 @@
                 </div>
             </div>
         @else
-            <div class="alert alert-light alert-dismissible" role="alert">
+            <div class="alert alert-success alert-dismissible" role="alert">
                 <div class="alert-message">
                     <p><em class="ni ni-info me-1"></em>Contract successfully upload submitted to the Expert. Waiting for expert to upload the signed contract.</p>
                 </div>
@@ -87,7 +87,7 @@
                 </div>
             </div>
         @else
-            <div class="alert alert-light alert-dismissible" role="alert">
+            <div class="alert alert-success alert-dismissible" role="alert">
                 <div class="alert-message">
                     <p><em class="ni ni-info me-1"></em>Contract successfully upload submitted to the Client. Waiting for client to upload the signed contract.</p>
                 </div>

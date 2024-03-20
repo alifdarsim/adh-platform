@@ -147,7 +147,7 @@ const datatableInit = (datatable_element, object, tableInstance = null) => {
                     })
                 });
 
-                if (tableIsExpert)
+                // if (tableIsExpert)
                 experts_info = settings.json.data;
             }
         });

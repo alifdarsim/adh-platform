@@ -1,16 +1,10 @@
-@php
-    $projects = auth()->user()->client->projects;
-    $projects = $projects->filter(function ($project) {
-        return $project->createdBy->name == auth()->user()->name;
-    });
-@endphp
 @extends('layouts.user.main')
 @section('content')
 
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
-            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Project Created By You</h3>
-                <div class="nk-block-des text-soft"><p>Manage all projects that you create as a Client</p></div>
+            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Manage Your Projects</h3>
+                <div class="nk-block-des text-soft"><p>Only project that you are invited and awarded will be shown here. Total project: {{ auth()->user()->projects->count() }} projects</p></div>
             </div>
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -18,18 +12,16 @@
                        data-target="pageMenu"><em class="icon ni ni-more-v"></em>
                     </a>
                     <div class="toggle-expand-content" data-content="pageMenu">
-                        <ul class="nk-block-tools g-3">
-                            <li><a href="{{route('client.projects.create')}}" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Create New Project</span></a>
-                            </li>
-                        </ul>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary text-white btn-outline-primary"><i class="fa-solid fa-person me-1"></i>As Expert</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="nk-block">
-
-        @if($projects->count() == 0)
+        @if(auth()->user()->projects->count() == 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
                 <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
@@ -140,11 +132,11 @@
                                                 </li>
                                             </ul><!-- .btn-toolbar -->
                                         </div><!-- .toggle-content -->
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                                    </div><!-- .toggle-wrap -->
+                                </li><!-- li -->
+                            </ul><!-- .btn-toolbar -->
+                        </div><!-- .card-tools -->
+                    </div><!-- .card-title-group -->
                     <div class="card-search search-wrap" data-search="search">
                         <div class="card-body">
                             <div class="search-content">
@@ -153,20 +145,18 @@
                                 <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div><!-- .card-search -->
+                </div><!-- .card-inner -->
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
-                    <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Hub</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Created</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Created By</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Company</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
-                    </tr>
+                        <tr class="nk-tb-item nk-tb-head">
+                            <th class="nk-tb-col"><span class="sub-text">Status</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Project Name</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Client</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Invited Date</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Accept Invitation?</span></th>
+                        </tr>
                     </thead>
                     <tbody>
                     </tbody>
@@ -183,36 +173,35 @@
     <script src="/assets/js/libs/datatable-init.js?ver=3.2.2"></script>
     <script>
         datatableInit('#datatable', {
-            ajax: '{{route('client.projects.datatable')}}',
-            order:  [[2, 'desc']],
+            ajax: '{{route('expert.projects.datatable')}}',
+            // order:  [[4, 'desc']],
             columnDefs: [
-                { "orderable": false, "targets": [0,1,3,4,5,6,7] },
+                { "orderable": false, "targets": [0,1,2,3,4] },
                 { "className": "nk-tb-col", "targets": "_all" },
                 {
                     "className": "clickable",
-                    "targets": [0,1,2,3,5],
+                    "targets": [0,1,2,3,4],
                     "createdCell": function (td, cellData, rowData) {
-                        $(td).on('click', () => window.location.href = '{{route('client.projects.show', '')}}/' + rowData.pid )
+                        $(td).on('click', () => window.location.href = '{{route('expert.projects.show', '')}}/' + rowData.pid )
                     }
                 }
             ],
-            pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
                 {
                     data: 'status',
                     render: function (data) {
-                        let color = data === 'pending' ? 'danger' : (data === 'shortlisted' ? 'info' : (data === 'awarded' ? 'success' : 'secondary'));
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center">${data === 'shortlisted' ? 'Expert Shortlisting' : data}</span>`;
+                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' : 'info');
+                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center tw-w-28">${data === 'shortlisted' ? 'Expert Shortlisting' : data}</span>`;
                     }
                 },
                 {
-                    data: 'name'
+                    data: 'project_name'
                 },
                 {
-                    data: 'hub',
+                    data: 'client',
                 },
                 {
-                    data: 'created_at',
+                    data: 'invited_at',
                     "render": function (data) {
                         return moment(data).format('DD MMM YYYY');
                     }
@@ -224,36 +213,46 @@
                     }
                 },
                 {
-                    data: 'created_by'
-                },
-                {
-                    data: 'company',
-                    render: function (data, type, row) {
-                        return `<img src="${row.company_img}" width="36" height="36" class="round-sm" alt="" data-bs-toggle="tooltip" data-bs-placement="top" title="${data}">`
+                    data: 'accepted',
+                    render: function (data) {
+                        console.log(data)
+                        let color = data === true ? 'success' : (data === false ? 'secondary' :  'danger');
+                        let icon = `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
+                        return `<div class="d-flex"><span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-2">${data === true ? 'Accept' : (data === false ? 'Reject' : 'No Respond')}</span>${data ? icon : ''}</div>`;
                     }
-                },
-
-                {
-                    data: 'id',
-                    className: 'nk-tb-col-tools',
-                    render: function (data, type, row) {
-                        return `<ul class="nk-tb-actions gx-1">
-                                <li>
-                                    <div class="drodown">
-                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" href="{{route('client.projects.show',"")}}/${row.pid}"><em class="icon ni ni-eye"></em><span>Show Details</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>`
-                    },
-                },
+                }
             ]
         });
 
-    </script>
+        function respond(pid, accept){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You want to ${accept ? 'show interest' : 'reject'} on this project?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: 'No, cancel it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{route('expert.projects.respond')}}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            pid: pid,
+                            respond: accept
+                        },
+                        success: function (response) {
+                            Swal.fire('Success', response.message, 'success');
+                            table.ajax.reload();
+                        },
+                        error: function (error) {
+                            Swal.fire('Error', error.responseJSON.message, 'error');
+                        }
+                    });
+                }
+            });
+        }
 
+    </script>
 @endpush

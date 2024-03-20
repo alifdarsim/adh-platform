@@ -1,12 +1,12 @@
 <div class="nk-block-head-content">
-    <h5 class="title mb-1 mt-4 pb-1">Project Information</h5>
+    <h6 class="title mb-1 mt-4 pb-1">Project Information</h6>
 </div>
 <div class="card card-bordered card-preview">
     <div class="card-inner">
         <ul class="nav nav-tabs mt-n3" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" data-bs-toggle="tab" href="#tabItem5" aria-selected="true" role="tab">
-                    <i class="fa-regular fa-rectangle-history-circle-user fs-5 me-1"></i><span>Details</span>
+                    <i class="fa-regular fa-rectangle-history-circle-user fs-5 me-1"></i><span>Project Details</span>
                 </a>
             </li>
             <li class="nav-item" role="presentation">
@@ -27,7 +27,7 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tabItem5" role="tabpanel">
-                <h5 class="title mb-3">Project Detail</h5>
+{{--                <h6 class="title mb-3">Project Detail</h6>--}}
                 <div class="row g-3">
                     <div class="col-12">
                         <div class="form-group">

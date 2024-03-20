@@ -70,4 +70,9 @@ class ContractController extends Controller
         return error('An error occurred while uploading contract');
     }
 
+    public function default($type)
+    {
+        return Contract::where('type', $type)->first()->content;
+    }
+
 }

@@ -36,6 +36,11 @@
                 </li>
             </ul>
         </li>
+        <li class="nk-menu-item">
+            <a href="{{route('client.payment.index')}}" class="nk-menu-link">
+                <span class="nk-menu-text">Payment</span>
+            </a>
+        </li>
         <li class="nk-menu-item has-sub">
             <a href="#" class="nk-menu-link nk-menu-toggle">
                 <span class="nk-menu-icon"><i class="fa-regular fa-box-dollar fs-5"></i></span>

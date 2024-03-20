@@ -33,9 +33,9 @@ class ProjectsController extends Controller
         $countries = Country::select('id', 'name')->get();
         $project = Projects::where('pid',$pid)->first();
         if (!$project) return view('errors.not-exist');
-        if ($project->status == 'awarded' || $project->status == 'closed'){
-            return view('admin.projects.awarded.index', compact('project'));
-        }
+//        if ($project->status == 'awarded' || $project->status == 'closed' ){
+//            return view('admin.projects.awarded.index', compact('project'));
+//        }
         $project->targetCountries;
         $project->projectTargetInfo;
         $project->created_by = $project->createdBy;
@@ -126,6 +126,9 @@ class ProjectsController extends Controller
             ->addColumn('created_by', function ($project) {
                 return $project->createdBy->name;
             })
+            ->addColumn('handle_by', function ($project) {
+                return $project->handleBy->name ?? '-';
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -140,7 +143,7 @@ class ProjectsController extends Controller
             $item->email = $item->expert->email;
             return $item;
         });
-        $answer = $project->answer;
+        $answer = $project->answer ?? collect();
         $invitation = ProjectInvited::where('project_id', $project->id)->get();
         return datatables()->of($shortlist)
             ->addColumn('invited', function ($shortlist) use ($invitation) {
@@ -153,7 +156,7 @@ class ProjectsController extends Controller
             ->addColumn('answers', function ($shortlist) use ($invitation, $answer) {
                 if (User::where('email', $shortlist->email)->first() === null) return null;
                 $user_id = User::where('email', $shortlist->email)->first()->id;
-                return $answer->where('user_id', $user_id)->first()->answers;
+                return $answer->firstWhere('user_id', $user_id)->answers ?? null;
             })
             ->addColumn('accepted', function ($shortlist) use ($invitation) {
                 $email = $shortlist->email;
@@ -177,6 +180,13 @@ class ProjectsController extends Controller
             ->make(true);
     }
 
+    public function award($pid){
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'awarded';
+        $project->awarded_at = now();
+        $project->save();
+    }
+
     public function award_expert($pid, MailSender $mailSender){
         $expert_id = request()->get('expert_id');
         // get user_id from expert_id
@@ -186,7 +196,7 @@ class ProjectsController extends Controller
         $project = Projects::where('pid',$pid)->first();
         $project->awarded_at = now();
         $project->awarded_to = $user_id;
-        $project->status = 'awarded';
+        $project->status = 'contract';
         $project->awarded_token = $token;
         $project->save();
         $mailSender->sendProjectAwarded($email, $project->name, $token);
@@ -213,7 +223,10 @@ class ProjectsController extends Controller
         $id = Projects::where('pid',$pid)->first()->id;
         $project = Projects::find($id);
         $project->status = $status;
-        if ($status == 'active') $project->published_at = Carbon::now();
+        if ($status == 'shortlisted') {
+            $project->published_at = Carbon::now();
+            $project->handle_by = auth()->user()->id;
+        }
         else if ($status == 'reject') $project->published_at = null;
         $project->save();
         if ($status == 'active') return success('Project approved successfully');
@@ -229,6 +242,32 @@ class ProjectsController extends Controller
         return success('Project closed successfully');
     }
 
+    public function payment($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'payment';
+        $project->save();
+        return success('Project is complete, now you can make payment to the expert');
+    }
+
+    public function payment_amount($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        // if project payment not created then create it
+        $project_payment = $project->payment ?? $project->payment()->create();
+        $type = request()->get('type');
+        if ($type == 'client') {
+            $project_payment->received_amount = request()->get('amount');
+            $project_payment->received_status = 'pending';
+        }
+        else{
+            $project_payment->released_amount = request()->get('amount');
+            $project_payment->released_status = 'pending';
+        }
+        $project_payment->save();
+        return success('Payment amount added successfully');
+    }
+
     public function reset($pid)
     {
         $project = Projects::where('pid',$pid)->first();
@@ -236,10 +275,23 @@ class ProjectsController extends Controller
         $project->awarded_to = null;
         $project->awarded_at = null;
         $project->awarded_token = null;
+        $project->published_at = null;
+        $project->handle_by = null;
         $project->save();
         ProjectShortlist::where('project_id',$project->id)->delete();
         ProjectInvited::where('project_id',$project->id)->delete();
         return success('Project reset successfully');
+    }
+
+    public function start($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'started';
+        if (!$project->payment) return error('No payment info created yet, please add payment amount first');
+        $project->save();
+        $project->payment->confirm = 1;
+        $project->payment->save();
+        return success('Project started successfully');
     }
 
     public function add_expert(){
@@ -293,12 +345,12 @@ class ProjectsController extends Controller
         return success('Expert invited successfully');
     }
 
-    public function payment($pid)
-    {
-        $amount = request()->get('payment');
-        $project = Projects::find($pid);
-        $project->amount = $amount;
-        $project->save();
-        return success('Project payment successful');
-    }
+//    public function payment($pid)
+//    {
+//        $amount = request()->get('payment');
+//        $project = Projects::find($pid);
+//        $project->amount = $amount;
+//        $project->save();
+//        return success('Project payment successful');
+//    }
 }

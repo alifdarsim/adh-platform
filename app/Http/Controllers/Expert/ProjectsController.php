@@ -14,7 +14,7 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        return view('expert.projects.index');
+        return view('expert.project.index');
     }
 
     public function datatable()
@@ -84,18 +84,9 @@ class ProjectsController extends Controller
     }
 
     public function show($pid){
-        $status = Projects::where('pid', $pid)->first()->status;
-        if ($status == 'awarded') {
-            return redirect()->route('expert.awarded.show', $pid);
-        }
         $project = Projects::where('pid', $pid)->first();
         if (!$project) return view('errors.not-exist');
-//        $invited_project = ProjectShortlisted::where('project_id', $project->id)->where('expert_id', auth()->user()->expert->id)->first();
-//        if (!$invited_project) return view('errors.uninvited');
-//        $project = $invited_project->project;
-//        $invitation_accepted = $invited_project->accepted;
-//        return view('expert.projects.show', compact('project', 'invitation_accepted', 'invited_project'));
-        return view('expert.projects.show', compact('project'));
+        return view('expert.project.show.index', compact('project'));
     }
 
     public function answer_enquiries(){

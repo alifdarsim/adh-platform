@@ -84,12 +84,17 @@ class Projects extends Model
 
     public function invited_user_accepted()
     {
-        return $this->invited()->where('email', auth()->user()->email)->first()->accepted ?? false;
+        return $this->invited()->where('email', auth()->user()->email)->first()->accepted;
     }
 
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function handleBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'handle_by', 'id');
     }
 
     public function company(): HasOne
@@ -105,5 +110,10 @@ class Projects extends Model
     public function contract(): hasMany
     {
         return $this->hasMany(ProjectContract::class, 'project_id', 'id');
+    }
+
+    public function payment(): HasOne
+    {
+        return $this->hasOne(ProjectPayment::class, 'project_id', 'id');
     }
 }

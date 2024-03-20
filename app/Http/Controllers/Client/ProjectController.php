@@ -33,7 +33,6 @@ class ProjectController extends Controller
     {
         $project = Projects::where('pid', $pid)->first();
         if (!$project) return view('errors.not-exist');
-        if ($project->status == 'awarded') return view('client.awarded.index', compact('project'));
         return view('client.project.show.index', compact('project'));
     }
 
@@ -101,14 +100,7 @@ class ProjectController extends Controller
                 return $project->description;
             })
             ->addColumn('deadline', function ($project) {
-                $deadline = $project->deadline;
-                $deadline = date('d-m-Y', strtotime($deadline));
-                $date1 = date_create($deadline);
-                $date2 = date_create(date('d-m-Y'));
-                $diff = date_diff($date2, $date1);
-                $string = $diff->format("%R%a days");
-                if ($string[0] == '-') return 'Expired';
-                else return substr($string, 1);
+                return $project->deadline;
             })
             ->addColumn('created_by', function ($project) {
                 return $project->createdBy->name;

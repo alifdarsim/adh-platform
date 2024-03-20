@@ -50,18 +50,6 @@
                             <p class="fs-13px" id="detail_about"></p>
                         </div>
                     </div>
-{{--                    <hr class="tw-h-px tw-my-0 tw-bg-gray-200 tw-border-0 dark:tw-bg-gray-700">--}}
-{{--                    <div class="p-4">--}}
-{{--                        <h6 class="title">Resume/CV</h6>--}}
-{{--                        <div>--}}
-{{--                            <a href="{{auth()->user()->expert->getMedia('cv')->last()->original_url}}" target="_blank" class="btn btn-white btn-outline-info me-1">--}}
-{{--                                <em class="icon ni ni-download-cloud"></em><span>Download</span>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                        <div>--}}
-{{--                            No Resume/CV added Yet--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
                     <hr class="tw-h-px tw-my-0 tw-bg-gray-200 tw-border-0 dark:tw-bg-gray-700">
                     <div class="">
                         <div class="card-inner border-bottom py-2">
@@ -107,7 +95,7 @@
             $('#modalExpertDetail').css('z-index', '1053');
             console.log(id)
             console.log(experts_info)
-            let data = experts_info.find(item => item.id === id);
+            let data = experts_info.find(item => item.expert.id === id).expert;
             console.log(data)
             $('#detail_image').html('');
             $('#detail_image').append(data.img_url ? `<img src="${data.img_url}" alt="profile" class="tw-w-28 tw-h-28 object-fit-cover tw-rounded-full"/>` : `<span class="text-white fs-1">N/A</span>`);

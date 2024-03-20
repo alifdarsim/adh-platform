@@ -60,3 +60,8 @@
 .nk-tb-col:not(:last-child) {
     padding-right: 0 !important;
 }
+
+/*.project-status > .btn.disabled, .btn:disabled {*/
+/*    color: #e14954;*/
+/*    border-color: #e14954;*/
+/*}*/

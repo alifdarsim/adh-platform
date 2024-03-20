@@ -2,6 +2,7 @@
 /node_modules
 /public/build
 /public/contracts
+/public/payment_receipt/
 /public/hot
 /public/compile.php
 /public/storage

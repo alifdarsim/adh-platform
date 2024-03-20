@@ -10,43 +10,51 @@
         </div>
     </div>
     <div class="nk-block">
-        <div class="card card-bordered">
-            <div class="card-inner">
-                <div class="tw-flex tw-justify-between">
-                    <div>
-                        <div class="me-4"><strong>Project Name:</strong> {{$project->name}}</div>
-                        <div class="me-4"><strong>Project ID:</strong> {{request()->segment(3)}}</div>
-                        <div class="me-4"><strong>Created By:</strong> {{$project->createdBy->name}}</div>
-                    </div>
-                    <div id="status-btn" class="drodown">
-                        <h6 class="fs-14px">Project Status</h6>
-                        @if($project->status == 'awarded')
-                            <a class="tw-cursor-default dropdown-toggle btn btn-info"><span class="tw-uppercase">AWARDED</span></a>
-                        @elseif($project->status == 'active')
-                            <a class="tw-cursor-default dropdown-toggle btn btn-info"><span class="tw-success">SHORTLISTING</span></a>
-                        @elseif($project->status == 'reject')
-                            <a class="tw-cursor-default dropdown-toggle btn btn-danger"><span class="tw-success">REJECTED</span></a>
-                        @else
-                            <a class="tw-cursor-default dropdown-toggle btn btn-warning"><span class="tw-uppercase">PENDING APPROVAL</span></a>
-                        @endif
-                    </div>
+        @include('status.index')
+
+        @if($project->payment && $project->payment->where('received_status', 'pending')->first())
+            <div class="nk-block-head-content mt-3">
+                <h6 class="title pb-1">Pending Action by You</h6>
+            </div>
+            <div class="example-alert mb-3">
+                <div class="alert alert-fill bg-warning-dim alert-icon border !tw-border-yellow-500">
+                    <em class="icon ni ni-money"></em>
+                    <p class="mb-1">You have pending Payment agreed upon this project of amount <strong>{{$project->payment->where('received_status', 'pending')->first()->received_amount}}</strong>. Please proceed with the payment to AsiaDealHub.</p>
+                    <a href="{{route('client.payment.index')}}" class="btn btn-primary">Pay Pending Payment</a>
                 </div>
             </div>
-        </div>
-{{--        @include('admin.projects.show.show-shortlist')--}}
+        @elseif($project->payment && $project->payment->where('received_status', 'confirmed')->first())
+            <div class="nk-block-head-content mt-3">
+                <h6 class="title pb-1">Project Status</h6>
+            </div>
+            <div class="example-alert mb-3">
+                <div class="alert alert-fill bg-success-dim alert-icon border !tw-border-green-500">
+                    <em class="icon ni ni-money"></em>
+                    <p class="mb-1">Project for this payment has been received and verify by AsiaDealHub admin. If the project is completed, you can ignore this message for the admin to close the project.</p>
+                </div>
+            </div>
+        @endif
+
+        @if($project->status == 'pending')
+            @include('client.project.show.approve')
+        @elseif ($project->status == 'shortlisted')
+            @include('client.project.show.shortlist')
+        @elseif ($project->status == 'awarded')
+            @include('client.project.show.award')
+        @elseif ($project->status == 'contract')
+            @include('client.project.show.contract')
+        @elseif ($project->status == 'started')
+            @include('client.project.show.start')
+        @endif
+
         @include('admin.projects.show.show-detail')
     </div>
 
-{{--    @include('admin.projects.show.show-expert-list')--}}
-{{--    @include('admin.projects.show.show-award')--}}
-{{--    @include('admin.projects.show.modal-expert-detail')--}}
-
 @endsection
 @push('scripts')
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="/assets/js/libs/tagify.js?ver=3.2.2"></script>
     <script src="/assets/js/libs/datatable-btns.js?ver=3.2.2"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-    <script src="/assets/js/apps/file-manager.js?ver=3.2.2"></script>
     <script>
         let tagsElement;
         $(document).ready(function () {

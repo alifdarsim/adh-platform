@@ -1,39 +1,22 @@
-@php
-    $projects = auth()->user()->client->projects;
-    $projects = $projects->filter(function ($project) {
-        return $project->createdBy->name == auth()->user()->name;
-    });
-@endphp
 @extends('layouts.user.main')
 @section('content')
 
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
-            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Project Created By You</h3>
-                <div class="nk-block-des text-soft"><p>Manage all projects that you create as a Client</p></div>
-            </div>
             <div class="nk-block-head-content">
-                <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1"
-                       data-target="pageMenu"><em class="icon ni ni-more-v"></em>
-                    </a>
-                    <div class="toggle-expand-content" data-content="pageMenu">
-                        <ul class="nk-block-tools g-3">
-                            <li><a href="{{route('client.projects.create')}}" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Create New Project</span></a>
-                            </li>
-                        </ul>
-                    </div>
+                <h3 class="nk-block-title page-title">Get Paid for Completed Project</h3>
+                <div class="nk-block-des text-soft">
+                    <p>Manage your project payment for all your created projects. Only the project that is had gone through expert selection process will be appeared here.</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="nk-block">
-
-        @if($projects->count() == 0)
+        @if($projects->isEmpty())
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
-                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
-                <p class="tw-text-gray-500 tw-mt-2">Any project that you have been invited to will appear here.</p>
+                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">No project that need to be pay yet</h4>
+                <p class="tw-text-gray-500 tw-mt-2">You have not created any project that has required you to do any payment yet. Once you do, the payment info wil appear here.</p>
             </div>
         @else
             <div class="card card-bordered card-preview">
@@ -158,14 +141,11 @@
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Hub</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Created</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Created By</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Company</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
+                        <th class="nk-tb-col"><span class="sub-text">Project Title</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payout Amount</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Status</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Info</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Receipt</span></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -175,85 +155,176 @@
         @endif
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal_payment">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Submit Payment Proof</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="project_id">Project Title</label>
+                            <input name="project_id" id="project_id" class="form-control" placeholder="" value="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Total Amount</label>
+                            <input name="amount" id="amount" class="form-control" placeholder="Eg: SGD50000" disabled>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="info">Payment Info</label>
+                            <textarea name="info" id="info" class="form-control" required placeholder="Eg: Payment Method: Direct Transfer&#10;Bank: OCBC Bank&#10;Ref Number: 00001061;&#10;Payment Time: 25/05/2023 14:10 PM;"></textarea>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="file">Payment Screenshot</label>
+                            <input type="file" name="file" id="file" accept="image/png, image/gif, image/jpeg, application/pdf" class="form-control" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary" id="submit" >Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal_payment_info">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Payment Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="info_info">Payment Info</label>
+                            <textarea name="info_info" id="info_info" disabled class="form-control" required placeholder="Eg: Payment Method: Direct Transfer&#10;Bank: OCBC Bank&#10;Ref Number: 00001061;&#10;Payment Time: 25/05/2023 14:10 PM;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
-    <script src="/assets/js/libs/datatable-btns.js?ver=3.2.2"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="/assets/js/libs/datatable-init.js?ver=3.2.2"></script>
+
     <script>
+        let project_id = '';
         datatableInit('#datatable', {
-            ajax: '{{route('client.projects.datatable')}}',
+            ajax: '{{route('expert.payment.datatable')}}',
             order:  [[2, 'desc']],
             columnDefs: [
-                { "orderable": false, "targets": [0,1,3,4,5,6,7] },
+                { "orderable": false, "targets": [0,1,2,3] },
                 { "className": "nk-tb-col", "targets": "_all" },
-                {
-                    "className": "clickable",
-                    "targets": [0,1,2,3,5],
-                    "createdCell": function (td, cellData, rowData) {
-                        $(td).on('click', () => window.location.href = '{{route('client.projects.show', '')}}/' + rowData.pid )
-                    }
-                }
             ],
             pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
                 {
-                    data: 'status',
-                    render: function (data) {
-                        let color = data === 'pending' ? 'danger' : (data === 'shortlisted' ? 'info' : (data === 'awarded' ? 'success' : 'secondary'));
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center">${data === 'shortlisted' ? 'Expert Shortlisting' : data}</span>`;
-                    }
-                },
-                {
-                    data: 'name'
-                },
-                {
-                    data: 'hub',
-                },
-                {
-                    data: 'created_at',
-                    "render": function (data) {
-                        return moment(data).format('DD MMM YYYY');
-                    }
-                },
-                {
-                    data: 'deadline',
-                    "render": function (data) {
-                        return moment(data).format('DD MMM YYYY');
-                    }
-                },
-                {
-                    data: 'created_by'
-                },
-                {
-                    data: 'company',
+                    data: 'name',
                     render: function (data, type, row) {
-                        return `<img src="${row.company_img}" width="36" height="36" class="round-sm" alt="" data-bs-toggle="tooltip" data-bs-placement="top" title="${data}">`
+                        return `<a href="{{route('expert.projects.show','')}}/${row.pid}" class="mb-0 text-secondary fs-14px">${data}</a><p>Project ID: ${row.pid}</p>`;
                     }
                 },
-
                 {
-                    data: 'id',
-                    className: 'nk-tb-col-tools',
+                    data: 'payment',
                     render: function (data, type, row) {
-                        return `<ul class="nk-tb-actions gx-1">
-                                <li>
-                                    <div class="drodown">
-                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" href="{{route('client.projects.show',"")}}/${row.pid}"><em class="icon ni ni-eye"></em><span>Show Details</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>`
-                    },
+                        return data.released_amount;
+                    }
                 },
+                {
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        data = data.released_status;
+                        let color = data === 'pending' ? 'danger' : 'success';
+                        return `<span class="badge rounded-pill text-capitalize bg-${color} px-2">${data}</span>`;
+                    }
+                },
+                {
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        if (data.released_info === null) return '-';
+                        return `<button onclick="info('${data.released_info}')" class="btn btn-sm text-capitalize btn-outline-info px-2">Info</button>`;
+                    }
+                },
+                {
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        if (data.released_receipt === null) return '-';
+                        return `<a href="{{config('app.url')}}${data.released_receipt}" target="_blank" class="btn btn-sm text-capitalize btn-outline-info px-2">Receipt</a>`;
+                    }
+                }
             ]
         });
 
-    </script>
+        function pay(pid, name, amount){
+            project_id = pid;
+            $('#project_id').val(name);
+            $('#amount').val(amount);
+            $('#modal_payment').modal('show');
+        }
 
+        $('#file').on('change', function () {
+            let file = $(this).prop('files')[0];
+            if (file.size > 2097152) {
+                Swal.fire(
+                    'File Too Large!',
+                    'Please upload file less than 2MB.',
+                    'warning'
+                )
+                $(this).val('');
+            }
+        })
+
+        $('#submit').on('click', function () {
+            let amount = $('#amount').val();
+            let info = $('#info').val();
+            let file = $('#file').prop('files')[0];
+            if (!amount || !info || !file) {
+                Swal.fire(
+                    'All Fields Required!',
+                    'Please fill all the fields and upload the payment screenshot.',
+                    'warning'
+                )
+                return;
+            }
+            let formData = new FormData();
+            formData.append('amount', amount);
+            formData.append('info', info);
+            formData.append('file', file);
+            formData.append('pid', project_id);
+            formData.append('_token', '{{csrf_token()}}');
+            $.ajax({
+                url: '{{route('client.payment.store')}}',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    Swal.fire(
+                        'Payment Submitted!',
+                        'Your payment has been submitted. Please wait for the admin to verify the payment.',
+                        'success'
+                    ).then(function () {
+                        location.reload();
+                    })
+                },
+                error: function (data) {
+                    Swal.fire(
+                        'Error!',
+                        'Something went wrong.',
+                        'error'
+                    )
+                }
+            })
+        })
+
+        function info(info) {
+            $('#info_info').val(info);
+            $('#modal_payment_info').modal('show');
+        }
+    </script>
 @endpush

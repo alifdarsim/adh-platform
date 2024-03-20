@@ -3,29 +3,20 @@
 
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
-            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">Manage Your Invited Projects</h3>
-                <div class="nk-block-des text-soft"><p>Manage all your projects here. Total project: {{ auth()->user()->projects->count() }} projects</p></div>
-            </div>
             <div class="nk-block-head-content">
-                <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1"
-                       data-target="pageMenu"><em class="icon ni ni-more-v"></em>
-                    </a>
-                    <div class="toggle-expand-content" data-content="pageMenu">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary text-white btn-outline-primary"><i class="fa-solid fa-person me-1"></i>As Expert</button>
-                        </div>
-                    </div>
+                <h3 class="nk-block-title page-title">Manage Payment for All Your Projects</h3>
+                <div class="nk-block-des text-soft">
+                    <p>Manage your project payment for all your created projects. Only the project that is had gone through expert selection process will be appeared here.</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="nk-block">
-        @if(auth()->user()->projects->count() == 0)
+        @if($projects->isEmpty())
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
-                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
-                <p class="tw-text-gray-500 tw-mt-2">Any project that you have been invited to will appear here.</p>
+                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">No project that need to be pay yet</h4>
+                <p class="tw-text-gray-500 tw-mt-2">You have not created any project that has required you to do any payment yet. Once you do, the payment info wil appear here.</p>
             </div>
         @else
             <div class="card card-bordered card-preview">
@@ -132,11 +123,11 @@
                                                 </li>
                                             </ul><!-- .btn-toolbar -->
                                         </div><!-- .toggle-content -->
-                                    </div><!-- .toggle-wrap -->
-                                </li><!-- li -->
-                            </ul><!-- .btn-toolbar -->
-                        </div><!-- .card-tools -->
-                    </div><!-- .card-title-group -->
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="card-search search-wrap" data-search="search">
                         <div class="card-body">
                             <div class="search-content">
@@ -145,18 +136,18 @@
                                 <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
                             </div>
                         </div>
-                    </div><!-- .card-search -->
-                </div><!-- .card-inner -->
+                    </div>
+                </div>
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
-                        <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col"><span class="sub-text">Status</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Project Name</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Client</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Invited Date</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Accept Invitation?</span></th>
-                        </tr>
+                    <tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col"><span class="sub-text">Project Title</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Amount</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Status</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Info</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Payment Receipt</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Submit</span></th>
+                    </tr>
                     </thead>
                     <tbody>
                     </tbody>
@@ -165,93 +156,182 @@
         @endif
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal_payment">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Submit Payment Proof</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="project_id">Project Title</label>
+                            <input name="project_id" id="project_id" class="form-control" placeholder="" value="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Total Amount</label>
+                            <input name="amount" id="amount" class="form-control" placeholder="Eg: SGD50000" disabled>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="info">Payment Info</label>
+                            <textarea name="info" id="info" class="form-control" required placeholder="Eg: Payment Method: Direct Transfer&#10;Bank: OCBC Bank&#10;Ref Number: 00001061;&#10;Payment Time: 25/05/2023 14:10 PM;"></textarea>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="file">Payment Screenshot</label>
+                            <input type="file" name="file" id="file" accept="image/png, image/gif, image/jpeg, application/pdf" class="form-control" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary" id="submit" >Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal_payment_info">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Payment Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="info_info">Payment Info</label>
+                            <textarea name="info_info" id="info_info" class="form-control" required placeholder="Eg: Payment Method: Direct Transfer&#10;Bank: OCBC Bank&#10;Ref Number: 00001061;&#10;Payment Time: 25/05/2023 14:10 PM;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
-    <script src="/assets/js/libs/datatable-btns.js?ver=3.2.2"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="/assets/js/libs/datatable-init.js?ver=3.2.2"></script>
+
     <script>
+        let project_id = '';
         datatableInit('#datatable', {
-            ajax: '{{route('expert.projects.datatable')}}',
-            // order:  [[4, 'desc']],
+            ajax: '{{route('client.payment.datatable')}}',
+            order:  [[2, 'desc']],
             columnDefs: [
-                { "orderable": false, "targets": [0,1,2,3,4] },
+                { "orderable": false, "targets": [0,1,2,3] },
                 { "className": "nk-tb-col", "targets": "_all" },
-                {
-                    "className": "clickable",
-                    "targets": [0,1,2,3,4],
-                    "createdCell": function (td, cellData, rowData) {
-                        $(td).on('click', () => window.location.href = '{{route('expert.projects.show', '')}}/' + rowData.pid )
-                    }
-                }
             ],
+            pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
                 {
-                    data: 'status',
-                    render: function (data) {
-                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' : 'info');
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center tw-w-20">${data === 'selection' ? 'Expert Selection' : data}</span>`;
+                    data: 'name',
+                    render: function (data, type, row) {
+                        return `<a href="{{route('client.projects.show','')}}/${row.pid}" class="mb-0 text-secondary fs-14px">${data}</a><p>Project ID: ${row.pid}</p>`;
                     }
                 },
                 {
-                    data: 'project_name'
-                },
-                {
-                    data: 'client',
-                },
-                {
-                    data: 'invited_at',
-                    "render": function (data) {
-                        return moment(data).format('DD MMM YYYY');
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        return data.received_amount;
                     }
                 },
                 {
-                    data: 'deadline',
-                    "render": function (data) {
-                        return moment(data).format('DD MMM YYYY');
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        data = data.received_status;
+                        let color = data === 'pending' ? 'danger' : 'success';
+                        return `<span class="badge rounded-pill text-capitalize bg-${color} px-2">${data}</span>`;
                     }
                 },
                 {
-                    data: 'accepted',
-                    render: function (data) {
-                        let color = data === true ? 'success' : (data === false ? 'secondary' :  'danger');
-                        let icon = `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
-                        return `<div class="d-flex"><span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-2">${data === true ? 'Accept' : (data === false ? 'Reject' : 'No Respond')}</span>${data ? icon : ''}</div>`;
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        if (data.received_info === null) return '-';
+                        return `<button onclick="info('${data.received_info}')" class="btn btn-sm text-capitalize btn-outline-info px-2">Info</button>`;
+                    }
+                },
+                {
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        if (data.received_receipt === null) return '-';
+                        return `<a href="{{config('app.url')}}${data.received_receipt}" target="_blank" class="btn btn-sm text-capitalize btn-outline-info px-2">Receipt</a>`;
+                    }
+                },
+                {
+                    data: 'payment',
+                    render: function (data, type, row) {
+                        return `<button onclick="pay('${row.pid}', '${row.name}', '${data.received_amount}')" class="btn btn-sm text-capitalize btn-info px-2">Update Payment</button>`;
                     }
                 }
             ]
         });
 
-        function respond(pid, accept){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You want to ${accept ? 'show interest' : 'reject'} on this project?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, I am sure!',
-                cancelButtonText: 'No, cancel it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{route('expert.projects.respond')}}',
-                        type: 'POST',
-                        data: {
-                            _token: '{{csrf_token()}}',
-                            pid: pid,
-                            respond: accept
-                        },
-                        success: function (response) {
-                            Swal.fire('Success', response.message, 'success');
-                            table.ajax.reload();
-                        },
-                        error: function (error) {
-                            Swal.fire('Error', error.responseJSON.message, 'error');
-                        }
-                    });
-                }
-            });
+        function pay(pid, name, amount){
+            project_id = pid;
+            $('#project_id').val(name);
+            $('#amount').val(amount);
+            $('#modal_payment').modal('show');
         }
 
+        $('#file').on('change', function () {
+            let file = $(this).prop('files')[0];
+            if (file.size > 2097152) {
+                Swal.fire(
+                    'File Too Large!',
+                    'Please upload file less than 2MB.',
+                    'warning'
+                )
+                $(this).val('');
+            }
+        })
+
+        $('#submit').on('click', function () {
+            let amount = $('#amount').val();
+            let info = $('#info').val();
+            let file = $('#file').prop('files')[0];
+            if (!amount || !info || !file) {
+                Swal.fire(
+                    'All Fields Required!',
+                    'Please fill all the fields and upload the payment screenshot.',
+                    'warning'
+                )
+                return;
+            }
+            let formData = new FormData();
+            formData.append('amount', amount);
+            formData.append('info', info);
+            formData.append('file', file);
+            formData.append('pid', project_id);
+            formData.append('_token', '{{csrf_token()}}');
+            $.ajax({
+                url: '{{route('client.payment.store')}}',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    Swal.fire(
+                        'Payment Submitted!',
+                        'Your payment has been submitted. Please wait for the admin to verify the payment.',
+                        'success'
+                    ).then(function () {
+                        location.reload();
+                    })
+                },
+                error: function (data) {
+                    Swal.fire(
+                        'Error!',
+                        'Something went wrong.',
+                        'error'
+                    )
+                }
+            })
+        })
+
+        function info(info) {
+            $('#info_info').val(info);
+            $('#modal_payment_info').modal('show');
+        }
     </script>
 @endpush

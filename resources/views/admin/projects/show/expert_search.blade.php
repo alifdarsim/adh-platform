@@ -104,6 +104,7 @@
         let experts_info;
         let tagsElement;
         let current_search;
+
         $(document).ready(function () {
             $('#communication_language').val({!! collect($project->projectTargetInfo->communication_language)->map(fn($item) =>  $item )->implode(',') !!}).trigger('change');
             $('#target_keyword').tagify().data('tagify').addTags('{{$project->keywords->pluck('name')->implode(',  ')}}');
@@ -218,25 +219,23 @@
                             experiences: row.experiences.map(item => item.position),
                         }
                         expert_data = Object.values(expert_data).join(' ');
-                        console.log(expert_data)
                         let count = search_value.map(val => {
                             let regex = new RegExp(val, 'gi');
                             return (expert_data.match(regex) || []).length;
                         }).reduce((a, b) => a + b, 0);
-                        console.log(row.name)
-                        console.log(count)
-
                         return `
                         <div class="d-flex justify-between justify-center tw-items-center">
-                             <a class="user-card" href="${row.url}"  target="_blank">
+                             <div class="user-card">
                                 <div class="user-avatar bg-dim-primary d-none d-sm-flex"><span>${row.img_url ? `<img src="${row.img_url}" alt="">` : `<span class="text-white">N/A</span>`}</span></div>
                                 <div class="user-info">
-                                    <span class="fs-17px me-2">${data}</span><span><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>${row.url.replace('https://www.linkedin.com/in/','')}</span>
+                                    <span class="fs-17px me-1 text-dark">${data}</span>
+                                    <span class="fs-17px me-2">${row.registered ? '<i class="fa-solid fa-badge-check text-info"></i>' : ''}</span>
                                     <p class="mb-0"><span class="fs-13px">${row.position}</span> • <span  class="fs-13px">${row.company}</span> • <span class="fs-13px">${row.experiences[0].duration}</span></p>
                                     <p class="mb-0"><span class="fs-13px">${row.address}, ${row.country}</span></p>
-                                    <p class="mb-0"><span class="fs-13px">${count} keyword(s) found</span></p>
+                                    <a class="tw-text-slate-500 tw-underline hover:tw-text-blue-500" href="${row.url}"  target="_blank"><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>${row.url.replace('https://www.linkedin.com/in/','')}</a>
+                                    | <span class="mb-0"><span class="fs-13px">${count == 0 ? '1' : count} keyword(s) found</span></span>
                                 </div>
-                            </a>
+                            </div>
                             <div>
                                 <btn id="add_${row.id}" class="btn btn-sm btn-danger ms-1 ${row.shortlisted ? 'disabled' : ''}" onclick="addExpert(${row.id})">${row.shortlisted ? 'Added' : 'Add'}</btn>
                                 <btn class="btn btn-sm btn-outline-info ms-1" onclick="expert_detail(${row.id})">Detail</btn>
@@ -336,18 +335,18 @@
                 }),
                 placeholder: 'Select Sub Industry',
             });
-            window['datatable_2'].column(6).search(this.value).draw();
+            window['datatable_2'].column(7).search(this.value).draw();
 
         });
 
         $('#sub_industry_classification').on('change', function (e) {
             console.log(e.target.value)
-            window['datatable_2'].column(7).search(e.target.value).draw();
+            window['datatable_2'].column(8).search(e.target.value).draw();
         });
 
         $('#select_countries').on('change', function (e) {
             if (e.target.value === '') return;
-            window['datatable_2'].column(5).search(this.value).draw();
+            window['datatable_2'].column(6).search(this.value).draw();
         });
 
 

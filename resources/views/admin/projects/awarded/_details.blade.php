@@ -34,8 +34,8 @@
     </div>
 {{--    <p class="mb-0 mt-2">Budget: {{$project->budget == null ? 'Undisclosed' : '$' . implode(' - ', $project->budget) . ' USD'}} </p>--}}
     <p class="mb-0 mt-1">Hub Types: <span class="">{{$project->hub->name}}</span></p>
-    <p class="mb-0 mt-1">Created By: <a  class="tw-text-blue-500 hover:tw-text-blue-800">{{$project->createdBy->name}}</a></p>
-    <p class="mb-0 mt-1">Awarded To: <a  class="tw-text-blue-500 hover:tw-text-blue-800">{{$project->awardedTo->name}}</a></p>
+    <p class="mb-0 mt-1">Created By: <a  class="tw-text-blue-500 hover:tw-text-blue-800">{{$project->createdBy->name ?? ''}}</a></p>
+    <p class="mb-0 mt-1">Awarded To: <a  class="tw-text-blue-500 hover:tw-text-blue-800">{{$project->awardedTo->name ?? ''}}</a></p>
     <div class="tw-flex tw-justify-between mt-1">
         <p class="mb-0">Tags: @foreach($project->keywords as $keyword)
                 <span class="badge bg-outline-info border-2 tw-rounded-full tw-capitalize fs-12px tw-font-medium px-2 tw-py-0.5">{{$keyword->name}}</span>
