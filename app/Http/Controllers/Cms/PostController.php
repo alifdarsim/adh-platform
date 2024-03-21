@@ -8,6 +8,7 @@ use App\Models\CmsPage;
 use App\Models\CmsTag;
 use Exception;
 use Illuminate\Http\Request;
+use Str;
 
 class PostController extends Controller
 {
@@ -55,7 +56,8 @@ class PostController extends Controller
         ];
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $fileName = $request->file('image')->getClientOriginalName();
+            // change file name to uuid and store it to public/resources folder
+            $fileName = Str::uuid() . '.' . $request->file('image')->extension();
             $path = $request->file('image')->storeAs('uploads', $fileName, 'public');
             $data['featured_image_path'] = "/storage/$path";
         }
