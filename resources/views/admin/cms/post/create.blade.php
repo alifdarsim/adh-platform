@@ -103,7 +103,6 @@
                                         <select class="form-select js-select2" data-placeholder="Status"
                                                 id="pageStatus">
                                             <option value="published">Published</option>
-                                            <option value="archived">Archived</option>
                                             <option value="draft">Draft</option>
                                         </select>
                                     </div>

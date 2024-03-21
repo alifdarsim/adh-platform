@@ -88,14 +88,14 @@ class PostController extends Controller
             'content' => 'required|min:3',
             'post_date' => 'required|date',
         ]);
-        $fileName = $request->file('image')->getClientOriginalName();
-        $path = $request->file('image')->storeAs('uploads', $fileName, 'public');
-
+        $file = request()->file('image');
+        $file_name = Str::uuid() . '.' . $file->extension();
+        $file->move(public_path('resources'), $file_name);
         $inserted = CmsPage::insert([
             'title' => $request->title,
             'type' => $request->type,
             'slug' => $request->slug,
-            'featured_image_path' => "/storage/$path",
+            'featured_image_path' => '/resources/' . $file_name,
             'content' => $request["content"],
             'status' => $request->status,
             'author' => $request->author,
@@ -162,7 +162,7 @@ class PostController extends Controller
 
     public function get()
     {
-        return CmsPage::select('id','title','slug','type','featured_image_path','featured','post_date')->get();
+        return CmsPage::select('id','title','slug','type','featured_image_path','featured','post_date')->where('status','published')->get();
     }
 
     public function get_id($id)
