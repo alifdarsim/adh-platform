@@ -56,10 +56,10 @@ class PostController extends Controller
         ];
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            // change file name to uuid and store it to public/resources folder
-            $fileName = Str::uuid() . '.' . $request->file('image')->extension();
-            $path = $request->file('image')->storeAs('uploads', $fileName, 'public');
-            $data['featured_image_path'] = "/storage/$path";
+            $file = request()->file('image');
+            $file_name = Str::uuid() . '.' . $file->extension();
+            $file->move(public_path('resources'), $file_name);
+            $data['featured_image_path'] = '/resources/' . $file_name;
         }
 
         $updated = CmsPage::where('id', $request->id)->update($data);
