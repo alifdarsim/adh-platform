@@ -62,6 +62,8 @@ class PostController extends Controller
             $data['featured_image_path'] = '/resources/' . $file_name;
         }
 
+        $base64 = $this->getAllBase64($data['content']);
+        $data['content'] = $this->convertBase64ToImage($base64, $data['content']);
         $updated = CmsPage::where('id', $request->id)->update($data);
         if ($updated) {
             return [
@@ -168,6 +170,28 @@ class PostController extends Controller
     public function get_id($id)
     {
         return CmsPage::where('id', $id)->first();
+    }
+
+    function convertBase64ToImage($matches , $content) {
+//        $images_path = [];
+        foreach ($matches[0] as $key => $value) {
+            $base64string = $value;
+            $extension = explode('/', explode(';', $base64string)[0])[1];
+            $image = $matches[2][$key];
+            $image = base64_decode($image);
+            $image_name = Str::uuid() . $key . '.' . $extension;
+            $path = public_path() . '/resources/' . $image_name;
+            file_put_contents($path, $image);
+//            $images_path[] = config('app.url') . '/resources/' . $image_name;
+            $content = str_replace($base64string, config('app.url') . '/resources/' . $image_name, $content);
+        }
+        return $content;
+    }
+
+    function getAllBase64($content) {
+        $base64 = [];
+        preg_match_all('/data:image\/([a-zA-Z]*);base64,([^"]*)/', $content, $base64);
+        return $base64;
     }
 
 }
