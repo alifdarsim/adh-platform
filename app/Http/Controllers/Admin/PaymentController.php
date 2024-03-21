@@ -10,7 +10,7 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $projects = Projects::where('created_by', auth()->id())->get()->load('payment');
+        $projects = Projects::all()->load('payment');
         return view('admin.payment.index', compact('projects'));
     }
 
