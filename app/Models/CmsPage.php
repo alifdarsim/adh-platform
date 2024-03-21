@@ -15,11 +15,10 @@ class CmsPage extends Model
 {
     protected $table = 'cms_post';
     protected $primaryKey = 'id';
-    protected $fillable = [
-        'title',
-        'image',
-        'content',
-        'tags',
+    protected $guarded = [];
+
+    protected $casts = [
+        'featured' => 'boolean',
     ];
 
     public function author(): BelongsTo

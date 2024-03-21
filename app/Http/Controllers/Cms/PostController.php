@@ -160,4 +160,14 @@ class PostController extends Controller
         return response()->json(['location' => "/storage/$path"]);
     }
 
+    public function get()
+    {
+        return CmsPage::select('id','title','slug','type','featured_image_path','featured','post_date')->get();
+    }
+
+    public function get_id($id)
+    {
+        return CmsPage::where('id', $id)->first();
+    }
+
 }
