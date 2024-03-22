@@ -1,19 +1,17 @@
 @extends('layouts.admin.main')
 @section('content')
-
     <script src="/libs/tinymce/tinymce.min.js"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: "#mytextarea",
             plugins: [
-                "advlist", "autolink",  "lists", "link", "image" , "charmap", "preview" , "anchor",
-                "searchreplace" , "visualblocks" , "code" , "fullscreen",
-                "insertdatetime" , "media" , "table",
+                "advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor",
+                "searchreplace", "visualblocks", "code", "fullscreen",
+                "insertdatetime", "media", "table",
             ],
             promotion: false,
-            toolbar:
-                "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            height : "100%"
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            height: "100%"
         });
     </script>
 
@@ -21,7 +19,8 @@
         <div class="nk-block-between">
             <div class="nk-block-head-content">
                 <div class="nk-block-head-content">
-                    <h3 class="nk-block-title page-title"><a class="back" href="{{route('admin.post.index')}}"><i class="fa-solid fa-arrow-left me-2 fs-4"></i></a>Edit Post: {{$page->title}}</h3>
+                    <h3 class="nk-block-title page-title"><a class="back" href="{{ route('admin.post.index') }}"><i
+                                class="fa-solid fa-arrow-left me-2 fs-4"></i></a>Edit Post: {{ $page->title }}</h3>
                     <div class="nk-block-des text-soft">
                         <p>Edit your Article/ Blog/ Use Case to show to Asia Deal Hub Website</p>
                     </div>
@@ -70,12 +69,12 @@
                                             Image
                                         </button>
                                         <input class="form-control !tw-hidden" type="file" id="formFile"
-                                               onchange="preview()">
+                                            onchange="preview()">
                                         <img id="image_holder" src="" class="!tw-hidden tw-h-full tw-w-full"
-                                             alt="feature_image"/>
+                                            alt="feature_image" />
                                     </div>
                                     <button id="cancel_image_button" onclick="resetImage()"
-                                            class="!tw-hidden mt-1 btn btn-light btn-sm float-end">Reset Image
+                                        class="!tw-hidden mt-1 btn btn-light btn-sm float-end">Reset Image
                                     </button>
                                 </div>
                             </div>
@@ -87,7 +86,7 @@
                                             <em class="icon ni ni-calendar"></em>
                                         </div>
                                         <input type="text" class="form-control date-picker" id="addDate"
-                                               data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+                                            data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +94,8 @@
                                 <div class="form-group">
                                     <label class="form-label" for="pageAuthor">Input Author</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="pageAuthor" placeholder="Eg: John Doe">
+                                        <input type="text" class="form-control" id="pageAuthor"
+                                            placeholder="Eg: John Doe">
                                     </div>
                                 </div>
                             </div>
@@ -103,8 +103,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="pageStatus">Select Status</label>
                                     <div class="form-control-wrap">
-                                        <select class="form-select js-select2" data-placeholder="Status"
-                                                id="pageStatus">
+                                        <select class="form-select js-select2" data-placeholder="Status" id="pageStatus">
                                             <option value="published">Published</option>
                                             <option value="archived">Archived</option>
                                             <option value="draft">Draft</option>
@@ -128,25 +127,24 @@
             <div class="col-lg-8">
                 <div class="card card-bordered tw-h-full">
                     <div class="card-inner h-100">
-                        <textarea id="mytextarea" class="h-100">{{$page->content}}</textarea>
+                        <textarea id="mytextarea" class="h-100">{{ $page->content }}</textarea>
                     </div>
                 </div><!-- .card -->
             </div><!-- .col -->
 
         </div><!-- .row -->
     </div>
-
 @endsection
 
 @push('scripts')
     <script>
-        $('.date-picker').datepicker('setDate', '{{$page->created_at}}');
-        $('#addTitle').val('{{$page->title}}');
-        $('#addSlug').val('{{$page->slug}}');
-        $('#pageAuthor').val('{{$page->author}}');
-        $('#pageStatus').val('{{$page->status}}').trigger('change');
-        $('#pageType').val('{{$page->type}}').trigger('change');
-        $('#image_holder').attr('src', '{{asset($page->featured_image_path)}}');
+        $('.date-picker').datepicker('setDate', '{{ $page->created_at }}');
+        $('#addTitle').val('{{ $page->title }}');
+        $('#addSlug').val('{{ $page->slug }}');
+        $('#pageAuthor').val('{{ $page->author }}');
+        $('#pageStatus').val('{{ $page->status }}').trigger('change');
+        $('#pageType').val('{{ $page->type }}').trigger('change');
+        $('#image_holder').attr('src', '{{ asset($page->featured_image_path) }}');
         $('#image_holder').removeClass('!tw-hidden');
         $('#image_button').addClass('!tw-hidden');
         $('#cancel_image_button').removeClass('!tw-hidden');
@@ -166,7 +164,7 @@
             let oFReader = new FileReader();
             oFReader.readAsDataURL(document.getElementById("formFile").files[0]);
 
-            oFReader.onload = function (oFREvent) {
+            oFReader.onload = function(oFREvent) {
                 document.getElementById("image_button").classList.add('!tw-hidden');
                 document.getElementById("image_holder").classList.remove('!tw-hidden');
                 document.getElementById("image_holder").src = oFREvent.target.result;
@@ -178,7 +176,7 @@
         $('#submitBtn').click(e => {
             let content = tinymce.activeEditor.getContent();
             let formData = new FormData();
-            formData.append('id', '{{$page->id}}');
+            formData.append('id', '{{ $page->id }}');
             formData.append('content', content);
             formData.append('type', $('#pageType').val());
             formData.append('title', $('#addTitle').val());
@@ -190,7 +188,7 @@
 
             // send the form page_adddata to the server
             $.ajax({
-                url: '{{route('admin.post.update', $page->id)}}',
+                url: '{{ route('admin.post.update', $page->id) }}',
                 method: 'POST',
                 data: formData,
                 headers: {
@@ -201,8 +199,8 @@
                 contentType: false,
                 success: response => {
                     if (response.success) {
-                        Swal.fire('Update Success', response.message, 'success').then( () => {
-                            window.location.href = '{{route('admin.post.index')}}';
+                        Swal.fire('Update Success', response.message, 'success').then(() => {
+                            window.location.href = '{{ route('admin.post.index') }}';
                         });
                     }
                 },
