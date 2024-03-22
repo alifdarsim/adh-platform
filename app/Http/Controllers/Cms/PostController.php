@@ -44,12 +44,18 @@ class PostController extends Controller
             'post_date' => 'required|date',
         ]);
 
+        $content = $request["content"];
+        // Remove HTML tags and trim the content
+        $plainText = strip_tags($content);
+        $description = substr($plainText, 0, 100);
+
         // if image is not update then use the old image
         $data = [
             'title' => $request->title,
             'type' => $request->type,
             'slug' => $request->slug,
             'content' => $request["content"],
+            'description' => $description,
             'status' => $request->status,
             'author' => $request->author,
             'post_date' => $request->post_date,
@@ -93,12 +99,18 @@ class PostController extends Controller
         $file = request()->file('image');
         $file_name = Str::uuid() . '.' . $file->extension();
         $file->move(public_path('resources'), $file_name);
+        $content = $request["content"];
+        // Remove HTML tags and trim the content
+        $plainText = strip_tags($content);
+        $description = substr($plainText, 0, 100);
+
         $inserted = CmsPage::insert([
             'title' => $request->title,
             'type' => $request->type,
             'slug' => $request->slug,
             'featured_image_path' => config('app.app_page') . '/resources/' . $file_name,
             'content' => $request["content"],
+            'description' => $description,
             'status' => $request->status,
             'author' => $request->author,
             'post_date' => $request->post_date,
@@ -192,6 +204,18 @@ class PostController extends Controller
         $base64 = [];
         preg_match_all('/data:image\/([a-zA-Z]*);base64,([^"]*)/', $content, $base64);
         return $base64;
+    }
+
+    public function featured($id)
+    {
+        $page = CmsPage::where('id', $id)->first();
+        // update the featured status for the page, and remove all other featured pages
+        CmsPage::where('id', '!=', $id)->update(['featured' => 0]);
+        $page->update(['featured' => 1]);
+        return [
+            'success' => true,
+            'message' => 'Page updated successfully'
+        ];
     }
 
 }

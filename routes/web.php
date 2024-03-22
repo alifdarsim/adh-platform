@@ -183,6 +183,7 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
                 Route::post('/{id}', [PostController::class, 'update'])->name('admin.post.update');
                 Route::get('/datatable', [PostController::class, 'datatable'])->name('admin.post.datatable');
                 Route::get('/quick_view', [PostController::class, 'quick_view'])->name('admin.post.quick_view');
+                Route::get('/featured/{id}', [PostController::class, 'featured'])->name('admin.post.featured');
             });
         });
         Route::group(["prefix" => "editor"], function () {

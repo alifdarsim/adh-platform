@@ -136,8 +136,8 @@
             <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                 <thead>
                 <tr class="nk-tb-item nk-tb-head">
-                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Author</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Title</span></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Author</span></th>
                     <th class="nk-tb-col tb-col-mb"><span class="sub-text">Category</span></th>
                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Insert At</span></th>
@@ -190,10 +190,15 @@
             pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
                 {
-                    data: 'author'
+                    data: 'title',
+                    render: function (data, type, row) {
+                        let featured = row.featured ? '<em class="icon ni ni-star-fill fs-6 me-1 text-warning"></em>' : '';
+                        return featured + data;
+
+                    }
                 },
                 {
-                    data: 'title'
+                    data: 'author'
                 },
                 {
                     data: 'type',
@@ -209,9 +214,9 @@
                     },
                 },
                 {
-                    data: 'updated_at',
+                    data: 'post_date',
                     render: function (data) {
-                        return data ? moment(data).format(' DD MMM YYYY, hh:mm A') : 'Never Login';
+                        return data ? moment(data).format(' DD MMM YYYY') : 'N/A';
                     }
                 },
                 {
@@ -225,6 +230,7 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                                <li><a onclick="featured(${data})"><em class="icon ni ni-star"></em><span>Featured</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -234,6 +240,23 @@
                 },
             ]
         });
+
+        function featured(id) {
+            $.ajax({
+                url: "{{route('admin.post.featured','')}}/" + id,
+                type: 'GET',
+                data: {
+                    "id": id,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function () {
+                    Swal.fire('Success!', 'Post featured successfully.', 'success').then(() => table.ajax.reload())
+                },
+                error: function (xhr) {
+                    Swal.fire('Error!', 'Something went wrong.', 'error')
+                }
+            });
+        }
 
         function quick_view(id) {
             $.ajax({
