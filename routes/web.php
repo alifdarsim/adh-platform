@@ -46,11 +46,6 @@ Route::get('/test', function () {
     return view('mail.award_project');
 });
 
-Route::group(["prefix" => "resource"], function () {
-    Route::get('/', [PostController::class, 'get']);
-    Route::get('/{id}', [PostController::class, 'get_id']);
-});
-
 Route::get('project-invitation/{token}', [ProjectInvitationController::class, 'index'])->name('project-invitation.index');
 Route::get('project-awarded/{token}', [ProjectAwardedController::class, 'index'])->name('project-awarded.index');
 

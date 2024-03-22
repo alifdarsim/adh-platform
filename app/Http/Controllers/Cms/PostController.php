@@ -164,7 +164,7 @@ class PostController extends Controller
 
     public function get()
     {
-        return CmsPage::select('id','title','slug','type','featured_image_path','featured','post_date')->where('status','published')->get();
+        return CmsPage::select('id','title','slug','type','featured_image_path','featured','post_date','description')->where('status','published')->get();
     }
 
     public function get_id($id)

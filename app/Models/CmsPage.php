@@ -19,6 +19,7 @@ class CmsPage extends Model
 
     protected $casts = [
         'featured' => 'boolean',
+        'post_date' => 'date:d/m/Y',
     ];
 
     public function author(): BelongsTo
