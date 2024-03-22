@@ -64,7 +64,7 @@ class PostController extends Controller
 
         $base64 = $this->getAllBase64($data['content']);
         $data['content'] = $this->convertBase64ToImage($base64, $data['content']);
-        $data['content'] = str_replace('../../../../', config('app.app_page'), $data['content']);
+        $data['content'] = str_replace('../../../..', config('app.app_page'), $data['content']);
         $updated = CmsPage::where('id', $request->id)->update($data);
         if ($updated) {
             return [
@@ -78,7 +78,6 @@ class PostController extends Controller
             ];
         }
     }
-
 
     public function store(Request $request)
     {
