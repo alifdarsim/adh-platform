@@ -59,11 +59,12 @@ class PostController extends Controller
             $file = request()->file('image');
             $file_name = Str::uuid() . '.' . $file->extension();
             $file->move(public_path('resources'), $file_name);
-            $data['featured_image_path'] = '/resources/' . $file_name;
+            $data['featured_image_path'] = config('app.app_page') . '/resources/' . $file_name;
         }
 
         $base64 = $this->getAllBase64($data['content']);
         $data['content'] = $this->convertBase64ToImage($base64, $data['content']);
+        $data['content'] = str_replace('../../../../', config('app.app_page'), $data['content']);
         $updated = CmsPage::where('id', $request->id)->update($data);
         if ($updated) {
             return [
@@ -97,7 +98,7 @@ class PostController extends Controller
             'title' => $request->title,
             'type' => $request->type,
             'slug' => $request->slug,
-            'featured_image_path' => '/resources/' . $file_name,
+            'featured_image_path' => config('app.app_page') . '/resources/' . $file_name,
             'content' => $request["content"],
             'status' => $request->status,
             'author' => $request->author,
@@ -183,7 +184,7 @@ class PostController extends Controller
             $path = public_path() . '/resources/' . $image_name;
             file_put_contents($path, $image);
 //            $images_path[] = config('app.url') . '/resources/' . $image_name;
-            $content = str_replace($base64string, config('app.url') . '/resources/' . $image_name, $content);
+            $content = str_replace($base64string, config('app.app_page') . '/resources/' . $image_name, $content);
         }
         return $content;
     }
