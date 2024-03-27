@@ -15,7 +15,7 @@ use App\Http\Controllers\Cms\PostController;
 */
 
 Route::group(["prefix" => "resource"], function () {
-    Route::get('/', [PostController::class, 'get']);
+    Route::get('/{type}', [PostController::class, 'get']);
     Route::get('/{id}', [PostController::class, 'get_id']);
 });
 

@@ -174,9 +174,13 @@ class PostController extends Controller
         return response()->json(['location' => "/storage/$path"]);
     }
 
-    public function get()
+    public function get($type)
     {
-        return CmsPage::select('id','title','slug','type','featured_image_path','featured','post_date','description')->where('status','published')->get();
+        return CmsPage::
+            select('id','title','slug','type','featured_image_path','featured','post_date','description')
+            ->where('status','published')
+            ->where('type',$type)
+            ->get();
     }
 
     public function get_id($id)
@@ -210,7 +214,9 @@ class PostController extends Controller
     {
         $page = CmsPage::where('id', $id)->first();
         // update the featured status for the page, and remove all other featured pages
-        CmsPage::where('id', '!=', $id)->update(['featured' => 0]);
+        CmsPage::where('id', '!=', $id)
+            ->where('type', $page->type)
+            ->update(['featured' => 0]);
         $page->update(['featured' => 1]);
         return [
             'success' => true,
