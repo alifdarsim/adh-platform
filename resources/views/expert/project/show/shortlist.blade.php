@@ -1,8 +1,7 @@
 <div class="nk-block-head-content mt-3">
     <h6 class="title pb-1">Current Project Status: Expert shortlisting</h6>
 </div>
-@if($project->invited_user_accepted())
-
+@if($project_expert->accepted)
     <div class="pb-2">
         <div class="alert alert-fill bg-info-dim border !tw-border-blue-500">
             <p>You have been invited to project entitled '<strong>{{$project->name}}</strong>'. Please respond to the invitation to proceed further.</p>
@@ -102,7 +101,6 @@
         });
 
         function answerEnquiries(){
-            console.log('asda')
             $('#modalEnquiries').modal('show');
         }
 
@@ -132,7 +130,6 @@
                     })
                 },
                 error: function (response) {
-                    console.log(response);
                     let answered = response.responseJSON.answered;
                     if (answered) {
                         Swal.fire({

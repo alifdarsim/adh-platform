@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChatMessage;
-use App\Models\ProjectShortlist;
+use App\Models\ProjectExpert;
 use App\Models\Projects;
 use Illuminate\Http\Request;
 

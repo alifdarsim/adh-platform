@@ -7,14 +7,14 @@
                 <td style="padding: 0px 0px 0px 0px;">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                         <tr>
-                            <td valign="top" class="pc-w520-padding-30-40-30-40 pc-w620-padding-35-50-35-50" style="padding: 40px 60px 40px 60px;border-radius: 0px;background-color: #ffffff;" bgcolor="#ffffff">
+                            <td valign="top" class="pc-w520-padding-30-40-30-40 pc-w620-padding-35-50-35-50" style="padding: 40px 60px 0px 60px;border-radius: 0px;background-color: #ffffff;" bgcolor="#ffffff">
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                     <tr>
                                         <td align="center" valign="top" style="padding: 0px 0px 10px 0px;">
                                             <table border="0" cellpadding="0" cellspacing="0" role="presentation" align="center" style="margin-right: auto; margin-left: auto;">
                                                 <tr>
                                                     <td valign="top" class="pc-font-alt" align="center" style="mso-line-height: exactly;line-height: 128%;letter-spacing: -0.6px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-size: 36px;font-weight: 800;color: #151515;text-align: center;text-align-last: center;font-variant-ligatures: normal;">
-                                                        <div><span>Join Our Exclusive Expert Community! </span>
+                                                        <div><span>Unlock Your Expertise Potential!</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -34,11 +34,11 @@
                                                         </div>
                                                         <div><span>Project: </span>
                                                         </div>
-                                                        <div><span style="font-size: 19px;font-weight: 700;font-style: normal;">{{$mailData['projectName'] ?? 'Not set'}}</span>
+                                                        <div><span style="font-size: 26px;font-weight: 700;font-style: normal;">{{$mailData['projectName'] ?? $project->name}}</span>
                                                         </div>
                                                         <div><span>&#xFEFF;</span>
                                                         </div>
-                                                        <div><span>Show your interest by sign-up with us. </span>
+                                                        <div><span>Show your interest by clicking below button.</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -62,15 +62,15 @@
                                                                                     <tr>
                                                                                         <th valign="top" align="center" style="font-weight: normal;line-height: 1;">
                                                                                             <!--[if mso]>
-                                                                                                                        <table  border="0" cellpadding="0" cellspacing="0" role="presentation" align="center" style="border-collapse: separate;margin-right: auto; margin-left: auto;">
-                                                                                                                            <tr>
-                                                                                                                                <td valign="middle" align="center" style="text-align: center;color: #ffffff;border-radius: 8px;background-color: rgba(251,22,22,0.8);padding: 14px 18px 14px 18px;" bgcolor="#1595e7">
-                                                                                                                                    <a class="pc-font-alt" style="display: inline-block;text-decoration: none;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;font-variant-ligatures: normal;" href="{{ $mailData['expert_url'] }}" target="_blank">Join Asia Deal Hub Expert</a>
-                                                                                                                                </td>
-                                                                                                                            </tr>
-                                                                                                                        </table>
-                                                                                                                        <![endif]-->
-                                                                                            <!--[if !mso]>--><a style="border-radius: 8px;background-color: rgba(251,22,22,0.8);padding: 14px 18px 14px 18px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;text-align: center;text-align-last: center;text-decoration: none;display: inline-block;vertical-align: top;-webkit-text-size-adjust: none;" href="{{ $mailData['expert_url'] }}" target="_blank">Join Asia Deal Hub Expert</a>
+                                                                                            <table  border="0" cellpadding="0" cellspacing="0" role="presentation" align="center" style="border-collapse: separate;margin-right: auto; margin-left: auto;">
+                                                                                                <tr>
+                                                                                                    <td valign="middle" align="center" style="text-align: center;color: #ffffff;border-radius: 8px;background-color: rgba(251,22,22,0.8);padding: 14px 18px 14px 18px;" bgcolor="#1595e7">
+                                                                                                        <a class="pc-font-alt" style="display: inline-block;text-decoration: none;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;font-variant-ligatures: normal;" href="{{ $mailData['expert_url'] ?? ''}}" target="_blank">View Project Details</a>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                            <![endif]-->
+                                                                                            <!--[if !mso]>--><a style="border-radius: 8px;background-color: rgba(251,22,22,0.8);padding: 14px 18px 14px 18px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;text-align: center;text-align-last: center;text-decoration: none;display: inline-block;vertical-align: top;-webkit-text-size-adjust: none;" href="{{ $mailData['expert_url'] ?? ''}}" target="_blank">View Project Details</a>
                                                                                             <!--<![endif]-->
                                                                                         </th>
                                                                                     </tr>
@@ -94,6 +94,72 @@
             </tr>
         </table>
         <!-- END MODULE: Call to action 2 -->
+    </td>
+</tr>
+<tr>
+    <td valign="top">
+        <!-- BEGIN MODULE: Content 4 -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+            <tr>
+                <td style="padding: 0px 0px 0px 0px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                        <tr>
+                            <td valign="top" class="pc-w520-padding-30-30-30-30 pc-w620-padding-35-35-35-35" style="padding: 40px 40px 40px 40px;border-radius: 0px;background-color: #ffffff;" bgcolor="#ffffff">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                    <tr>
+                                        <td align="center" valign="top" style="padding: 0px 0px 10px 0px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" align="center">
+                                                <tr>
+                                                    <td valign="top" class="pc-font-alt" align="center" style="padding: 0px 20px 0px 20px;mso-line-height: exactly;line-height: 142%;letter-spacing: -0.4px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-size: 18px;font-weight: bold;color: #151515;text-align: center;text-align-last: center;font-variant-ligatures: normal;">
+                                                        <div><span>Related Project you might interested in:</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                @php
+                                    $projects = $mailData['related_projects'] ?? $related_projects;
+                                @endphp
+                                @if($projects->isEmpty())
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                        <tr>
+                                            <td align="center" valign="top" style="padding: 0px 0px 7px 0px;">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" align="center">
+                                                    <tr>
+                                                        <td valign="top" class="pc-font-alt" align="center" style="padding: 0px 0px 0px 0px;mso-line-height: exactly;line-height: 113%;letter-spacing: -0.2px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-size: 16px;font-weight: normal;color: #9b9b9b;text-align: center;text-align-last: center;font-variant-ligatures: normal;">
+                                                            No projects</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                @endif
+                                @foreach($projects as $project)
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                        <tr>
+                                            <td align="center" valign="top" style="padding: 0px 0px 7px 0px;">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" align="center">
+                                                    <tr>
+                                                        <td valign="top" class="pc-font-alt" align="center" style="padding: 0px 0px 0px 0px;mso-line-height: exactly;line-height: 113%;letter-spacing: -0.2px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-size: 16px;font-weight: normal;color: #9b9b9b;text-align: center;text-align-last: center;font-variant-ligatures: normal;">
+                                                            <a href="{{route('expert.projects.show', $project->pid)}}"
+                                                               style="text-decoration: none;color: #1595e7;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;font-variant-ligatures: normal;">{{$loop->index+1}}. {{$project->name}}</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                @endforeach
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <!-- END MODULE: Content 4 -->
     </td>
 </tr>
 <tr>
@@ -292,3 +358,6 @@
     </td>
 </tr>
 @include('mail.footer')
+
+
+

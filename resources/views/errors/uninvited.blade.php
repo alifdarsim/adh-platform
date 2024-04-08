@@ -13,10 +13,9 @@
             <div>
                 <img class="email-logo mb-5" src="{{config('app.url') . '/images/logo-dark.png'}}" alt="logo">
             </div>
-            <img class="nk-error-gfx w-60 pb-4" src="/images/svg/questioning.svg" alt="">
-            <div class="wide-xs mx-auto"><h3 class="nk-error-title">Uninvited Project</h3>
-                <p class="nk-error-text">We are very sorry for inconvenience. But you are not invited to this project or
-                    you are not authorized to access this page.</p>
+            <img class="nk-error-gfx w-60 pb-4" src="/images/svg/uninvited.svg" alt="">
+            <div class="wide-xs mx-auto"><h3 class="nk-error-title">Project Uninvited</h3>
+                <p class="nk-error-text">You are not invited to this project. If this project is public you may need invited yourself first before you can view project details.</p>
                 <a href="{{config('app.url')}}" class="btn btn-lg btn-danger mt-2">
                     Go To Home
                 </a>

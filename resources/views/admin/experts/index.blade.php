@@ -222,7 +222,8 @@
                     width: "20%",
                     "targets": [0],
                     "createdCell": function (td, cellData, rowData) {
-                        $(td).on('click', () => window.location.href = rowData.url )
+                        console.log(rowData)
+                        $(td).on('click', () => window.location.href = `{{route('admin.expert-portal.index','')}}/${rowData.id}`);
                     }
                 }
             ],
@@ -231,22 +232,29 @@
                     data: 'name',
                     render: function (data, type, row) {
                         return `<div class="user-card">
-                            <div class="user-avatar bg-dim-primary d-none d-sm-flex"><span>${row.img_url ? `<img src="${row.img_url}" alt="">` : `<span class="text-white">N/A</span>`}</span></div>
-                            <div class="user-info"><span class="tb-lead">${data}${row.registered ? '<i class="fa-solid fa-badge-check fs-13px ms-1 text-info"></i>' : ''}</span><span><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>${row.url.replace('https://www.linkedin.com/in/','')}</span></div>
+                            <div class="user-avatar bg-dim-primary d-flex position-relative !tw-w-12 !tw-h-12 !tw-rounded-lg !tw-bg-slate-300">
+                                <span>${row.img_url ? `<img class="!tw-rounded-lg" src="${row.img_url}" alt="">` : `<img class="!tw-rounded-lg p-2" src="/images/svg/avatar.svg" alt="">`}
+                                ${row.registered ? `<i class="fa-solid fa-badge-check fs-20px text-warning position-absolute tw-top-0 translate-middle"></i>` : ''}
+                                </span>
+                            </div>
+                            <div class="user-info">
+                                <span class="tb-lead">${data}</span>
+                                <span><i class="fa-brands tw-text-blue-500 fa-linkedin fs-12px tw-me-0.5"></i>${row.url.replace('https://www.linkedin.com/in/','')}</span>
+                            </div>
                         </div>`;
                     }
                 },
                 {
                     data: 'industry_classification',
                     render: function (data, type, row) {
-                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-xmark text-danger me-1"></i></span>' : '<span>'+data+'</span>';
+                        return data === 'Not Set' ? '<span class="text-danger"><i class="fa-solid fa-xmark text-danger me-1"></i></span>' : '<span class="fs-13px">'+data+'</span>';
                     }
                 },
                 {
                     data: '_email',
                     render: function (data, type, row) {
-                        let email = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-envelope"></i>${data === 'Not Set' ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : data}</div>`;
-                        let phone = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-phone"></i>${row._phone === 'Not Set' ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : row._phone}</div>`;
+                        let email = `<div class="d-flex tw-items-center fs-13px"><i class="fa-solid fs-11px me-1 fa-envelope"></i>${data === 'Not Set' ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : data}</div>`;
+                        let phone = `<div class="d-flex tw-items-center fs-13px"><i class="fa-solid fs-11px me-1 fa-phone"></i>${row._phone === 'Not Set' ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : row._phone}</div>`;
                         return email + phone;
                     }
                 },
@@ -259,7 +267,7 @@
                 {
                     data: 'experiences',
                     render: function (data, type, row) {
-                        return data[0].company;
+                        return `<span class="fs-13px">${data[0].company}</span>`;
                     }
                 },
                 {
@@ -272,7 +280,6 @@
                     data: 'id',
                     className: 'nk-tb-col-tools',
                     render: function (data, type, row) {
-                        console.log(row)
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
@@ -282,7 +289,7 @@
                                                 <li><a class="clickable" onclick="setIndustry('${row.name}', '${row.img_url}', '${row.url.replace('https://www.linkedin.com/in/','')}', '${row.main_industry}', '${row.sub_industry}', ${row.id})"><em class="icon ni ni-building-fill"></em><span>Set Industry Classification</span></a></li>
                                                 <li><a class="clickable" onclick="setEmail(${data}, '${row.email}')"><em class="icon ni ni-mail"></em><span>Set Email</span></a></li>
                                                 <li><a class="clickable" onclick="setPhone(${data}, '${row.phone}')"><em class="icon ni ni-call"></em><span>Set Phone</span></a></li>
-                                                <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>
+<!--                                                <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>-->
                                                 <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>

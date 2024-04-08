@@ -110,8 +110,7 @@ const datatableInit = (datatable_element, object, tableInstance = null) => {
                 //this is for shortlisting table only
                 $('.answer-cell').click(function () {
                     console.log('clicked')
-                    let data = window['datatable'].row($(this).parents('tr')).data();
-                    console.log(data)
+                    let data = window['datatable'] === undefined ? table.row($(this).parents('tr')).data() : window['datatable'].row($(this).parents('tr')).data();
                     if (data.answers === null) return;
                     let answers = data.answers.map((answer, index) => {
                         // write the answer

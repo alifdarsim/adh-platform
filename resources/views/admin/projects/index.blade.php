@@ -38,7 +38,7 @@
                                         class="fa-regular fa-magnifying-glass"></i></div>
                                 <input type="text"
                                     class="tw-w-96 form-control form-control tw-rounded !tw-ps-12 focus:tw-border focus:tw-border-blue-500"
-                                    id="searchbar" placeholder="Search Project, User name">
+                                    id="searchbar" placeholder="Search Project Name">
                             </div>
                         </div>
                     </div>
@@ -140,9 +140,9 @@
                                     </div><!-- .toggle-content -->
                                 </div><!-- .toggle-wrap -->
                             </li><!-- li -->
-                        </ul><!-- .btn-toolbar -->
-                    </div><!-- .card-tools -->
-                </div><!-- .card-title-group -->
+                        </ul>
+                    </div>
+                </div>
                 <div class="card-search search-wrap" data-search="search">
                     <div class="card-body">
                         <div class="search-content">
@@ -153,8 +153,8 @@
                             <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
                         </div>
                     </div>
-                </div><!-- .card-search -->
-            </div><!-- .card-inner -->
+                </div>
+            </div>
             <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
@@ -212,7 +212,7 @@
                     render: function(data) {
                         let color = data === 'pending' ? 'danger' : (data === 'shortlisted' ? 'info' : (
                             data === 'awarded' ? 'success' : 'secondary'));
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center">${data === 'active' ? 'Shortlisting' : data}</span>`;
+                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color}">${data === 'active' ? 'Shortlisting' : data}</span>`;
                     }
                 },
                 {

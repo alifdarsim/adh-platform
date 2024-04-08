@@ -3,16 +3,15 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Manage Project Payment</h3>
+                <h3 class="nk-block-title page-title">Manage Expert Payment</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Verify and confirm the payment transaction is successful. You can also view the payment status and
-                        info.</p>
+                    <p>Verify and confirm the payment transaction is successful. You can also view the payment status and info.</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="nk-block">
-        @if ($projects->isEmpty())
+        @if ($projects->isEmpty() || $projects->count() === 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
                 <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">No project related to payment appear yet</h4>
@@ -172,14 +171,13 @@
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
+                            <th class="nk-tb-col"><span class="sub-text">Expert</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Project</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Amount</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Status</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Project Title</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">To Receive</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Detail</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Receive Status</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">To Release</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Release Status</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Detail</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Invoice</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Receipt</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Action</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -232,39 +230,39 @@
     </div>
 
 
-    {{--    <div class="modal fade" tabindex="-1" role="dialog" id="modal_release"> --}}
-    {{--        <div class="modal-dialog modal-lg" role="document"> --}}
-    {{--            <div class="modal-content"> --}}
-    {{--                <div class="modal-header"> --}}
-    {{--                    <h5 class="modal-title">Submit Payment Proof</h5> --}}
-    {{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
-    {{--                </div> --}}
-    {{--                <div class="modal-body"> --}}
-    {{--                    <div> --}}
-    {{--                        <div class="form-group"> --}}
-    {{--                            <label for="project_id">Project Title</label> --}}
-    {{--                            <input name="project_id" id="project_id" class="form-control" placeholder="" value="" disabled> --}}
-    {{--                        </div> --}}
-    {{--                        <div class="form-group"> --}}
-    {{--                            <label for="amount">Total Amount</label> --}}
-    {{--                            <input name="amount" id="amount" class="form-control" placeholder="Eg: SGD50000" disabled> --}}
-    {{--                        </div> --}}
-    {{--                        <div class="form-group mt-3"> --}}
-    {{--                            <label for="info">Payment Info</label> --}}
-    {{--                            <textarea name="info" id="info" class="form-control" required placeholder="Eg: Payment Method: Direct Transfer&#10;Bank: OCBC Bank&#10;Ref Number: 00001061;&#10;Payment Time: 25/05/2023 14:10 PM;"></textarea> --}}
-    {{--                        </div> --}}
-    {{--                        <div class="form-group mt-3"> --}}
-    {{--                            <label for="file">Payment Screenshot</label> --}}
-    {{--                            <input type="file" name="file" id="file" accept="image/png, image/gif, image/jpeg, application/pdf" class="form-control" required> --}}
-    {{--                        </div> --}}
-    {{--                        <div class="form-group mt-3"> --}}
-    {{--                            <button type="submit" class="btn btn-primary" id="submit" >Update</button> --}}
-    {{--                        </div> --}}
-    {{--                    </div> --}}
-    {{--                </div> --}}
-    {{--            </div> --}}
-    {{--        </div> --}}
-    {{--    </div> --}}
+{{--    <div class="modal fade" tabindex="-1" role="dialog" id="modal_release">--}}
+{{--        <div class="modal-dialog modal-lg" role="document"> --}}
+{{--            <div class="modal-content">--}}
+{{--                <div class="modal-header">--}}
+{{--                    <h5 class="modal-title">Submit Payment Proof</h5>--}}
+{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+{{--                </div>--}}
+{{--                <div class="modal-body">--}}
+{{--                    <div>--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label for="project_id">Project Title</label>--}}
+{{--                            <input name="project_id" id="project_id" class="form-control" placeholder="" value="" disabled>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label for="amount">Total Amount</label>--}}
+{{--                            <input name="amount" id="amount" class="form-control" placeholder="Eg: SGD50000" disabled>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group mt-3">--}}
+{{--                            <label for="info">Payment Info</label>--}}
+{{--                            <textarea name="info" id="info" class="form-control" required placeholder="Eg: Payment Method: Direct Transfer&#10;Bank: OCBC Bank&#10;Ref Number: 00001061;&#10;Payment Time: 25/05/2023 14:10 PM;"></textarea>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group mt-3">--}}
+{{--                            <label for="file">Payment Screenshot</label>--}}
+{{--                            <input type="file" name="file" id="file" accept="image/png, image/gif, image/jpeg, application/pdf" class="form-control" required>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group mt-3">--}}
+{{--                            <button type="submit" class="btn btn-primary" id="submit" >Update</button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal_release">
         <div class="modal-dialog modal-lg" role="document">
@@ -317,7 +315,8 @@
         let received_info;
         datatableInit('#datatable', {
             ajax: '{{ route('admin.payment.datatable') }}',
-            columnDefs: [{
+            columnDefs: [
+                {
                     "orderable": false,
                     "targets": [0, 1, 2, 3]
                 },
@@ -333,73 +332,57 @@
                             '{{ route('admin.projects.show', '') }}/' + rowData.pid)
                     }
                 },
-                {
-                    "targets": [1],
-                    "width": "30%",
-                }
+                // {
+                //     "targets": [0],
+                //     "width": "30%",
+                // }
             ],
             pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
-            columns: [{
+            columns: [
+                {
+                    data: 'users',
+                    render: function(data) {
+                        return `<div href="{{ route('admin.expert-portal.index', '') }}/${data.name}" class="text-capitalize">${data.name}</a>`; // Link to user
+                    }
+                },
+                {
+                    data: 'projects',
+                    render: function(data) {
+                        return `<div href="{{ route('admin.projects.show', '') }}/${data.pid}" class="text-capitalize">${data.name}</a>`; // Link to project
+                    }
+                },
+                {
+                    data: 'amount'
+                },
+                {
                     data: 'status',
                     render: function(data) {
-                        let color = data === 'pending' ? 'danger' : (data === 'shortlisted' ? 'info' : (
-                            data === 'awarded' ? 'success' : 'secondary'));
-                        return `<span class="me-1 badge rounded-pill text-capitalize bg-${color} center">${data === 'active' ? 'Shortlisting' : data}</span>`;
-                    }
-                },
-                {
-                    data: 'name'
-                },
-
-                {
-                    data: 'payment',
-                    className: 'tw-border-l tw-border-slate-300',
-                    render: function(data, type, row) {
                         console.log(data)
-                        return data.received_amount;
+                        if (data === 'pending') return `<span class="badge bg-warning badge-warning">Pending</span>`;
+                        if (data === 'paid') return `<span class="badge bg-success badge-success">Paid</span>`;
+                        return `<span class="badge badge-info">Released</span>`;
                     }
                 },
                 {
-                    data: 'payment',
-                    render: function(data, type, row) {
-                        received_info = data.received_info;
-                        return `<button onclick="view('${row.name}','${data.received_amount}','', '{{ config('app.url') }}${data.received_receipt}', '${row.pid}')" class="btn btn-xs text-capitalize btn-info py-1"><i class="fa-solid fa-eye"></i></button>`;
+                    data: 'invoice_path',
+                    render: function(data) {
+                        let receipt = data ? `<a target="_blank" href="../../${data}" class="btn btn-sm bg-info text-white"><i class="fa-solid fa-file-invoice"></i></a>` : '-';
+                        return receipt;
                     }
                 },
                 {
-                    data: 'payment',
-                    className: 'tw-border-r tw-border-slate-300',
-                    render: function(data, type, row) {
-                        data = data.received_status;
-                        let color = data === 'pending' ? 'danger' : (data === 'pending_verification' ?
-                            'warning' : 'success');
-                        return `<span class="badge rounded-pill text-capitalize bg-${color} px-2">${data === 'pending_verification' ? 'Verify Needed' : data}</span>`;
+                    data: 'receipt_path',
+                    render: function(data) {
+                        let receipt = data ? `<a target="_blank" href="../../${data}" class="btn btn-sm bg-info text-white"><i class="fa-solid fa-file-invoice"></i></a>` : '-';
+                        return receipt;
                     }
                 },
                 {
-                    data: 'payment',
+                    data: 'id',
                     render: function(data, type, row) {
-                        return data.released_amount;
+                        return '-';
                     }
-                },
-                {
-                    data: 'payment',
-                    render: function(data, type, row) {
-                        data = data.released_status;
-                        let color = data === 'pending' ? 'danger' : 'success';
-                        return `<span class="badge rounded-pill text-capitalize bg-${color} px-2">${data}</span>`;
-                    }
-                },
-                {
-                    data: 'payment',
-                    render: function(data, type, row) {
-                        console.log(data)
-                        let info = data.released_info;
-                        let link = `{{ config('app.url') }}${data.released_receipt}`;
-                        if (data.released_receipt === null) link = null;
-                        return `<button onclick="viewRelease('${row.name}','${data.released_amount}','${info}', '${link}', '${row.pid}')" class="btn btn-xs text-capitalize btn-info py-1"><i class="fa-solid fa-eye"></i></button>`;
-                    }
-                },
+                }
             ]
         });
 

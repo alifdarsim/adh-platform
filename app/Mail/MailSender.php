@@ -23,9 +23,10 @@ class MailSender
     /**
      * Send email to expert.
      */
-    public function sendProjectInvitation($email, $expertName, $projectName, $content, $expert_url): void
+    public function sendProjectInvitation($email, $expertName, $projectName, $content, $expert_url, $related_project): void
     {
-        SendProjectInvitation::dispatch($email, $expertName, $projectName, $content, $expert_url);
+
+        SendProjectInvitation::dispatch($email, $expertName, $projectName, $content, $expert_url, $related_project);
     }
 
     public function sendPasswordReset($email, $token): void
@@ -38,8 +39,8 @@ class MailSender
         SendAdminInvitation::dispatch($email, $name, $token);
     }
 
-    public function sendProjectAwarded($email, $project_name, $token): void
+    public function sendProjectAwarded($email, $project_name): void
     {
-        SendExpertAwarded::dispatch($email, $project_name, $token);
+        SendExpertAwarded::dispatch($email, $project_name);
     }
 }

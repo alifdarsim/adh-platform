@@ -28,6 +28,7 @@ use App\Http\Controllers\Client\TeamController;
 use App\Http\Controllers\Cms\CmsAssessmentController;
 use App\Http\Controllers\Cms\PostController;
 use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\EmailViewerController;
 use App\Http\Controllers\Expert\AssessmentController;
 use App\Http\Controllers\Expert\AwardedController;
 use App\Http\Controllers\Expert\OverviewController as ExpertOverviewController;
@@ -35,15 +36,15 @@ use App\Http\Controllers\Expert\ProfileController as ExpertProfileController;
 use App\Http\Controllers\Expert\ProjectsController as ExpertProjectsController;
 use App\Http\Controllers\Expert\AccountController as ExpertAccountController;
 use App\Http\Controllers\Expert\PaymentController as ExpertPaymentController;
+use App\Http\Controllers\ExpertPortalController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\IndustryExpertController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProjectAwardedController;
 use App\Http\Controllers\ProjectInvitationController;
-use App\Models\ProjectAwarded;
 
 Route::get('/test', function () {
-    return view('mail.award_project');
+    return view('mail.project_invitation');
 });
 
 Route::get('project-invitation/{token}', [ProjectInvitationController::class, 'index'])->name('project-invitation.index');
@@ -94,6 +95,7 @@ Route::get('/faq', function () { return view('others.faq'); })->name('others.faq
 Route::middleware(['auth', 'route.protection'])->group(function () {
     // Admin Routes
     Route::group(["prefix" => "admin"], function () {
+        Route::get('/email-view/{pid}', [EmailViewerController::class, 'index'])->name('admin.email_project_view');
         Route::group(["prefix" => "overview"], function () {
             Route::get('/', [AdminOverviewController::class, 'index'])->name('admin.overview.index');
             Route::get('/data', [AdminOverviewController::class, 'data'])->name('admin.overview.data');
@@ -110,16 +112,18 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         });
         Route::group(["prefix" => "projects"], function () {
             Route::get('/datatable', [AdminProjectsController::class, 'datatable'])->name('admin.projects.datatable');
-            Route::get('/{pid}/datatable_shortlist', [AdminProjectsController::class, 'datatable_shortlist'])->name('admin.projects.datatable_shortlist');
-            Route::get('/{pid}/datatable_awarding', [AdminProjectsController::class, 'datatable_awarding'])->name('admin.projects.datatable_awarding');
+            Route::get('/{pid}/datatable-expert', [AdminProjectsController::class, 'datatable_expert'])->name('admin.projects.datatable_expert');
             Route::post('/{pid}/award-expert', [AdminProjectsController::class, 'award_expert'])->name('admin.projects.award-expert');
+            Route::post('/force-accept/{project_id}/{expert_id}', [AdminProjectsController::class, 'force_accept'])->name('admin.projects.force-accept');
+            Route::post('/award/{project_id}/{expert_id}', [AdminProjectsController::class, 'award'])->name('admin.projects.award');
+            Route::post('/payment/{project_id}/{expert_id}', [AdminProjectsController::class, 'setPayment'])->name('admin.projects.set-payment');
+
             Route::delete('/{pid}/{id}', [AdminProjectsController::class, 'expert_remove'])->name('admin.projects.remove-expert');
 
             Route::post('/add-expert', [AdminProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
             Route::get('/invite-expert/{project_id}/{expert_id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
             Route::get('/invite-expert-all/{project_id}', [AdminProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
             Route::post('/respond/{pid}', [AdminProjectsController::class, 'respond'])->name('admin.projects.respond');
-            Route::post('/award/{pid}', [AdminProjectsController::class, 'award'])->name('admin.projects.award');
             Route::put('/close/{pid}', [AdminProjectsController::class, 'close'])->name('admin.projects.close');
             Route::put('/reset/{pid}', [AdminProjectsController::class, 'reset'])->name('admin.projects.reset');
             Route::put('/payment/{pid}', [AdminProjectsController::class, 'payment'])->name('admin.projects.payment');
@@ -204,11 +208,25 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
             Route::post('/confirm', [AdminPaymentController::class, 'confirm'])->name('admin.payment.confirm');
             Route::post('/release', [AdminPaymentController::class, 'release'])->name('admin.payment.release');
         });
+        Route::group(["prefix" => "expert_portal"], function () {
+            Route::get('/{email}', [ExpertPortalController::class, 'index'])->name('admin.expert-portal.index');
+            Route::post('/{id}', [ExpertPortalController::class, 'get'])->name('admin.expert-portal.get');
+            Route::post('/expert_details/{id}', [ExpertPortalController::class, 'getExpertDetails'])->name('admin.expert-portal.expert_details');
+            Route::get('/datatableOngoing/{id}', [ExpertPortalController::class, 'datatableOngoing'])->name('admin.expert-portal.datatable_ongoing');
+            Route::get('/datatableComplete/{id}', [ExpertPortalController::class, 'datatableComplete'])->name('admin.expert-portal.datatable_complete');
+        });
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
-        Route::get('contract/{type}', [ContractController::class, 'default'])->name('admin.contract.default');
-        Route::resource('contracts', ContractController::class, ['names' => 'admin.contract']);
+//        Route::resource('contracts', ContractController::class, ['names' => 'admin.contract']);
         Route::resource('industry_classification', IndustryClassificationController::class, ['names' => 'admin.industry_classification'])->withDatatable();
+
+        Route::group(["prefix" => "contracts"], function () {
+            Route::get('/{type}', [ContractController::class, 'show'])->name('admin.contract.show');
+            Route::put('/{pid}', [ContractController::class, 'update'])->name('admin.contract.update');
+            Route::get('/default/{type}', [ContractController::class, 'default'])->name('admin.contract.default');
+
+            Route::post('/upload/{pid}/{type}/{state}', [ContractController::class, 'upload'])->name('admin.contract.upload_signed');
+        });
     });
 
     // Client Routes
@@ -324,9 +342,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/address/countries', [AddressController::class, 'countries'])->name('countries.index');
     Route::get('/address/countries/search', [AddressController::class, 'countries_search'])->name('countries.search');
 
-    Route::post('/contract/upload/{pid}/{type}/{status}', [ContractController::class, 'upload'])->name('contract.upload_signed');
-});
+//    Route::post('/contract/upload/{pid}/{type}/{status}', [ContractController::class, 'upload'])->name('contract.upload_signed');
+    Route::get('/contract/check_status/{pid}', [ContractController::class, 'check_status'])->name('contract.check_status');
 
+});
 
 
 

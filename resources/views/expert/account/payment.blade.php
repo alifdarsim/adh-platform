@@ -23,22 +23,26 @@
                     <div class="data-col">
                         <span class="data-label">Payment Method</span>
                         <div>
-                            <div class="data-value tw-capitalize text-dark fs-6">
-                                {{$payment->method ?? 'Not Set'}}
+{{--                            <div class="data-value tw-capitalize text-dark fs-6">--}}
+{{--                                {{$payment->method ?? 'Not Set'}}--}}
+{{--                            </div>--}}
+{{--                            @if ($payment && $payment->method)--}}
+{{--                                <div class="data-sub">--}}
+{{--                                    @if ($payment->method === 'bank transfer')--}}
+{{--                                        <div>Bank Name: {{$payment->payment_info->bank_name ?? ''}}</div>--}}
+{{--                                        <div>Account No: {{$payment->payment_info->bank_account ?? ''}}</div>--}}
+{{--                                    @elseif ($payment->method === 'paypal')--}}
+{{--                                        <div>Username: {{$payment->payment_info->paypal_username ?? ''}}</div>--}}
+{{--                                        <div>Email: {{$payment->payment_info->paypal_email ?? ''}}</div>--}}
+{{--                                    @else--}}
+{{--                                        <div>Wise Username: {{$payment->payment_info->wise_username ?? ''}}</div>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+                            <div class="data-sub">
+                                <div>Bank Name: OCBC Bank</div>
+                                <div>Account No: 415648686284</div>
                             </div>
-                            @if ($payment && $payment->method)
-                                <div class="data-sub">
-                                    @if ($payment->method === 'bank transfer')
-                                        <div>Bank Name: {{$payment->payment_info->bank_name ?? ''}}</div>
-                                        <div>Account No: {{$payment->payment_info->bank_account ?? ''}}</div>
-                                    @elseif ($payment->method === 'paypal')
-                                        <div>Username: {{$payment->payment_info->paypal_username ?? ''}}</div>
-                                        <div>Email: {{$payment->payment_info->paypal_email ?? ''}}</div>
-                                    @else
-                                        <div>Wise Username: {{$payment->payment_info->wise_username ?? ''}}</div>
-                                    @endif
-                                </div>
-                            @endif
                         </div>
                     </div>
                     <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
@@ -139,7 +143,7 @@
                 payment_info.wise_username = $('#wise_username').val();
             }
             $.ajax({
-                url: '{{route('expert.payment.update_method')}}',
+                url: '{{route('expert.account.payment')}}',
                 type: 'PUT',
                 data: {
                     _token: '{{csrf_token()}}',

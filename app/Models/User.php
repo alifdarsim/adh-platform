@@ -109,7 +109,7 @@ class User extends Authenticatable implements HasMedia
 
     public function user_avatar($name = null): string | \Laravolt\Avatar\Avatar | null
     {
-        return $this->expert->img_url == null ? Avatar::create($name)->toBase64() : $this->expert->img_url;
+        return $this->expert->img_url == null ? Avatar::create('N/A')->toBase64() : $this->expert->img_url;
     }
 
     public function expert(): HasOne
@@ -119,6 +119,11 @@ class User extends Authenticatable implements HasMedia
             UserExpert::create(['user_id' => $this->id,]);
         }
         return $this->hasOne(UserExpert::class, 'user_id', 'id');
+    }
+
+    public function expert_list(): HasOne
+    {
+        return $this->hasOne(ExpertList::class, 'email', 'email');
     }
 
     public function country(): HasOne
@@ -136,20 +141,15 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Assessment::class, 'user_id', 'id');
     }
 
-    public function projects(): HasManyThrough
-    {
-        return $this->hasManyThrough(Projects::class,ProjectInvited::class, 'email', 'id', 'email', 'project_id');
-    }
-
     public function client(): HasOne
     {
         Client::where('user_id', auth()->id())->firstOrCreate(['user_id' => auth()->id()]);
         return $this->hasOne(Client::class, 'user_id', 'id');
     }
 
-    public function payment(): HasOne
+    public function paymentRelease(): HasOne
     {
-        return $this->hasOne(Payment::class, 'user_id', 'id');
+        return $this->hasOne(PaymentExpert::class, 'user_id', 'id');
     }
 
 }

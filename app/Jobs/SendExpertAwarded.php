@@ -25,18 +25,16 @@ class SendExpertAwarded implements ShouldQueue
     protected $token;
     protected $project_name;
 
-    public function __construct($email, $project_name, $token)
+    public function __construct($email, $project_name)
     {
         $this->email = $email;
         $this->project_name = $project_name;
-        $this->token = $token;
     }
 
     public function handle(): void
     {
         $mailData = [
             'project_name' => $this->project_name,
-            'token' => $this->token,
         ];
 
         Mail::to($this->email)->send(new AwardedExpert($mailData));

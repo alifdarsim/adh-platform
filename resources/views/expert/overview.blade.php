@@ -27,7 +27,7 @@
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                     <div class="nk-sale-data">
                         <span class="tw-text-4xl text-dark">
-                            {{auth()->user()->projects->where('status', '<>' ,'awarded')->count()}}
+                            {{$project_expert->where('status', 'shortlisted')->count()}}
                         </span>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                     <div class="nk-sale-data">
                         <span class="tw-text-4xl text-dark">
-                           {{auth()->user()->projects->where('status', 'awarded')->count()}}
+                            {{$project_expert->where('status', 'ongoing')->count()}}
                         </span>
                     </div>
                 </div>
@@ -65,7 +65,10 @@
                     </div>
                 </div>
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">0</span>
+                    <div class="nk-sale-data">
+                        <span class="tw-text-4xl text-dark">
+                            {{$project_expert->where('status', 'completed')->count()}}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -106,19 +109,19 @@
                                 </div>
                             </div>
                         </div>
-                        @if(auth()->user()->projects->count() > 0)
-                            @foreach(auth()->user()->projects->take(3) as $project)
+                        @if($project_expert->count() > 0)
+                            @foreach($project_expert->take(3) as $project)
                                 <div class="card-inner card-inner-md">
                                     <div class="user-card d-flex justify-between">
-                                        <a href="{{route('expert.projects.show', $project->pid)}}" class="user-info">
+                                        <a href="{{route('expert.projects.show', $project->project->pid)}}" class="user-info">
                                             <span class="tw-text-slate-600">
                                                 <i class="fa-solid fa-circle-small text-danger me-1"></i>
-                                                <span>{{$project->name}}</span>
+                                                <span>{{$project->project->name}}</span>
                                             </span>
                                         </a>
                                         <div class="user-action ms-1">
-                                            <div class="badge rounded-pill bg-{{$project->status == 'shortlisted' ? 'info' : ($project->status == 'awarded' ? 'success' : 'secondary')}} badge-sm text-capitalize">
-                                                {{$project->status == 'active' ? 'Shortlist' : $project->status}}
+                                            <div class="badge rounded-pill bg-{{$project->status == 'completed' ? 'success' : ($project->status == 'ongoing' ? 'secondary' : 'warning')}} badge-sm text-capitalize">
+                                                {{$project->status}}
                                             </div>
                                         </div>
                                     </div>

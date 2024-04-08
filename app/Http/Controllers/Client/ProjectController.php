@@ -50,7 +50,6 @@ class ProjectController extends Controller
             'description' => request()->get('description'),
             'hub_id' => request()->get('hub'),
             'pid' => \Illuminate\Support\Str::replace('-', '', Str::uuid()),
-            'budget' => request()->get('budget'),
             'status' => 'pending',
             'created_by' => auth()->user()->id,
             'deadline' => Carbon::createFromFormat('d/m/Y', request()->get('deadline'))->format('Y-m-d'),
@@ -60,7 +59,7 @@ class ProjectController extends Controller
         $project->projectTargetInfo()->create([
             'industry_id' => request()->get('target_industry'),
             'company_size' => request()->get('target_company_size'),
-            'communication_language' => json_encode(request()->get('communication_language')),
+            'communication_language' => request()->get('communication_language'),
         ]);
         foreach (request()->get('target_keyword') as $keyword) {
             $keyword = Keyword::firstOrCreate(['name' => $keyword]);

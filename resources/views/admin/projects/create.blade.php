@@ -3,7 +3,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Create Project</h3>
+                <h3 class="nk-block-title page-title">Create Project on Behalf Client</h3>
                 <div class="nk-block-des text-soft">
                     <p>Create your project and find potential expert will be partnered to complete your project.</p>
                 </div>
@@ -22,7 +22,7 @@
                                     company?</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select" id="select_company" name="select_company"
-                                        data-placeholder="Search Company" data-search="on" required>
+                                        data-placeholder="Search Company Database" data-search="on" required>
                                         <option value=""></option>
                                     </select>
                                 </div>
@@ -32,7 +32,7 @@
                             <div class="form-group">
                                 <label class="form-label" style="visibility: hidden" for="company">.</label>
                                 <div class="form-control-wrap">
-                                    <a href="{{ route('admin.companies.create') }}" class="btn btn-primary">Create New
+                                    <a href="{{ route('admin.companies.create') }}" class="btn btn-primary">Register New
                                         Company</a>
                                 </div>
                             </div>

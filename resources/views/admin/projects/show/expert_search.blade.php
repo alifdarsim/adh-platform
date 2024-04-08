@@ -99,17 +99,13 @@
     </div>
 </div>
 
+
+
 @push('scripts')
     <script>
         let experts_info;
         let tagsElement;
         let current_search;
-
-        $(document).ready(function () {
-            $('#communication_language').val({!! collect($project->projectTargetInfo->communication_language)->map(fn($item) =>  $item )->implode(',') !!}).trigger('change');
-            $('#target_keyword').tagify().data('tagify').addTags('{{$project->keywords->pluck('name')->implode(',  ')}}');
-            tagsElement = $('.tagify').tagify();
-        });
 
         let lastClick = 0;
         const delay = 50;

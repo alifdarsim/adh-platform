@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Spatie\Activitylog\LogOptions;
@@ -23,6 +24,7 @@ class Projects extends Model
     protected $table = 'projects';
     protected $guarded = [];
     protected $casts = [
+        'public' => 'boolean',
         'questions' => 'array',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
@@ -74,17 +76,7 @@ class Projects extends Model
     // after this is new one
     public function shortlist(): hasOne
     {
-        return $this->hasOne(ProjectShortlist::class, 'project_id', 'id');
-    }
-
-    public function invited(): hasMany
-    {
-        return $this->hasMany(ProjectInvited::class, 'project_id', 'id');
-    }
-
-    public function invited_user_accepted()
-    {
-        return $this->invited()->where('email', auth()->user()->email)->first()->accepted;
+        return $this->hasOne(ProjectExpert::class, 'project_id', 'id');
     }
 
     public function createdBy(): BelongsTo
@@ -102,18 +94,9 @@ class Projects extends Model
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
-    public function awardedTo(): BelongsTo
+    public function award(): hasMany
     {
-        return $this->belongsTo(User::class, 'awarded_to', 'id');
+        return $this->hasMany(ProjectAwarded::class, 'project_id', 'id');
     }
 
-    public function contract(): hasMany
-    {
-        return $this->hasMany(ProjectContract::class, 'project_id', 'id');
-    }
-
-    public function payment(): HasOne
-    {
-        return $this->hasOne(ProjectPayment::class, 'project_id', 'id');
-    }
 }

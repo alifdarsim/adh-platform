@@ -12,15 +12,22 @@
     <div class="nk-block">
         @include('status.index')
 
-        @if ($project->status == 'shortlisted')
+        @if($project_expert->status == 'shortlisted')
             @include('expert.project.show.shortlist')
-        @elseif($project->status == 'awarded')
+        @elseif ($project_expert->status == 'ongoing')
             @include('expert.project.show.award')
-        @elseif($project->status == 'contract')
-            @include('expert.project.show.contract')
-        @elseif($project->status == 'started')
-            @include('expert.project.show.start')
         @endif
+{{--        @if ($project->status == 'shortlisted')--}}
+{{--            @include('expert.project.show.shortlist')--}}
+{{--            @include('expert.project.show.award')--}}
+{{--            @include('expert.project.show.contract')--}}
+{{--        @elseif($project->status == 'awarded')--}}
+{{--            @include('expert.project.show.award')--}}
+{{--        @elseif($project->status == 'contract')--}}
+{{--            @include('expert.project.show.contract')--}}
+{{--        @elseif($project->status == 'started')--}}
+{{--            @include('expert.project.show.start')--}}
+{{--        @endif--}}
 
         @include('admin.projects.show.show-detail')
     </div>

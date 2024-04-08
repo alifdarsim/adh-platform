@@ -5,14 +5,14 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Manage Your Projects</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Only project that you are invited and awarded will be shown here. Total project:
-                        {{ auth()->user()->projects->count() }} projects</p>
+                    <p>Total projects:
+                        {{ $project_expert->count() }} projects</p>
                 </div>
             </div>
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
-                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em
-                            class="icon ni ni-more-v"></em>
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                        <em class="icon ni ni-more-v"></em>
                     </a>
                     <div class="toggle-expand-content" data-content="pageMenu">
                         <div class="btn-group">
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="nk-block">
-        @if (auth()->user()->projects->count() == 0)
+        @if ($project_expert->count() == 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
                 <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
@@ -78,13 +78,9 @@
                                                                             <select
                                                                                 class="form-select js-select2 js-select2-sm"
                                                                                 id="status">
-                                                                                <option value="all">All Status</option>
-                                                                                <option value="interested">Waiting Selection
-                                                                                </option>
-                                                                                <option value="not-interested">Not
-                                                                                    Interested</option>
-                                                                                <option value="pending">Pending Respond
-                                                                                </option>
+                                                                                <option value="all">ONGOING</option>
+                                                                                <option value="interested">COMPLETE</option>
+                                                                                <option value="pending">SHORLISTED</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -186,12 +182,12 @@
                 <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col"><span class="sub-text">Status</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Project Name</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Project</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Client</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Invited Date</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Initiate Date</span></th>
+{{--                            <th class="nk-tb-col"><span class="sub-text">Expert Selection</span></th>--}}
                             <th class="nk-tb-col"><span class="sub-text">Accept Invitation?</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Action</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -200,6 +196,8 @@
             </div>
         @endif
     </div>
+
+    @include('expert.project.modals.contract')
 @endsection
 
 @push('scripts')
@@ -212,7 +210,7 @@
             // order:  [[4, 'desc']],
             columnDefs: [{
                     "orderable": false,
-                    "targets": [0, 1, 2, 3, 4]
+                    "targets": [0, 1, 2, 3]
                 },
                 {
                     "className": "nk-tb-col",
@@ -220,35 +218,29 @@
                 },
                 {
                     "className": "clickable",
-                    "targets": [0, 1, 2, 3, 4],
+                    "targets": [0, 1, 2, 3],
                     "createdCell": function(td, cellData, rowData) {
                         $(td).on('click', () => window.location.href =
                             '{{ route('expert.projects.show', '') }}/' + rowData.pid)
                     }
                 }
             ],
-            columns: [{
-                    data: 'status',
-                    render: function(data) {
-                        let color = data === 'close' ? 'secondary' : (data === 'active' ? 'success' :
-                            'info');
-                        return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color} center tw-w-28">${data === 'shortlisted' ? 'Expert Shortlisting' : data}</span>`;
-                    }
-                },
+            columns: [
                 {
-                    data: 'project_name'
+                    data: 'project_name',
+                    render: function(data, type, row) {
+                        return `<div class="user-info">
+                                <h6 class="title fs-15px mb-0 tw-text-slate-600">${data}</h6>
+                                <span class="sub-text tw-py-0.5">Project ID: ${row.pid}</span>
+                                <span class="sub-text">Status: <span class="badge ms-1 tw-capitalize text-white bg-${row.status === 'completed' ? 'success' : (row.status === 'ongoing' ? 'info' : 'warning')}">${row.status}</span></span>
+                            </div>`;
+                    }
                 },
                 {
                     data: 'client',
                 },
                 {
-                    data: 'invited_at',
-                    "render": function(data) {
-                        return moment(data).format('DD MMM YYYY');
-                    }
-                },
-                {
-                    data: 'deadline',
+                    data: 'created_at',
                     "render": function(data) {
                         return moment(data).format('DD MMM YYYY');
                     }
@@ -262,7 +254,26 @@
                             `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
                         return `<div class="d-flex"><span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-2">${data === true ? 'Accept' : (data === false ? 'Reject' : 'No Respond')}</span>${data ? icon : ''}</div>`;
                     }
-                }
+                },
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+                        return `<ul class="nk-tb-actions gx-1">
+                                <li>
+                                    <div class="drodown">
+                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li><a class="clickable" href="#"><em class="icon ni ni-eye"></em><span>Confirm Payment</span></a></li>
+                                                <li><a class="clickable" onclick="setContract('${row.id}')"><em class="icon ni ni-building"></em><span>Set Contract</span></a></li>
+                                                <li><a class="clickable" onclick="remove('${row.id}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>`
+                    },
+                },
             ]
         });
 

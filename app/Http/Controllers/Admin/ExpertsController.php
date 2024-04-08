@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ExpertList;
 use App\Models\IndustryExpert;
 use App\Models\Projects;
-use App\Models\ProjectShortlist;
+use App\Models\ProjectExpert;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -89,7 +89,7 @@ class ExpertsController extends Controller
         if (!$project) {
             return [];
         }
-        return ProjectShortlist::where('project_id', $project->id)->pluck('expert_id')->toArray();
+        return ProjectExpert::where('project_id', $project->id)->pluck('expert_id')->toArray();
     }
 
     public function set_contact(){

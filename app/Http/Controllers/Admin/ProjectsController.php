@@ -7,8 +7,9 @@ use App\Models\Country;
 use App\Models\ExpertList;
 use App\Models\Hub;
 use App\Models\Keyword;
-use App\Models\ProjectInvited;
-use App\Models\ProjectShortlist;
+use App\Models\PaymentExpert;
+use App\Models\ProjectExpert;
+use App\Models\ProjectPayment;
 use App\Models\Projects;
 use App\Models\User;
 use Carbon\Carbon;
@@ -29,13 +30,22 @@ class ProjectsController extends Controller
         return view('admin.projects.create',['hubs'=>Hub::all()]);
     }
 
+    function generateUniqueID() {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $unique_id = '';
+
+        // Loop 10 times to generate a 10-character ID
+        for ($i = 0; $i < 10; $i++) {
+            $unique_id .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $unique_id;
+    }
+
     public function show($pid){
         $countries = Country::select('id', 'name')->get();
         $project = Projects::where('pid',$pid)->first();
         if (!$project) return view('errors.not-exist');
-//        if ($project->status == 'awarded' || $project->status == 'closed' ){
-//            return view('admin.projects.awarded.index', compact('project'));
-//        }
         $project->targetCountries;
         $project->projectTargetInfo;
         $project->created_by = $project->createdBy;
@@ -62,13 +72,13 @@ class ProjectsController extends Controller
             return $question != null;
         });
         if (count($questions) < 1) return error('You need to ask at least one question to the expert');
+        $pid = Str::uuid();
         $project = Projects::create([
             'name' => request()->get('name'),
             'company_id' => request()->get('company_id'),
             'description' => request()->get('description'),
             'hub_id' => request()->get('hub'),
-            'pid' => Str::replace('-', '', Str::uuid()),
-            'budget' => request()->get('budget'),
+            'pid' => $this->generateUniqueID(),
             'status' => 'pending',
             'created_by' => auth()->user()->id,
             'deadline' => Carbon::createFromFormat('d/m/Y', request()->get('deadline'))->format('Y-m-d'),
@@ -133,10 +143,10 @@ class ProjectsController extends Controller
             ->make(true);
     }
 
-    public function datatable_shortlist($pid)
+    public function datatable_expert($pid)
     {
         $project = Projects::where('pid',$pid)->first();
-        $shortlist = ProjectShortlist::where('project_id', $project->id)
+        $shortlist = ProjectExpert::where('project_id', $project->id)
             ->with('expert_email')
             ->get();
         $shortlist->transform(function ($item) {
@@ -144,76 +154,84 @@ class ProjectsController extends Controller
             return $item;
         });
         $answer = $project->answer ?? collect();
-        $invitation = ProjectInvited::where('project_id', $project->id)->get();
         return datatables()->of($shortlist)
-            ->addColumn('invited', function ($shortlist) use ($invitation) {
-                $email = $shortlist->email;
-                $invited = $invitation->first(function ($item) use ($email) {
-                    return $item->email == $email;
-                });
-                return $invited !== null;
+            ->addColumn('registered', function ($e) {
+                $email = $e->email;
+                $user = User::where('email', $email)->first();
+                return (bool)$user;
             })
-            ->addColumn('answers', function ($shortlist) use ($invitation, $answer) {
+            ->addColumn('payment', function ($shortlist) {
+                return $shortlist->payment->amount ?? null;
+            })
+            ->addColumn('answers', function ($shortlist) use ($answer) {
                 if (User::where('email', $shortlist->email)->first() === null) return null;
                 $user_id = User::where('email', $shortlist->email)->first()->id;
                 return $answer->firstWhere('user_id', $user_id)->answers ?? null;
             })
-            ->addColumn('accepted', function ($shortlist) use ($invitation) {
-                $email = $shortlist->email;
-                $invited = $invitation->first(function ($item) use ($email) {
-                    return $item->email == $email;
-                });
-                if ($invited === null) return null;
-                else return $invited->accepted;
-            })
             ->make(true);
     }
 
-    public function datatable_awarding($pid)
-    {
-        $id = Projects::where('pid',$pid)->first()->id;
-        $experts = ProjectInvited::where('project_id', $id)->with('expert')->get();
-        $experts = $experts->filter(function($expert){
-            return $expert->accepted != null;
-        });
-        return datatables()->of($experts)
-            ->make(true);
-    }
-
-    public function award($pid){
-        $project = Projects::where('pid',$pid)->first();
-        $project->status = 'awarded';
-        $project->awarded_at = now();
-        $project->save();
-    }
-
-    public function award_expert($pid, MailSender $mailSender){
-        $expert_id = request()->get('expert_id');
-        // get user_id from expert_id
-        $token = Str::uuid();
-        $email = ExpertList::where('id',$expert_id)->first()->email;
-        $user_id = User::where('email',$email)->first()->id;
-        $project = Projects::where('pid',$pid)->first();
-        $project->awarded_at = now();
-        $project->awarded_to = $user_id;
-        $project->status = 'contract';
-        $project->awarded_token = $token;
-        $project->save();
-        $mailSender->sendProjectAwarded($email, $project->name, $token);
+    public function award($project_id, $expert_id, MailSender $mailSender){
+        $project = Projects::find($project_id);
+        $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$expert_id)->first();
+        $project_expert->awarded = 1;
+        $project_expert->save();
+        $email = $project_expert->expert->email;
+        $user = User::where('email',$email)->first();
+        if (!$user) return error('Expert is not registered yet');
+        $mailSender->sendProjectAwarded($email, $project->name);
         return success('Expert awarded successfully');
     }
 
+    public function setPayment($project_id, $expert_id){
+        $amount = request()->get('payment_amount');
+        $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$expert_id)->first();
+        $expert_payment = $project_expert->payment;
+        if (!$expert_payment) {
+            $expert_payment = $project_expert->payment()->create();
+            $expert_payment->status = 'pending';
+        }
+        $expert_payment->amount = $amount;
+        $expert_payment->save();
+        return success('Payment set successfully');
+    }
+
+    public function award_expert($pid, MailSender $mailSender){
+        $expert_ids = request()->get('expert_ids');
+        $emails = ExpertList::whereIn('id',$expert_ids)->get()->pluck('email');
+        $users = User::whereIn('email',$emails)->get();
+
+        $project = Projects::where('pid',$pid)->first();
+        //remove all awarded expert
+        $project->award()->delete();
+        // award expert
+        foreach ($users as $user){
+            $project_award = $project->award()->create();
+            $token = Str::uuid();
+            $project_award->token = $token;
+            $mailSender->sendProjectAwarded($user->email, $project->name, $token);
+            $project_award->save();
+        }
+        $project->status = 'contract';
+        $project->save();
+        return success('Expert awarded successfully');
+    }
+
+    public function force_accept($project_id, $id){
+        $expert = ExpertList::find($id);
+        $email = $expert->email;
+        $user = User::where('email',$email)->first();
+        if (!$user) return error('Expert is not registered yet');
+        $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$id)->first();
+        $project_expert->accepted = 1;
+        $project_expert->save();
+        return success('Expert accepted successfully');
+    }
 
     public function expert_remove($pid, $id){
         $_id = Projects::where('pid',$pid)->first()->id;
-        $project = ProjectShortlist::where('project_id', '=', $_id)
-            ->where('expert_id', '=',$id)
-            ->first();
-        $project->delete();
-        $expert = ExpertList::find($id);
-        $email = $expert->email;
-        $invited = ProjectInvited::where('email',$email)->where('project_id',$_id)->first();
-        $invited?->delete();
+        $project_expert = ProjectExpert::where('project_id', $_id)->where('expert_id', $id)->first();
+        $project_expert->delete();
         return success('Expert removed successfully');
     }
 
@@ -234,34 +252,31 @@ class ProjectsController extends Controller
         else return success('Project Approve');
     }
 
-    public function close($pid)
-    {
-        $project = Projects::where('pid',$pid)->first();
-        $project->status = 'closed';
-        $project->save();
-        return success('Project closed successfully');
-    }
 
-    public function payment($pid)
-    {
-        $project = Projects::where('pid',$pid)->first();
-        $project->status = 'payment';
-        $project->save();
-        return success('Project is complete, now you can make payment to the expert');
-    }
+//    public function payment($pid)
+//    {
+//        $project = Projects::where('pid',$pid)->first();
+//        $project->status = 'payment';
+//        $project->save();
+//        return success('Project is complete, now you can make payment to the expert');
+//    }
 
     public function payment_amount($pid)
     {
         $project = Projects::where('pid',$pid)->first();
-        // if project payment not created then create it
-        $project_payment = $project->payment ?? $project->payment()->create();
+
         $type = request()->get('type');
         if ($type == 'client') {
+            $project_payment = $project->payment()->create();
             $project_payment->received_amount = request()->get('amount');
             $project_payment->received_status = 'pending';
         }
         else{
+            $expert_id = request()->get('expert_id');
+            $project_payment = $project->payment()->where('expert_id',$expert_id)->first();
+            if (!$project_payment) $project_payment = $project->payment()->create();
             $project_payment->released_amount = request()->get('amount');
+            $project_payment->expert_id = $expert_id;
             $project_payment->released_status = 'pending';
         }
         $project_payment->save();
@@ -272,14 +287,10 @@ class ProjectsController extends Controller
     {
         $project = Projects::where('pid',$pid)->first();
         $project->status = 'pending';
-        $project->awarded_to = null;
-        $project->awarded_at = null;
-        $project->awarded_token = null;
         $project->published_at = null;
         $project->handle_by = null;
         $project->save();
-        ProjectShortlist::where('project_id',$project->id)->delete();
-        ProjectInvited::where('project_id',$project->id)->delete();
+        ProjectExpert::where('project_id',$project->id)->delete();
         return success('Project reset successfully');
     }
 
@@ -294,11 +305,20 @@ class ProjectsController extends Controller
         return success('Project started successfully');
     }
 
+
+    public function close($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'closed';
+        $project->save();
+        return success('Project closed successfully');
+    }
+
     public function add_expert(){
         $project = Projects::where('pid',request()->get('pid'))->first();
-        $check = ProjectShortlist::where('project_id',$project->id)->where('expert_id',request()->get('expert_id'))->first();
+        $check = ProjectExpert::where('project_id',$project->id)->where('expert_id',request()->get('expert_id'))->first();
         if ($check) return error('Expert is already added');
-        ProjectShortlist::create([
+        ProjectExpert::create([
             'project_id' => $project->id,
             'expert_id' => request()->get('expert_id')
         ]);
@@ -309,30 +329,41 @@ class ProjectsController extends Controller
         $expert = ExpertList::find($expert_id);
         $email = $expert->email;
         if (!$email) return error('Expert email is needed to send the invitation');
-//        $invited = ProjectInvited::where('email',$email)->where('project_id',$project_id)->first();
-//        if ($invited) return error('Expert is already invited');
         $project = Projects::find($project_id);
+
+
+        $related_projects = Projects::where('id', '!=', $project_id)
+            ->get();
+        $related_projects->load('projectTargetInfo.industry');
+        $related_projects = $related_projects->filter(function ($related_project) use ($project) {
+            return $related_project->projectTargetInfo->industry->id === $project->projectTargetInfo->industry->id;
+        });
+
         // send email to expert
-        $invited = new ProjectInvited();
-        $token = Str::uuid();
-        $mailSender->sendProjectInvitation($email, $expert->name, $project->name, 'Contentttttt' ,route('project-invitation.index', $token));
-        $invited->email = $email;
-        $invited->project_id = $project_id;
-        $invited->token = $token;
-        $invited->save();
+        $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$expert_id)->first();
+        $invited_token = Str::uuid();
+        $project_expert->invited = 1;
+        $project_expert->invited_token = $invited_token;
+        $project_expert->save();
+        $mailSender->sendProjectInvitation(
+            $email,
+            $expert->name,
+            $project->name,
+            'Contentttttt' ,
+            route('project-invitation.index', $invited_token),
+            $related_projects
+        );
         return success('Expert invited successfully');
     }
 
     public function invite_expert_all($project_id, MailSender $mailSender){
         $project = Projects::find($project_id);
-        $experts_shortlisted = ProjectShortlist::where('project_id',$project_id)->with('expert')->get();
-//        $list = [];
+        $experts_shortlisted = ProjectExpert::where('project_id',$project_id)->with('expert')->get();
         foreach ($experts_shortlisted as $expert){
             $email = $expert->expert->email;
             if (!$email) continue;
             $invited = ProjectInvited::where('email',$email)->where('project_id',$project_id)->first();
             if ($invited) continue;
-//            $list[] = $email;
             // send email to expert
             $invited = new ProjectInvited();
             $token = Str::uuid();
@@ -345,12 +376,4 @@ class ProjectsController extends Controller
         return success('Expert invited successfully');
     }
 
-//    public function payment($pid)
-//    {
-//        $amount = request()->get('payment');
-//        $project = Projects::find($pid);
-//        $project->amount = $amount;
-//        $project->save();
-//        return success('Project payment successful');
-//    }
 }

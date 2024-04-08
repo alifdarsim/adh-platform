@@ -57,16 +57,6 @@
                         <span class="nk-menu-text">Create Company</span>
                     </a>
                 </li>
-                <li class="nk-menu-item">
-                    <a href="{{route('client.team.index')}}" class="nk-menu-link">
-                        <span class="nk-menu-text">Manage My Team</span>
-                    </a>
-                </li>
-                <li class="nk-menu-item">
-                    <a href="{{route('client.team.create')}}" class="nk-menu-link">
-                        <span class="nk-menu-text">Create Team</span>
-                    </a>
-                </li>
             </ul>
         </li>
     </ul>

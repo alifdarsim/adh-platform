@@ -24,7 +24,6 @@ class ProjectInvitation extends Mailable {
 
     /**
      * Build the message.
-     *
      * @return $this
      */
     public function build(): static

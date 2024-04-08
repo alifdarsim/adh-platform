@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Expert;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectAnswer;
 use App\Models\ProjectInvited;
-use App\Models\ProjectShortlist;
+use App\Models\ProjectExpert;
 use App\Models\Projects;
 use App\Models\UserReport;
 use Illuminate\Http\Request;
@@ -14,33 +14,35 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        return view('expert.project.index');
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)->get();
+        return view('expert.project.index', compact('project_expert'));
     }
 
     public function datatable()
     {
-        $projects = auth()->user()->projects()->with('invited')->get();
-        return datatables()->of($projects)
-            ->addColumn('project_name', function ($project) {
-                return $project->name;
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)->get();
+        return datatables()->of($project_expert)
+            ->addColumn('project_name', function ($project_expert) {
+                return $project_expert->project->name;
             })
-            ->addColumn('client', function ($project) {
-                return $project->company->name;
+            ->addColumn('client', function ($project_expert) {
+                return $project_expert->project->company->name;
             })
-            ->addColumn('invited_at', function ($project) {
-                return $project->invited->first()->created_at;
+//            ->addColumn('invited_at', function ($project_expert) {
+//                dd($project_expert);
+//                return $project_expert->project->invited->first()->created_at;
+//            })
+//            ->addColumn('accepted', function ($project_expert) {
+//                return $project_expert->project->invited_user_accepted();
+//            })
+            ->addColumn('deadline', function ($project_expert) {
+                return $project_expert->project->deadline;
             })
-            ->addColumn('accepted', function ($projects) {
-                return $projects->invited_user_accepted();
+            ->addColumn('pid', function ($project_expert) {
+                return $project_expert->project->pid;
             })
-            ->addColumn('deadline', function ($project) {
-                return $project->deadline;
-            })
-            ->addColumn('pid', function ($project) {
-                return $project->pid;
-            })
-            ->addColumn('status', function ($project) {
-                return $project->status;
+            ->addColumn('status', function ($project_expert) {
+                return $project_expert->status;
             })
             ->make(true);
     }
@@ -86,7 +88,14 @@ class ProjectsController extends Controller
     public function show($pid){
         $project = Projects::where('pid', $pid)->first();
         if (!$project) return view('errors.not-exist');
-        return view('expert.project.show.index', compact('project'));
+        $project_expert = ProjectExpert::where('project_id', $project->id)
+            ->where('expert_id', auth()->user()->expert_list->id)
+            ->first();
+        if ($project_expert->status == 'shortlisted' && !$project_expert->project->public){
+            return view('errors.uninvited');
+        }
+//        return $project_expert;
+        return view('expert.project.show.index', compact('project', 'project_expert'));
     }
 
     public function answer_enquiries(){

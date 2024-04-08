@@ -35,7 +35,7 @@
         height: "100%",
         setup: function(editor) {
             editor.ui.registry.addButton('customInsertButton', {
-                text: 'Reload Default Contract',
+                text: 'Load Default Contract',
                 onAction: function() {
                     loadContract();
                 }
@@ -56,7 +56,7 @@
     });
 </script>
 
-<h6 class="mt-3">Set a Contract for Client and Expert</h6>
+<h6 class="mt-3">Set a Contract and Payment Amount for Client</h6>
 <div class="card card-bordered">
     <div class="card-inner row">
         <div class="col-6">
@@ -96,42 +96,6 @@
                     </div>
                 @endif
             </div>
-            <div class="mt-4">
-                <h6>Upload Expert Contract</h6>
-                @if (
-                    $project->contract &&
-                        $project->contract->where('type', 'expert')->whereIn('status', ['active', 'signed'])->first())
-                    @if ($project->contract->where('type', 'expert')->where('status', 'signed')->first())
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                            <div class="alert-message">
-                                <p class="mb-1"><em class="ni ni-info me-1"></em>Signed contract has been uploaded by
-                                    expert. Click below to view the contract.</p>
-                                <a href="{{ config('app.url') }}/contracts/{{ $project->contract->where('status', 'signed')->first()->filepath }}"
-                                    target="_blank" class="btn btn-primary mt-0">View Contract</a>
-                            </div>
-                        </div>
-                    @else
-                        <div class="alert alert-warning alert-dismissible" role="alert">
-                            <div class="alert-message">
-                                <p><em class="ni ni-info me-1"></em>Contract successfully upload submitted to the
-                                    Expert. Please wait for expert to upload the signed contract for this project.</p>
-                            </div>
-                        </div>
-                    @endif
-                @else
-                    <div class="alert alert-warning alert-dismissible mb-1" role="alert">
-                        <div class="alert-message">
-                            <p><em class="ni ni-info me-1"></em>Contract for expert not uploaded yet. <a
-                                    class="tw-text-blue-500 tw-cursor-pointer" onclick="createContract('expert')">Edit
-                                    from default here</a></p>
-                        </div>
-                    </div>
-                    <div class="form-control mt-0">
-                        <label class="form-label" for="contract_expert">Contract for Expert</label>
-                        <input type="file" class="form-control" id="contract_expert" placeholder="" value="">
-                    </div>
-                @endif
-            </div>
         </div>
         <div class="col-6">
             <div>
@@ -140,7 +104,7 @@
                     <div class="alert alert-success alert-dismissible" role="alert">
                         <div class="alert-message">
                             <p class="mb-0"><em class="ni ni-info me-1"></em>Payment of
-                                (<strong>{{ $project->payment->received_amount }}</strong>) has been ask to be paid by
+                                (<strong>{{ $project->payment->where('received_status', 'pending')->first()->received_amount }}</strong>) has been ask to be paid by
                                 client before the project completion.</p>
                         </div>
                     </div>
@@ -164,13 +128,72 @@
                     </div>
                 @endif
             </div>
-            <div class="mt-4">
+        </div>
+    </div>
+</div>
+
+<h6 class="mt-3">Set a Contract and Payment Amount for Expert(s)</h6>
+<div class="card card-bordered">
+    <div class="card-inner row pt-0">
+        @foreach($project->award as $awarded)
+            @if($loop->index != 0) <div class="border border-top mt-4"></div> @endif
+            <div class="col-12 mt-4 mb-2">
+                <div class="d-flex py-3 justify-center !tw-bg-slate-100 round-xl ">
+                    <a class="user-card me-2" href=""  target="_blank">
+                        <div class="user-avatar bg-dim-primary d-none d-sm-flex me-2"><span><img src="{{$awarded->user->user_avatar()}}" alt=""></img></span></div>
+                        <div class="user-info">
+                            <div class="fs-16px text-dark">{{$awarded->user->name}}</div>
+                            <div><i class="fa-brands text-info fa-linkedin fs-6 me-1"></i>
+                                {{str_replace('https://www.linkedin.com/in/', '', $awarded->user->expert->url ?? $awarded->user->expert_list->url)}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6">
+                <h6>Upload Expert Contract</h6>
+                @if ($project->contract && $project->contract->where('type', 'expert')->whereIn('status', ['active', 'signed'])->first())
+                    @if ($project->contract->where('type', 'expert')->where('status', 'signed')->first())
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <div class="alert-message">
+                                <p class="mb-1"><em class="ni ni-info me-1"></em>Signed contract has been uploaded by
+                                    expert. Click below to view the contract.</p>
+                                <a href="{{ config('app.url') }}/contracts/{{ $project->contract->where('status', 'signed')->first()->filepath }}"
+                                   target="_blank" class="btn btn-primary mt-0">View Contract</a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-warning alert-dismissible" role="alert">
+                            <div class="alert-message">
+                                <p><em class="ni ni-info me-1"></em>Contract successfully upload submitted to the
+                                    Expert. Please wait for expert to upload the signed contract for this project.</p>
+                            </div>
+                        </div>
+                    @endif
+                @else
+                    <div class="alert alert-warning alert-dismissible mb-1" role="alert">
+                        <div class="alert-message">
+                            <p>
+                                <em class="ni ni-info me-1"></em>Contract for expert not uploaded yet.
+                                <a class="tw-text-blue-500 tw-cursor-pointer" onclick="createContract('expert')">
+                                    Get Default
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-control mt-0">
+                        <label class="form-label" for="contract_expert">Contract for Expert</label>
+                        <input type="file" class="form-control" id="contract_expert" placeholder="" value="">
+                    </div>
+                @endif
+            </div>
+            <div class="col-6">
                 <h6>Set Expert Payment Amount</h6>
-                @if ($project->payment && $project->payment->where('released_status', 'pending')->first())
+                @if ($project->payment && $project->payment->where('released_status', 'pending')->where('expert_id', $awarded->user->id)->first())
                     <div class="alert alert-success alert-dismissible" role="alert">
                         <div class="alert-message">
                             <p class="mb-0"><em class="ni ni-info me-1"></em>An amount of
-                                (<strong>{{ $project->payment->released_amount }}</strong>) need to be released to
+                                (<strong>{{ $project->payment->where('expert_id', $awarded->user->id)->first()->released_amount }}</strong>) need to be released to
                                 Expert after project completion.</p>
                         </div>
                     </div>
@@ -185,25 +208,25 @@
                         <div class="form-control-wrap">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="expert_amount"
-                                    placeholder="Eg: 50000 USD">
+                                       placeholder="Eg: 50000 USD">
                                 <div class="input-group-append">
-                                    <button onclick="setAmount('expert')" class="btn btn-info">Set Amount</button>
+                                    <button onclick="setAmountExpert({{$awarded->user->id}})" class="btn btn-info">Set Amount</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endif
             </div>
-        </div>
-        <div class="mt-5">
+        @endforeach
+
+        <div class="mt-2">
             <h6>Contract Confirmation</h6>
             <div class="alert alert-light">
                 <div class="form-control-wrap">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="contract_confirmation">
                         <label class="custom-control-label" for="contract_confirmation">I {{ auth()->user()->name }}
-                            has check all the for requirement of contract and payment needed from the Client and
-                            Expert.</label>
+                            has check all the for requirement of contract and payment needed from the Expert.</label>
                     </div>
                 </div>
                 <button id="start_button" class="btn btn-primary mt-2 disabled" onclick="startProject()">Start the
@@ -213,10 +236,8 @@
     </div>
 </div>
 
-
 <div class="modal fade" tabindex="-1" id="modalContract">
     <div class="modal-dialog modal-xl" role="document">
-
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="contract_title">Create Contract</h5>
@@ -405,6 +426,28 @@
                 data: {
                     amount: amount,
                     type: type,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: response => {
+                    Swal.fire('Amount Set', response.message, 'success').then(() => {
+                        location.reload();
+                    });
+                },
+                error: response => {
+                    Swal.fire('Error', response.responseJSON.message, 'error')
+                }
+            });
+        }
+
+        function setAmountExpert(id) {
+            let amount = $('#expert_amount').val();
+            $.ajax({
+                url: '{{ route('admin.projects.payment_amount', '') }}/{{ $project->pid }}',
+                method: 'POST',
+                data: {
+                    amount: amount,
+                    type: 'expert',
+                    expert_id: id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: response => {

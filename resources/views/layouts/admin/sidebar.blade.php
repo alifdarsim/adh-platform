@@ -54,11 +54,6 @@
                                     <span class="nk-menu-text">Expert List</span>
                                 </a>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="{{route('admin.expert_scrape.index')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">LinkedIn Scrape</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li class="nk-menu-item">
@@ -110,6 +105,12 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nk-menu-item">
+                        <a href="{{route('admin.expert_scrape.index')}}" class="nk-menu-link">
+                            <span class="nk-menu-icon"><i class="fa-regular fa-users fs-5"></i></span>
+                            <span class="nk-menu-text">Expert Scraping</span>
+                        </a>
                     </li>
                     @if (auth()->user()->hasRole('super admin'))
                     <seciton>

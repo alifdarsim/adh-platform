@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentExpert;
+use App\Models\ProjectPayment;
 use App\Models\Projects;
 use Illuminate\Http\Request;
 
@@ -10,7 +12,7 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $projects = Projects::all()->load('payment');
+        $projects = PaymentExpert::all()->load('projects');
         return view('admin.payment.index', compact('projects'));
     }
 
@@ -42,13 +44,7 @@ class PaymentController extends Controller
 
     public function datatable()
     {
-        $projects = Projects::all()->load('payment');
-        $projects = $projects->filter(function ($project) {
-            if ($project->payment !== null) {
-                return $project;
-            }
-            return null;
-        });
+        $projects = PaymentExpert::all()->load('projects')->load('users');
         return datatables()->of($projects)
             ->make(true);
     }

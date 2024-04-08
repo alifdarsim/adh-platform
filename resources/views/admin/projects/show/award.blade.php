@@ -11,19 +11,26 @@
                                 class="fa-regular fa-magnifying-glass"></i></div>
                         <input type="text"
                                class="tw-w-96 form-control form-control tw-rounded !tw-ps-12 focus:tw-border focus:tw-border-blue-500"
-                               id="searchbar3" placeholder="Search Expert Name">
+                               id="searchbar" placeholder="Search Expert Name">
                     </div>
                 </div>
             </div>
+            <div class="btn btn-sm ms-2 bg-danger text-white" onclick="awarded()"><i class="fa-solid fa-award fs-6 tw-ms-0.5 me-3"></i><span>Award Selected Expert</span></div>
         </div>
     </div>
     <table id="datatable3" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="true">
         <thead>
         <tr class="nk-tb-item nk-tb-head">
+            <th class="nk-tb-col nk-tb-col-check">
+                <div class="custom-control custom-control-sm custom-checkbox notext">
+                    <input type="checkbox" class="custom-control-input" id="uid">
+                    <label class="custom-control-label" for="uid"></label>
+                </div>
+            </th>
             <th class="nk-tb-col"><span class="sub-text">Expert</span></th>
             <th class="nk-tb-col"><span class="sub-text">Contact</span></th>
+            <th class="nk-tb-col"><span class="sub-text">Answer</span></th>
             <th class="nk-tb-col"><span class="sub-text">Details</span></th>
-            <th class="nk-tb-col"><span class="sub-text">Action</span></th>
         </tr>
         </thead>
         <tbody>
@@ -38,13 +45,23 @@
                 order: false,
                 columnDefs: [
                     {"className": "nk-tb-col", targets: '_all'},
+                    {"className": "nk-tb-col nk-tb-col-check", targets: [0]},
+
                 ],
                 simpleTable: true,
                 columns: [
                     {
                         data: 'expert',
                         render: function (data, type, row) {
-                            console.log(data)
+                            return ` <div class="custom-control custom-control-sm custom-checkbox notext">
+                                        <input type="checkbox" class="custom-control-input" id="uid${data.id}">
+                                        <label class="custom-control-label" for="uid${data.id}"></label>
+                                    </div>`;
+                        }
+                    },
+                    {
+                        data: 'expert',
+                        render: function (data, type, row) {
                             return `
                         <div class="d-flex justify-between justify-center tw-items-center">
                             <div class="user-card">
@@ -68,25 +85,69 @@
                         }
                     },
                     {
-                        data: 'id',
-                        render: function (data, type, row) {
-                            return `<a class="btn btn-sm btn-info clickable" onclick="expert_detail(${row.expert.id})"><span>Expert Details</span></a>`
-                        },
+                        data: 'answers',
+                        className: 'clickable hover:tw-bg-slate-200 items-center answer-cell',
+                        render: function (data) {
+                            if (data === null) return '-';
+                            return data.map((answer, index) => {
+                                return `<span class="fs-12px">Q${index+1}</span> <i class="fa-solid ${answer === null ? 'fa-circle-xmark text-danger' : 'fa-circle-check text-success'} fs-6"></i>`;
+                            }).join(' ');
+                        }
                     },
                     {
                         data: 'id',
                         render: function (data, type, row) {
-                            return `<a class="btn btn-sm btn-primary clickable" onclick="awarded(${row.expert.id})"><i class="fa-solid fa-award me-1 fs-6"></i><span>Award this Expert</span></a>`
+                            return `<a class="btn btn-sm btn-info clickable" onclick="expert_detail(${row.expert.id})"><span>Expert Details</span></a>`
                         },
                     },
                 ]
             }, 'datatable3');
         }
 
-        function awarded(id) {
+        {{--function awarded(id) {--}}
+        {{--    Swal.fire({--}}
+        {{--        title: 'Confirm Award?',--}}
+        {{--        text: "Award this project to this expert? This will mark the project as 'Awarded'. Confirm?",--}}
+        {{--        icon: 'info',--}}
+        {{--        showCancelButton: true,--}}
+        {{--    }).then((result) => {--}}
+        {{--        if (result.isConfirmed) {--}}
+        {{--            $.ajax({--}}
+        {{--                url: '{{route('admin.projects.award-expert', ['pid' => $project->pid])}}',--}}
+        {{--                type: 'POST',--}}
+        {{--                data: {--}}
+        {{--                    _token: '{{csrf_token()}}',--}}
+        {{--                    expert_id: id--}}
+        {{--                },--}}
+        {{--                success: function (data) {--}}
+        {{--                    Swal.fire('Success!', data.message, 'success').then(function () {--}}
+        {{--                        location.reload();--}}
+        {{--                    });--}}
+        {{--                },--}}
+        {{--                error: function (data) {--}}
+        {{--                    Swal.fire(--}}
+        {{--                        'Error!',--}}
+        {{--                        'Something went wrong.',--}}
+        {{--                        'error'--}}
+        {{--                    )--}}
+        {{--                }--}}
+        {{--            });--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--}--}}
+
+        function awarded() {
+            let expert_ids = [];
+            $('#datatable3 tbody input[type="checkbox"]:checked').each(function () {
+                expert_ids.push($(this).attr('id').replace('uid', ''));
+            });
+            if (expert_ids.length === 0) {
+                Swal.fire('Error!', 'Please select at least one expert to award.', 'warning');
+                return;
+            }
             Swal.fire({
                 title: 'Confirm Award?',
-                text: "Award this project to this expert? This will mark the project as 'Awarded'. Confirm?",
+                text: "Award this project to selected expert(s)? This will mark the project as 'Awarded'. Confirm?",
                 icon: 'info',
                 showCancelButton: true,
             }).then((result) => {
@@ -96,7 +157,7 @@
                         type: 'POST',
                         data: {
                             _token: '{{csrf_token()}}',
-                            expert_id: id
+                            expert_ids: expert_ids
                         },
                         success: function (data) {
                             Swal.fire('Success!', data.message, 'success').then(function () {
@@ -116,5 +177,22 @@
         }
 
         fetchAwardList();
+
+        $('#uid').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('#datatable3 tbody input[type="checkbox"]').prop('checked', true);
+            } else {
+                $('#datatable3 tbody input[type="checkbox"]').prop('checked', false);
+            }
+        });
+
+        //if all checkboxes are selected, check the main checkbox
+        $('#datatable3 tbody').on('change', 'input[type="checkbox"]', function () {
+            if ($('#datatable3 tbody input[type="checkbox"]:checked').length === $('#datatable3 tbody input[type="checkbox"]').length) {
+                $('#uid').prop('checked', true);
+            } else {
+                $('#uid').prop('checked', false);
+            }
+        });
     </script>
 @endpush

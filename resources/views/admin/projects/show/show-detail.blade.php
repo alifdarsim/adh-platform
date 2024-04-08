@@ -1,12 +1,12 @@
 <div class="nk-block-head-content">
-    <h6 class="title mb-1 mt-4 pb-1">Project Information</h6>
+    <h6 class="title mb-1 mt-4 pb-1">Project Details</h6>
 </div>
 <div class="card card-bordered card-preview">
     <div class="card-inner">
         <ul class="nav nav-tabs mt-n3" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" data-bs-toggle="tab" href="#tabItem5" aria-selected="true" role="tab">
-                    <i class="fa-regular fa-rectangle-history-circle-user fs-5 me-1"></i><span>Project Details</span>
+                    <i class="fa-regular fa-rectangle-history-circle-user fs-5 me-1"></i><span>Project Info</span>
                 </a>
             </li>
             <li class="nav-item" role="presentation">
@@ -15,19 +15,20 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-toggle="tab" href="#tabItem8" aria-selected="false" tabindex="-1" role="tab">
+                    <i class="fa-regular fa-message-question fs-5 me-1"></i><span>Expert Questions</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" data-bs-toggle="tab" href="#tabItem7" aria-selected="false" tabindex="-1" role="tab">
                     <i class="fa-regular fa-briefcase fs-5 me-1"></i><span>Client Company</span>
                 </a>
             </li>
-{{--            <li class="nav-item" role="presentation">--}}
-{{--                <a class="nav-link" data-bs-toggle="tab" href="#tabItem8" aria-selected="false" tabindex="-1" role="tab">--}}
-{{--                    <i class="fa-regular fa-file fs-5 me-1"></i><span>Documents</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tabItem5" role="tabpanel">
-{{--                <h6 class="title mb-3">Project Detail</h6>--}}
+                <h6 class="title mb-3">Project Info</h6>
                 <div class="row g-3">
                     <div class="col-12">
                         <div class="form-group">
@@ -160,31 +161,6 @@
                             <span class="sub-text tw-mt-0.5">Eg: Food Processing, Packaging, Noodles, Mobile Apps</span>
                         </div>
                     </div>
-                    <div class="col-12 mt-4 mb-2">
-                        <div class="form-control-wrap">
-                            <label class="form-label" for="target_industry">Key Questions to Potential Partner<i class="fs-6 ms-1 text-info fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="A set of questions that will be asked to a potential partners before they will be match as potential partner"></i></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">Q1</span></div>
-                                <input type="text" id="q1" value="{{($project->questions)[0] ?? '' }}" class="form-control target_question" placeholder="No question" disabled>
-                            </div>
-                            <div class="input-group mt-2">
-                                <div class="input-group-prepend"><span class="input-group-text">Q2</span></div>
-                                <input type="text" id="q2" value="{{($project->questions)[1] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
-                            </div>
-                            <div class="input-group mt-2">
-                                <div class="input-group-prepend"><span class="input-group-text">Q3</span></div>
-                                <input type="text" id="q3" value="{{($project->questions)[2] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
-                            </div>
-                            <div class="input-group mt-2">
-                                <div class="input-group-prepend"><span class="input-group-text">Q4</span></div>
-                                <input type="text" id="q4" value="{{($project->questions)[3] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
-                            </div>
-                            <div class="input-group mt-2">
-                                <div class="input-group-prepend"><span class="input-group-text">Q5</span></div>
-                                <input type="text" id="q5" value="{{($project->questions)[4] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="tab-pane" id="tabItem7" role="tabpanel">
@@ -216,6 +192,49 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" id="tabItem8" role="tabpanel">
+                <h5 class="title">Question for Potential Expert</h5>
+                <div id="question_section" class="mt-2">
+                    <div class="row g-3">
+                        <div class="col-12 mt-4 mb-2">
+                            <div class="form-control-wrap">
+                                <label class="form-label" for="target_industry">Key Questions to Potential Partner<i class="fs-6 ms-1 text-info fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="A set of questions that will be asked to a potential partners before they will be match as potential partner"></i></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">Q1</span></div>
+                                    <input type="text" id="q1" value="{{($project->questions)[0] ?? '' }}" class="form-control target_question" placeholder="No question" disabled>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Q2</span></div>
+                                    <input type="text" id="q2" value="{{($project->questions)[1] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Q3</span></div>
+                                    <input type="text" id="q3" value="{{($project->questions)[2] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Q4</span></div>
+                                    <input type="text" id="q4" value="{{($project->questions)[3] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend"><span class="input-group-text">Q5</span></div>
+                                    <input type="text" id="q5" value="{{($project->questions)[4] ?? ''}}" class="form-control target_question" placeholder="No question" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#communication_language').val({!!  collect($project->projectTargetInfo->communication_language)->map(fn($item) =>  "'".$item."'" )->implode(',')  !!}).trigger('change');
+            $('#target_keyword').tagify().data('tagify').addTags('{{$project->keywords->pluck('name')->implode(',  ')}}');
+            tagsElement = $('.tagify').tagify();
+            $('#target_keyword').parent().find('.tagify--empty').remove();
+        });
+    </script>
+
+@endpush
