@@ -168,6 +168,11 @@ class ProjectsController extends Controller
                 $user_id = User::where('email', $shortlist->email)->first()->id;
                 return $answer->firstWhere('user_id', $user_id)->answers ?? null;
             })
+            ->addColumn('confidence', function ($shortlist) use ($answer) {
+                if (User::where('email', $shortlist->email)->first() === null) return null;
+                $user_id = User::where('email', $shortlist->email)->first()->id;
+                return $answer->firstWhere('user_id', $user_id)->confidence ?? null;
+            })
             ->make(true);
     }
 

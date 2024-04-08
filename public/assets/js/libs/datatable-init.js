@@ -113,18 +113,39 @@ const datatableInit = (datatable_element, object, tableInstance = null) => {
                     let data = window['datatable'] === undefined ? table.row($(this).parents('tr')).data() : window['datatable'].row($(this).parents('tr')).data();
                     if (data.answers === null) return;
                     let answers = data.answers.map((answer, index) => {
+                        let confidence_level = data.confidence[index];
+
                         // write the answer
                         let question = $(`#q${index+1}`).val();
                         console.log(question)
+                        if (confidence_level === null) confidence_level = 0;
+                        let level = '';
+                        if (confidence_level === 1) level = 'strongly disagree'
+                        else if (confidence_level === 2) level = 'disagree'
+                        else if (confidence_level === 3) level = 'neutral'
+                        else if (confidence_level === 4) level = 'agree'
+                        else if (confidence_level === 5) level = 'strongly agree'
+                        else level = 'N/A';
+
                         return `
-                            <div class="d-flex mt-3">
+                            <div class="d-flex mt-4">
                                  <div class="tw-w-6 tw-h-6 tw-flex tw-items-center tw-justify-center tw-bg-primary tw-text-white tw-rounded-full tw-mr-2">Q${index + 1}: </div>
                                  <div class="fs-16px ms-1">${question}</div>
                             </div>
                             <div class="d-flex">
                                 <div class="tw-w-6 tw-h-6 tw-flex tw-items-center tw-justify-center tw-bg-primary tw-text-white tw-rounded-full tw-mr-2">A${index + 1}: </div>
                                 <input class="mt-1 form-control fs-15px ps-1 ms-1" value="${answer === null ? '-' : answer}" disabled/>
-                            </div>`;
+                            </div>
+                            <div class="d-flex mt-1">
+                                <div class="tw-w-6 tw-h-6 tw-flex tw-items-center tw-justify-center tw-bg-primary tw-text-white tw-rounded-full tw-mr-2">C${index + 1}: </div>
+                                <span><i class="ms-1 fs-20px fa-solid fa-face-disappointed ${confidence_level === 1 ? 'tw-text-red-500' : 'tw-text-slate-200'}"></i></span>
+                                <span><i class="ms-1 fs-20px fa-solid fa-face-frown-slight ${confidence_level === 2 ? 'tw-text-amber-500' : 'tw-text-slate-200'}"></i></span>
+                                <span><i class="ms-1 fs-20px fa-solid fa-face-meh ${confidence_level === 3 ? 'tw-text-yellow-500' : 'tw-text-slate-200'}"></i></span>
+                                <span><i class="ms-1 fs-20px fa-solid fa-face-smile ${confidence_level === 4 ? 'tw-text-blue-500' : 'tw-text-slate-200'}"></i></span>
+                                <span><i class="ms-1 fs-20px fa-solid fa-face-grin-wide ${confidence_level === 5 ? 'tw-text-green-500' : 'tw-text-slate-200'}"></i></span>
+                                <span class="ms-1 tw-capitalize">${level}</span>
+                            </div>
+`;
 
                     }).join(' ');
                     let experts = `
