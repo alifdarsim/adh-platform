@@ -15,7 +15,7 @@ class ProjectsController extends Controller
     public function index()
     {
         $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)
-            ->where('status', '<>','shortlisted')
+//            ->where('status', '<>','shortlisted')
             ->get();
         return view('expert.project.index', compact('project_expert'));
     }
