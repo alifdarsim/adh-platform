@@ -52,7 +52,7 @@ Route::get('project-awarded/{token}', [ProjectAwardedController::class, 'index']
 Route::get('logout', function () {
     auth()->logout();
     return redirect()->route('login.index', ['type' => 'expert']);
-})->name('logout');
+});
 
 
 Route::get('/', function () {
