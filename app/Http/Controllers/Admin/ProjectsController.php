@@ -336,13 +336,13 @@ class ProjectsController extends Controller
         if (!$email) return error('Expert email is needed to send the invitation');
         $project = Projects::find($project_id);
 
-
         $related_projects = Projects::where('id', '!=', $project_id)
             ->get();
         $related_projects->load('projectTargetInfo.industry');
-        $related_projects = $related_projects->filter(function ($related_project) use ($project) {
-            return $related_project->projectTargetInfo->industry->id === $project->projectTargetInfo->industry->id;
-        });
+        $project->load('projectTargetInfo.industry');
+//        $related_projects = $related_projects->filter(function ($related_project) use ($project) {
+//            return $related_project->projectTargetInfo->industry->id === $project->projectTargetInfo->industry->id;
+//        });
 
         // send email to expert
         $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$expert_id)->first();
