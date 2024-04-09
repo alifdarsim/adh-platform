@@ -31,8 +31,8 @@ class ExpertPortalController extends Controller
             $user->last_login = $user->lastLoginAt() ? $user->lastLoginAt()->format('d/m/Y H:i A') : '-';
             $user->register_at = $user->created_at->format('d/m/Y H:i A');
             $user_project = ProjectExpert::where('expert_id', $id)->get();
-            $user->project_count = $user_project->count();
-            $user->project_ongoing = $user_project->whereIn('status', ['ongoing','shortlisted'])->count();
+            $user->project_count = $user_project->where('status', '<>', 'shortlisted')->count();
+            $user->project_ongoing = $user_project->whereIn('status', ['ongoing'])->count();
             $user->project_completed = $user_project->where('status', 'completed')->count();
             return $user;
         } else {
@@ -50,7 +50,7 @@ class ExpertPortalController extends Controller
 
     public function datatableOngoing($id)
     {
-        $datatable = $this->getProjectHistory(['shortlisted','ongoing'], $id);
+        $datatable = $this->getProjectHistory(['ongoing'], $id);
         return datatables()->of($datatable)
             ->make(true);
     }
