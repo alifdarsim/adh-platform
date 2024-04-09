@@ -17,8 +17,9 @@
                 <ul class="btn-toolbar gx-1">
                     <li>
                         <div class="toggle-wrap">
-                            <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em
-                                    class="icon ni ni-menu-right"></em></a>
+                            <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools">
+                                <em class="icon ni ni-menu-right"></em>
+                            </a>
                             <div class="toggle-content" data-content="cardTools">
                                 <ul class="btn-toolbar gx-1">
                                     <li class="toggle-close">

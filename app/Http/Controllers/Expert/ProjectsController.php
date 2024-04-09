@@ -14,13 +14,31 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)->get();
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)
+            ->where('status', '<>','shortlisted')
+            ->get();
         return view('expert.project.index', compact('project_expert'));
+    }
+
+    public function public()
+    {
+        $projects = Projects::where('public', true)->get();
+        return view('expert.project.public', compact('projects'));
+    }
+
+    public function public_show($pid)
+    {
+        $project = Projects::where('pid', $pid)->first();
+        if (!$project->public) return view('errors.not-exist');
+        if (!$project) return view('errors.not-exist');
+        return view('expert.project.show.public', compact('project'));
     }
 
     public function datatable()
     {
-        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)->get();
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)
+            ->where('status', '<>','shortlisted')
+            ->get();
         return datatables()->of($project_expert)
             ->addColumn('project_name', function ($project_expert) {
                 return $project_expert->project->name;
@@ -28,13 +46,6 @@ class ProjectsController extends Controller
             ->addColumn('client', function ($project_expert) {
                 return $project_expert->project->company->name;
             })
-//            ->addColumn('invited_at', function ($project_expert) {
-//                dd($project_expert);
-//                return $project_expert->project->invited->first()->created_at;
-//            })
-//            ->addColumn('accepted', function ($project_expert) {
-//                return $project_expert->project->invited_user_accepted();
-//            })
             ->addColumn('deadline', function ($project_expert) {
                 return $project_expert->project->deadline;
             })
@@ -43,6 +54,28 @@ class ProjectsController extends Controller
             })
             ->addColumn('status', function ($project_expert) {
                 return $project_expert->status;
+            })
+            ->make(true);
+    }
+
+    public function datatable_public()
+    {
+        $projects = Projects::where('public', true)->get();
+        return datatables()->of($projects)
+            ->addColumn('project_name', function ($project) {
+                return $project->name;
+            })
+            ->addColumn('client', function ($project) {
+                return $project->company->name;
+            })
+            ->addColumn('deadline', function ($project) {
+                return $project->deadline;
+            })
+            ->addColumn('pid', function ($project) {
+                return $project->pid;
+            })
+            ->addColumn('status', function ($project) {
+                return $project->status;
             })
             ->make(true);
     }
@@ -91,10 +124,12 @@ class ProjectsController extends Controller
         $project_expert = ProjectExpert::where('project_id', $project->id)
             ->where('expert_id', auth()->user()->expert_list->id)
             ->first();
-        if ($project_expert->status == 'shortlisted' && !$project_expert->project->public){
+        if ($project_expert && $project_expert->status == 'shortlisted' && !$project_expert->project->public){
             return view('errors.uninvited');
         }
-//        return $project_expert;
+        if ($project_expert == null && $project->public){
+            return view('expert.project.show.public', compact('project', 'project_expert'));
+        }
         return view('expert.project.show.index', compact('project', 'project_expert'));
     }
 

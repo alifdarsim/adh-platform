@@ -49,6 +49,10 @@ Route::get('/test', function () {
 
 Route::get('project-invitation/{token}', [ProjectInvitationController::class, 'index'])->name('project-invitation.index');
 Route::get('project-awarded/{token}', [ProjectAwardedController::class, 'index'])->name('project-awarded.index');
+Route::get('logout', function () {
+    auth()->logout();
+    return redirect()->route('login.index', ['type' => 'expert']);
+})->name('logout');
 
 
 Route::get('/', function () {
@@ -275,12 +279,15 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         Route::group(["prefix" => "projects"], function () {
             Route::get('/', [ExpertProjectsController::class, 'index'])->name('expert.projects.index');
             Route::get('/datatable', [ExpertProjectsController::class, 'datatable'])->name('expert.projects.datatable');
+            Route::get('/datatable_public', [ExpertProjectsController::class, 'datatable_public'])->name('expert.projects.datatable_public');
             Route::post('/respond', [ExpertProjectsController::class, 'respond'])->name('expert.projects.respond');
             Route::get('/{pid}', [ExpertProjectsController::class, 'show'])->name('expert.projects.show');
             Route::post('/accept', [ExpertProjectsController::class, 'accept'])->name('expert.projects.accept');
             Route::post('/report', [ExpertProjectsController::class, 'report'])->name('expert.projects.report');
             Route::post('/answer-enquiries', [ExpertProjectsController::class, 'answer_enquiries'])->name('expert.projects.answer-enquiries');
         });
+        Route::get('/public-projects', [ExpertProjectsController::class, 'public'])->name('expert.projects.public');
+        Route::get('/public-projects/{pid}', [ExpertProjectsController::class, 'public_show'])->name('expert.projects-public.show');
         // Profile Routes
         Route::group(["prefix" => "profile"], function () {
             Route::get('/', [ExpertProfileController::class, 'index'])->name('expert.profile.index');

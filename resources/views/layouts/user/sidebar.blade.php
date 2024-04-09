@@ -80,7 +80,7 @@
                         </a>
                     </li>
                     <li class="nk-menu-item">
-                        <a href="#" class="nk-menu-link">
+                        <a href="{{route('expert.projects.public')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><i class="fa-regular fa-building-magnifying-glass fs-5"></i></span>
                             <span class="nk-menu-text">Public Projects</span>
                         </a>

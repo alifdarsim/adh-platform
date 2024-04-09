@@ -164,6 +164,7 @@ const datatableInit = (datatable_element, object, tableInstance = null) => {
                         html: answers,
                         showCloseButton: true,
                         showConfirmButton: false,
+                        width: '600px'
                     })
                 });
 
