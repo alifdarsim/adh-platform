@@ -37,7 +37,7 @@ class ProjectsController extends Controller
     public function datatable()
     {
         $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)
-            ->where('status', '<>','shortlisted')
+//            ->where('status', '<>','shortlisted')
             ->get();
         return datatables()->of($project_expert)
             ->addColumn('project_name', function ($project_expert) {
