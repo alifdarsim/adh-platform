@@ -221,7 +221,6 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         });
         // Hub Routes
         Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();
-//        Route::resource('contracts', ContractController::class, ['names' => 'admin.contract']);
         Route::resource('industry_classification', IndustryClassificationController::class, ['names' => 'admin.industry_classification'])->withDatatable();
 
         Route::group(["prefix" => "contracts"], function () {

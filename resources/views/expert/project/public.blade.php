@@ -7,6 +7,7 @@
                 <div class="nk-block-des text-soft">
                     <p>Total projects:
                         {{ $projects->count() }} projects</p>
+                    <span class="text-danger">Work in Progress for public project</span>
                 </div>
             </div>
             <div class="nk-block-head-content">

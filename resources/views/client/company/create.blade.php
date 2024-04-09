@@ -27,9 +27,9 @@
     <div class="nk-block">
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                <div class="alert alert-secondary alert-dim">
-                    Make sure no duplicate company created to avoid redundant data. <a href="{{route('client.company.index')}}">Check here</a>.
-                </div>
+{{--                <div class="alert alert-secondary alert-dim">--}}
+{{--                    Make sure no duplicate company created to avoid redundant data. <a href="{{route('client.company.index')}}">Check here</a>.--}}
+{{--                </div>--}}
                 <div class="preview-block">
                     <div class="row gy-4">
                         <div class="col-12">

@@ -342,6 +342,7 @@
                 {
                     data: 'users',
                     render: function(data) {
+                        console.log(data)
                         return `<div href="{{ route('admin.expert-portal.index', '') }}/${data.name}" class="text-capitalize">${data.name}</a>`; // Link to user
                     }
                 },

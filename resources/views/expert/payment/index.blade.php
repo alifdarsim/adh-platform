@@ -15,8 +15,8 @@
         @if($projects->isEmpty())
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
-                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">No project that need to be pay yet</h4>
-                <p class="tw-text-gray-500 tw-mt-2">You have not created any project that has required you to do any payment yet. Once you do, the payment info wil appear here.</p>
+                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">No project related to Payment yet</h4>
+                <p class="tw-text-gray-500 tw-mt-2">Once you completed a project, your related payment info will be appearing here.</p>
             </div>
         @else
             <div class="card card-bordered card-preview">

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentClient;
+use App\Models\PaymentExpert;
+use App\Models\ProjectExpert;
 use App\Models\Projects;
 use Illuminate\Http\Request;
 
@@ -10,7 +13,8 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $projects = Projects::where('created_by', auth()->id())->get()->load('payment');
+        $project_ids = Projects::where('created_by', auth()->id())->pluck('id');
+        $projects = PaymentClient::whereIn('project_id', $project_ids)->get()->load('project');
         $projects = $projects->filter(function ($project) {
             if ($project->payment !== null && $project->payment->confirm === 1) {
                 return $project;

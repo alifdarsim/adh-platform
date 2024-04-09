@@ -28,7 +28,7 @@
         @if ($project_expert->count() == 0)
             <div class="card py-5 mt-3 tw-items-center tw-flex tw-justify-center">
                 <img src="/images/svg/no-data.svg" alt="no-data" class="tw-w-96">
-                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any project yet</h4>
+                <h4 class="tw-text-2xl tw-font-semibold tw-mt-5">You don't have any manageable project yet</h4>
                 <p class="tw-text-gray-500 tw-mt-2">Any project that you have been invited to will appear here.</p>
             </div>
         @else

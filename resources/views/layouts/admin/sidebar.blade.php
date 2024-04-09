@@ -62,12 +62,12 @@
                             <span class="nk-menu-text">Users</span>
                         </a>
                     </li>
-                    <li class="nk-menu-item">
-                        <a href="{{route('admin.payment.index')}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><i class="fa-regular fa-coin fs-5"></i></span>
-                            <span class="nk-menu-text">Payments</span>
-                        </a>
-                    </li>
+{{--                    <li class="nk-menu-item">--}}
+{{--                        <a href="{{route('admin.payment.index')}}" class="nk-menu-link">--}}
+{{--                            <span class="nk-menu-icon"><i class="fa-regular fa-coin fs-5"></i></span>--}}
+{{--                            <span class="nk-menu-text">Payments</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><i class="fa-solid fa-user-crown fs-5"></i></span>
