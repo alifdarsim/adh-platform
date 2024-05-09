@@ -63,48 +63,46 @@
 @push('scripts')
     <script>
         let _project_expert_id = null;
-        function setContract(project_expert_id) {
-            _project_expert_id = project_expert_id;
-            $('#contractModals').modal('show');
+        {{--function setContract(project_expert_id) {--}}
+        {{--    _project_expert_id = project_expert_id;--}}
+        {{--    $('#contractModals').modal('show');--}}
 
-            $.ajax({
-                url: '{{ route('contract.check_status', ['', '', '']) }}/'+_project_expert_id,
-                method: 'GET',
-                success: response => {
-                    console.log(response)
-                    console.log(response['1'])
-                    if (response['1']) {
-                        $('#state_1').removeClass('alert-light').addClass('alert-success');
-                        $('#state_1').find('.alert-notice-text').text('Contract to expert has been uploaded.');
-                        // set name file inside input
-                        $('#state_1').find('.btn-download').removeClass('disabled').attr('href', response['1'].filepath);
-                    }
-                }
-            });
+        {{--    $.ajax({--}}
+        {{--        url: '{{ route('contract.check_status', ['', '', '']) }}/'+_project_expert_id,--}}
+        {{--        method: 'GET',--}}
+        {{--        success: response => {--}}
+        {{--            console.log(response)--}}
+        {{--            console.log(response['1'])--}}
+        {{--            if (response['1']) {--}}
+        {{--                $('#state_1').removeClass('alert-light').addClass('alert-success');--}}
+        {{--                $('#state_1').find('.alert-notice-text').text('Contract to expert has been uploaded.');--}}
+        {{--                $('#state_1').find('.btn-download').removeClass('disabled').attr('href', response['1'].filepath);--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--}--}}
 
-        }
-
-        $('#customFile1').on('change', function() {
-            let file = $(this).prop('files')[0];
-            let formData = new FormData();
-            formData.append('contract', file);
-            formData.append('_token', '{{ csrf_token() }}');
-            $.ajax({
-                url: '{{ route('admin.contract.upload_signed', ['', '', '']) }}/'+_project_expert_id+'/expert/1',
-                method: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: response => {
-                    Swal.fire('Contract Uploaded', response.message, 'success').then(() => {
-                        location.reload();
-                    });
-                },
-                error: response => {
-                    Swal.fire('Error', response.responseJSON.message, 'error')
-                }
-            });
-        });
+        {{--$('#customFile1').on('change', function() {--}}
+        {{--    let file = $(this).prop('files')[0];--}}
+        {{--    let formData = new FormData();--}}
+        {{--    formData.append('contract', file);--}}
+        {{--    formData.append('_token', '{{ csrf_token() }}');--}}
+        {{--    $.ajax({--}}
+        {{--        url: '{{ route('admin.contract.upload_signed', ['', '', '']) }}/'+_project_expert_id+'/expert/1',--}}
+        {{--        method: 'POST',--}}
+        {{--        data: formData,--}}
+        {{--        contentType: false,--}}
+        {{--        processData: false,--}}
+        {{--        success: response => {--}}
+        {{--            Swal.fire('Contract Uploaded', response.message, 'success').then(() => {--}}
+        {{--                location.reload();--}}
+        {{--            });--}}
+        {{--        },--}}
+        {{--        error: response => {--}}
+        {{--            Swal.fire('Error', response.responseJSON.message, 'error')--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
 
     </script>

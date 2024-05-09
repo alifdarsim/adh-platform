@@ -3,106 +3,75 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contract;
+use App\Models\ContractTemplate;
 use App\Models\ContractExpert;
+use App\Models\Country;
 use App\Models\Projects;
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class ContractController extends Controller
 {
-    public function show($type)
+
+    public function index(Request $request)
     {
-        $contract = Contract::where('type', $type)->first();
-        return view('admin.contract.index', compact('contract'));
+        if ($request->ajax()) return $this->datatable();
+        return view('admin.contract.index');
     }
 
-    public function store()
+    public function datatable()
     {
-        $type = request()->type;
-        $contract = Contract::where('type', $type)->first();
-        if (!$contract) {
-            $contract = new Contract();
-        }
-        $contract->content = request()->contract;
+        $contract_expert = ContractExpert::all();
+        $contract_expert->load('project_expert.project', 'project_expert.expert', 'template');
+        return datatables()->of($contract_expert)->toJson();
+    }
+
+    public function show($cuid)
+    {
+        $contract_expert = ContractExpert::where('contract_id', $cuid)->get()->first();
+        if (!$contract_expert) return view('errors.not-exist');
+        $contract_expert->load('project_expert.project', 'project_expert.expert', 'template');
+        $templates = ContractTemplate::select(['version', 'language', 'id'])->where('type', 'expert')->get();
+        $currencies = Country::select(['currency', 'currency_symbol', 'id'])->get()->unique('currency');
+        return view('admin.contract.show', compact( 'contract_expert', 'templates', 'currencies'));
+    }
+
+    public function data($cuid)
+    {
+        return ContractExpert::where('contract_id', $cuid)->orderBy('reversion', 'desc')->get()->first();
+    }
+
+    public function update(Request $request, $contract_id)
+    {
+
+        $contract = ContractExpert::where('contract_id', $contract_id)->first();
+        $data = $request->all();
+        $contract->fill($data);
         $contract->save();
         return success('Contract updated successfully');
     }
 
-    public function update($pid)
+    public function changeDefaultSignature()
     {
-        $contract = request()->contract;
-        $status = request()->status;
-        // get content from request
-        if (empty($contract)) {
-            return error('Contract content is empty, start draft your contract using the default contract as a guide.');
-        }
-        $project = Projects::where('pid', $pid)->first();
-        $project->contract()->updateOrCreate(
-            ['project_id' => $project->id],
-            [
-                'content' => $contract,
-                'status' => $status
-            ]
-        );
-        return success('Contract updated successfully');
-    }
+        $file = request()->file('signature');
 
-    public function upload($project_expert_id, $type, $state)
-    {
-        $file = request()->file('contract');
-        //rename file to a unique name
-        $name = $this->generateUniqueId() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('contracts'), $name);
-        // get full path of the file
-        $name = 'contracts/' . $name;
-        $contract = ContractExpert::where('project_expert_id', $project_expert_id)->first();
-        if (!$contract) {
-            $contract = new ContractExpert();
-        }
-        $contract = $contract->updateOrCreate(
-            [
-                'project_expert_id' => $project_expert_id,
-                'type' => $type,
-                'state' => $state
-            ],
-            [
-                'filepath' => $name
-            ]
-        );
-        if ($contract) {
-            return success('Contract uploaded successfully');
-        }
-        return error('An error occurred while uploading contract');
-    }
-
-    public function check_status($project_expert_id)
-    {
-        $contract = ContractExpert::where('project_expert_id', $project_expert_id)->get();
-        if ($contract) {
-            return [
-                '1' => $contract->where('state', 1)->first(),
-                '2' => $contract->where('state', 2)->first(),
-                '3' => $contract->where('state', 3)->first(),
-            ];
-        }
-        return error('Contract not uploaded');
-    }
-
-    public function default($type)
-    {
-        return Contract::where('type', $type)->first()->content;
-    }
-
-    function generateUniqueId($length = 10)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        // Check if file is valid
+        if ($file->isValid()) {
+            $originalExtension = $file->getClientOriginalExtension();
+            $fileName = 'signatures' . '.png';
+            $filePath = public_path('signatures/' . $fileName);
+            try {
+                $image = Image::make($file);
+//                $image->encode('png')->save(public_path('signatures/' . $fileName));
+                $image->encode('png')->save($filePath);
+                // wait for the image to be saved
+                return success('Signature updated successfully');
+            } catch (\Exception $e) {
+                return error('Error occurred while processing the image: ' . $e->getMessage());
+            }
         }
 
-        return $randomString;
+        return error('Invalid file');
     }
 
 }

@@ -29,7 +29,6 @@
             <table id="datatable" class="datatable-init nk-tb-list nk-tb-ulist " data-auto-responsive="true">
                 <thead>
                 <tr class="nk-tb-item nk-tb-head">
-                    <th class="nk-tb-col"><span class="sub-text">ID</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Main Industry</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Sub Industry</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end noExport">Action</th>
@@ -49,15 +48,12 @@
         datatableInit('#datatable', {
             ajax: '{{route('admin.industry_classification.datatable')}}',
             simpleTable: true,
-            order: [0, 'desc'],
+            order: [0, 'asc'],
             columnDefs: [
                 { "className": "nk-tb-col py-2", "targets": "_all" },
             ],
             pageLength: 20,
             columns: [
-                {
-                    data: 'id'
-                },
                 {
                     data: 'main',
                 },
@@ -174,7 +170,7 @@
         function create(){
             Swal.fire({
                 title: 'Create Industry Classification',
-                html: `<div class="mt-3"><label for="main">Main Industry Classification</label><input type="text" id="main" class="swal2-input" placeholder="Hub Name"><br><label for="sub">Sub Industry Classification</label><input type="text" id="sub" class="swal2-input" placeholder="Hub Name"></div>`,
+                html: `<span>Kindly use same to categorize the main industry classification</span><div class="mt-5"><label for="main">Main Industry Classification (Case Sensitive)</label><input type="text" id="main" class="swal2-input" placeholder="Hub Name"><br><label for="sub">Sub Industry Classification (Case Sensitive)</label><input type="text" id="sub" class="swal2-input" placeholder="Hub Name"></div>`,
                 showCancelButton: true,
                 confirmButtonText: 'Create',
                 showLoaderOnConfirm: true,

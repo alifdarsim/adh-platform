@@ -2,7 +2,7 @@
     <h6 class="overline-title text-primary-alt">Management</h6>
 </li>
 <li class="nk-menu-item">
-    <a href="{{route('expert.overview')}}" class="nk-menu-link">
+    <a href="{{route('expert.overview.index')}}" class="nk-menu-link">
         <span class="nk-menu-icon"><i class="fa-regular fa-chart-tree-map fs-5"></i></span>
         <span class="nk-menu-text">Overview</span>
     </a>
@@ -17,6 +17,12 @@
     <a href="{{route('expert.projects.public')}}" class="nk-menu-link">
         <span class="nk-menu-icon"><i class="fa-regular fa-building-magnifying-glass fs-5"></i></span>
         <span class="nk-menu-text">Public Projects</span>
+    </a>
+</li>
+<li class="nk-menu-item">
+    <a href="{{route('expert.contract.index')}}" class="nk-menu-link">
+        <span class="nk-menu-icon"><i class="fa-regular fa-file-signature fs-5"></i></span>
+        <span class="nk-menu-text">Contract</span>
     </a>
 </li>
 <li class="nk-menu-item">
@@ -40,6 +46,12 @@
 <section>
     <li class="nk-menu-heading">
         <h6 class="overline-title text-primary-alt">Misc</h6>
+    </li>
+    <li class="nk-menu-item">
+        <a href="{{route('expert.referer.index')}}" class="nk-menu-link">
+            <span class="nk-menu-icon"><i class="fa-regular fa-link fs-5"></i></span>
+            <span class="nk-menu-text">Referral Link</span>
+        </a>
     </li>
     <li class="nk-menu-item">
         <a href="{{route('expert.account.index')}}" class="nk-menu-link">

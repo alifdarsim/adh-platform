@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContractExpert;
 use App\Models\Country;
 use App\Models\ExpertList;
 use App\Models\Hub;
@@ -35,7 +36,7 @@ class ProjectsController extends Controller
         $unique_id = '';
 
         // Loop 10 times to generate a 10-character ID
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $unique_id .= $characters[rand(0, strlen($characters) - 1)];
         }
 
@@ -72,10 +73,10 @@ class ProjectsController extends Controller
             return $question != null;
         });
         if (count($questions) < 1) return error('You need to ask at least one question to the expert');
-        $pid = Str::uuid();
         $project = Projects::create([
             'name' => request()->get('name'),
             'company_id' => request()->get('company_id'),
+            'public' => request()->get('public') ?? 0,
             'description' => request()->get('description'),
             'hub_id' => request()->get('hub'),
             'pid' => $this->generateUniqueID(),
@@ -157,21 +158,38 @@ class ProjectsController extends Controller
         return datatables()->of($shortlist)
             ->addColumn('registered', function ($e) {
                 $email = $e->email;
-                $user = User::where('email', $email)->first();
+                $user = User::where('email', $email)->where('role', 'expert')->first();
                 return (bool)$user;
+            })
+            ->addColumn('img', function ($shortlist) {
+                $user = User::where('email', $shortlist->email)->where('role', 'expert')->first();
+                if (!$user) return $shortlist->expert->img_url;
+                return $user->avatar_path ?? null;
+            })
+            ->addColumn('phone', function ($shortlist) {
+                $user = User::where('email', $shortlist->email)->where('role', 'expert')->first();
+                if (!$user) return null;
+                return $user->phone_code . $user->phone;
             })
             ->addColumn('payment', function ($shortlist) {
                 return $shortlist->payment->amount ?? null;
             })
             ->addColumn('answers', function ($shortlist) use ($answer) {
-                if (User::where('email', $shortlist->email)->first() === null) return null;
-                $user_id = User::where('email', $shortlist->email)->first()->id;
+                if (User::where('email', $shortlist->email)->where('role', 'expert')->first() === null) return null;
+                $user_id = User::where('email', $shortlist->email)->where('role', 'expert')->first()->id;
                 return $answer->firstWhere('user_id', $user_id)->answers ?? null;
             })
             ->addColumn('confidence', function ($shortlist) use ($answer) {
-                if (User::where('email', $shortlist->email)->first() === null) return null;
-                $user_id = User::where('email', $shortlist->email)->first()->id;
+                if (User::where('email', $shortlist->email)->where('role', 'expert')->first() === null) return null;
+                $user_id = User::where('email', $shortlist->email)->where('role', 'expert')->first()->id;
                 return $answer->firstWhere('user_id', $user_id)->confidence ?? null;
+            })
+            ->addColumn('contract', function ($e) {
+                $contract = ContractExpert::where('project_expert_id', $e->id)->first() ?? null;
+                return [
+                    'contract_id' => $contract->contract_id ?? null,
+                    'status' => $contract->status ?? null
+                ];
             })
             ->make(true);
     }
@@ -180,12 +198,19 @@ class ProjectsController extends Controller
         $project = Projects::find($project_id);
         $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$expert_id)->first();
         $project_expert->awarded = 1;
+        $project_expert->status = 'ongoing';
         $project_expert->save();
         $email = $project_expert->expert->email;
         $user = User::where('email',$email)->first();
         if (!$user) return error('Expert is not registered yet');
         $mailSender->sendProjectAwarded($email, $project->name);
-        return success('Expert awarded successfully');
+        // generate contract for this expert
+        $contract_id = $this->generateUniqueID();
+        ContractExpert::create([
+            'project_expert_id' => $project_expert->id,
+            'contract_id' => $contract_id
+        ]);
+        return success($contract_id);
     }
 
     public function setPayment($project_id, $expert_id){

@@ -9,27 +9,24 @@
                     <p>Feed AsiaDealHub database with company information that will be used for other part of the system.</p>
                 </div>
             </div>
-{{--            <div class="nk-block-head-content">--}}
-{{--                <div class="toggle-wrap nk-block-tools-toggle">--}}
-{{--                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>--}}
-{{--                    <div class="toggle-expand-content" data-content="pageMenu">--}}
-{{--                        <ul class="nk-block-tools g-3">--}}
-{{--                            <li class="nk-block-tools-opt">--}}
-{{--                                <a data-bs-toggle="modal" href="#modal-linkedin-prefill" class="btn btn-info"><i class="fa-brands fa-linkedin me-1 fs-5"></i><span>Pre-fill using LinkedIn</span></a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="nk-block-head-content">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                    <div class="toggle-expand-content" data-content="pageMenu">
+                        <ul class="nk-block-tools g-3">
+                            <li class="nk-block-tools-opt">
+                                <a data-bs-toggle="modal" href="#modal-linkedin-prefill" class="btn btn-info"><i class="fa-brands fa-linkedin me-1 fs-5"></i><span>Pre-fill using LinkedIn</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="nk-block">
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                <div class="alert alert-secondary alert-dim">
-                    Make sure no duplicate company created to avoid redundant data. <a href="{{route('admin.companies.index')}}">Check here</a>.
-                </div>
                 <div class="preview-block">
                     <div class="row gy-4">
                         <div class="col-12">
@@ -253,71 +250,71 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="data-head">
-                                <h6 class="overline-title">FINANCIAL INFORMATION</h6>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="form-label">Revenue In Million</label>
-                                <div class="form-control-wrap number-spinner-wrap">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                    <input type="number" id="revenue" class="form-control number-spinner" value="" placeholder="Not Set">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="form-label">Operating Profits In Million</label>
-                                <div class="form-control-wrap number-spinner-wrap">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                    <input type="number" id="operating_profit" class="form-control number-spinner" value="" placeholder="Not Set">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="form-label">Net Profits In Million</label>
-                                <div class="form-control-wrap number-spinner-wrap">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                    <input type="number" id="net_profit" class="form-control number-spinner" value="" placeholder="Not Set">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="form-label">Total Assets In Million</label>
-                                <div class="form-control-wrap number-spinner-wrap">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                    <input type="number" id="total_assets" class="form-control number-spinner" value="" placeholder="Not Set">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="form-label">Current Market Capital In Million</label>
-                                <div class="form-control-wrap number-spinner-wrap">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                    <input type="number" id="current_market_capital" class="form-control number-spinner" value="" placeholder="Not Set">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="form-label">Capital</label>
-                                <div class="form-control-wrap number-spinner-wrap">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                    <input type="number" id="capital" class="form-control number-spinner" value="" placeholder="Not Set">
-                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="col-12">--}}
+{{--                            <div class="data-head">--}}
+{{--                                <h6 class="overline-title">FINANCIAL INFORMATION</h6>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label">Revenue In Million</label>--}}
+{{--                                <div class="form-control-wrap number-spinner-wrap">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>--}}
+{{--                                    <input type="number" id="revenue" class="form-control number-spinner" value="" placeholder="Not Set">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label">Operating Profits In Million</label>--}}
+{{--                                <div class="form-control-wrap number-spinner-wrap">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>--}}
+{{--                                    <input type="number" id="operating_profit" class="form-control number-spinner" value="" placeholder="Not Set">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label">Net Profits In Million</label>--}}
+{{--                                <div class="form-control-wrap number-spinner-wrap">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>--}}
+{{--                                    <input type="number" id="net_profit" class="form-control number-spinner" value="" placeholder="Not Set">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label">Total Assets In Million</label>--}}
+{{--                                <div class="form-control-wrap number-spinner-wrap">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>--}}
+{{--                                    <input type="number" id="total_assets" class="form-control number-spinner" value="" placeholder="Not Set">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label">Current Market Capital In Million</label>--}}
+{{--                                <div class="form-control-wrap number-spinner-wrap">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>--}}
+{{--                                    <input type="number" id="current_market_capital" class="form-control number-spinner" value="" placeholder="Not Set">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="form-label">Capital</label>--}}
+{{--                                <div class="form-control-wrap number-spinner-wrap">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>--}}
+{{--                                    <input type="number" id="capital" class="form-control number-spinner" value="" placeholder="Not Set">--}}
+{{--                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-sm-12 mt-5">
                             <div class="form-group">
 {{--                                <a onclick="draftCompany()" class="btn btn-light px-5">Save To Draft</a>--}}

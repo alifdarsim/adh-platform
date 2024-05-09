@@ -19,6 +19,7 @@ class CompaniesController extends Controller
 
     public function index()
     {
+        if (request()->ajax()) return $this->datatable();
         $count = Company::all()->count();
         return view('admin.companies.index', compact( 'count'));
     }

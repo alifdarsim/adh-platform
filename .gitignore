@@ -6,6 +6,7 @@
 /public/hot
 /public/compile.php
 /public/storage
+/public/avatar/
 /storage/*.key
 /vendor
 .env

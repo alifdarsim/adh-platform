@@ -8,6 +8,33 @@ function submitReset(){
     $('button[type="submit"]').html('Sign in');
 }
 
+function getLanguageEmoji(language) {
+    if (language === 'en') return '🇺🇸 English';
+    if (language === 'zh') return '🇨🇳 中文';
+    if (language === 'vi') return '🇻🇳 Tiếng Việt';
+    if (language === 'ja') return '🇯🇵 日本語';
+    if (language === 'ko') return '🇰🇷 한국어';
+    if (language === 'id') return '🇮🇩 Bahasa Indonesia';
+    if (language === 'ms') return '🇲🇾 Bahasa Melayu';
+    if (language === 'th') return '🇹🇭 ภาษาไทย';
+    if (language === 'fr') return '🇫🇷 Français';
+    if (language === 'de') return '🇩🇪 Deutsch';
+    if (language === 'es') return '🇪🇸 Español';
+    if (language === 'pt') return '🇵🇹 Português';
+    if (language === 'it') return '🇮🇹 Italiano';
+    if (language === 'nl') return '🇳🇱 Nederlands';
+    if (language === 'pl') return '🇵🇱 Polski';
+    if (language === 'tr') return '🇹🇷 Türkçe';
+    if (language === 'ru') return '🇷🇺 Русский';
+    if (language === 'ar') return '🇸🇦 العربية';
+    if (language === 'hi') return '🇮🇳 हिन्दी';
+    if (language === 'bn') return '🇧🇩 বাংলা';
+    if (language === 'fa') return '🇮🇷 فارسی';
+    if (language === 'he') return '🇮🇱 עברית';
+    if (language === 'ur') return '🇵🇰 اردو';
+    if (language === 'sw') return '🇹🇿 Kiswahili';
+}
+
 function getEmojiFlag(countryCode) {
     const base = 127397; // Offset for regional indicator symbols
     return countryCode

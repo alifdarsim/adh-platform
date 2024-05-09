@@ -12,6 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EditorPolicy extends Model
 {
-    protected $table = 'cms_editor_policy';
+    protected $table = 'policy_editor';
     protected $guarded = [];
 }

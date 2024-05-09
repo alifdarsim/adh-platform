@@ -183,7 +183,7 @@
                     render: function (data, type, row) {
                         return `<div class="user-card">
                             <div class="user-avatar bg-dim-primary d-flex position-relative !tw-w-12 !tw-h-12 !tw-rounded-lg !tw-bg-slate-300">
-                                <span>${data.img_url ? `<img class="!tw-rounded-lg" src="${data.img_url}" alt="">` : `<img class="!tw-rounded-lg p-2" src="/images/svg/avatar.svg" alt="">`}
+                                <span>${row.img ? `<img class="!tw-rounded-lg" src="../..${row.img}" alt="">` : `<img class="!tw-rounded-lg p-2" src="/images/svg/avatar.svg" alt="">`}
                                 ${row.registered ? `<i class="fa-solid fa-badge-check fs-18px text-info position-absolute tw-top-0 translate-middle"></i>` : ''}
                                 </span>
                             </div>
@@ -198,7 +198,7 @@
                     data: 'expert',
                     render: function (data, type, row) {
                         let email = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-envelope"></i>${row.expert.email === null ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : row.expert.email}</div>`;
-                        let phone = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-phone"></i>${row.expert.phone === null ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : row.expert.phone}</div>`;
+                        let phone = `<div class="d-flex tw-items-center"><i class="fa-solid fs-11px me-1 fa-phone"></i>${row.phone === null ? '<i class="fa-solid fa-xmark text-danger me-1"></i>' : row.phone}</div>`;
                         return email + phone;
                     }
                 },
@@ -245,27 +245,31 @@
                 {
                     data: 'contract',
                     render: function (data, type, row) {
-                        if (!data) return '-';
-                        return data;
+                        console.log(data)
+                        if (!data.contract_id) return '-';
+                        return `<a class="badge bg-info tw-capitalize hover:tw-text-slate-200" href="{{route('admin.contract.show','')}}/${data.contract_id}" target="_blank">${data.status}</a>`;
+                        // return `<button class="btn btn-info btn-sm" onclick="view_contract('${data}')">View</button>`;
                     }
                 },
                 {
                     data: 'id',
                     className: 'nk-tb-col-tools',
                     render: function (data, type, row) {
+                        console.log(row)
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" onclick="invite(${row.expert_id}, ${row.invited})"><em class="icon ni ni-user-add"></em><span>Invite To Project</span></a></li>
-                                                <li><a class="clickable" onclick="award(${row.expert_id})"><i class="fa-regular fa-award fs-5 tw-me-5"></i><span>Award Project</span></a></li>
+                                                <li><a target="_blank" href="${row.expert.url}"><i class="fa-brands fa-linkedin fs-15px tw-me-5"></i><span>Open LinkedIn</span></a></li>
+                                                <li><a class="clickable ${ row.registered ? '' : 'd-none'} ${ row.accepted ? 'd-none' : ''}" onclick="invite(${row.expert_id}, ${row.invited})"><i class="fa-regular fa-user-plus fs-15px tw-me-4"></i><span>Invite To Project</span></a></li>
+                                                <li><a class="clickable ${ row.registered ? '' : 'd-none'} ${ row.awarded ? 'd-none' : ''}" onclick="award(${row.expert_id})"><i class="fa-regular fa-award fs-5 tw-me-5"></i><span>Award Project</span></a></li>
                                                 <li><div class="dropdown-divider my-1"></div></li>
-                                                <li><a class="clickable" onclick="set_contract(${row.expert_id})"><i class="fa-regular fa-file-signature fs-15px tw-me-4"></i><span>Contract</span></a></li>
-                                                <li><a class="clickable" onclick="set_payment(${row.expert_id})"><i class="fa-regular fa-money-bill fs-15px tw-me-4"></i><span>Set Payment</span></a></li>
-                                                <li><div class="dropdown-divider my-1"></div></li>
-                                                <li><a class="clickable" onclick="force_accept(${row.expert.id})"><em class="icon ni ni-check"></em><span>Force Accept</span></a></li>
+                                                <li><a class="clickable ${ row.registered ? '' : 'd-none'}" onclick="view_contract('${row.contract.contract_id}')"><i class="fa-regular fa-file-signature fs-15px tw-me-4"></i><span>View Contract</span></a></li>
+                                                <li><a class="clickable ${ row.registered ? '' : 'd-none'}" onclick="view_payment(${row.payment})"><i class="fa-regular fa-money-bill fs-15px tw-me-4"></i><span>View Payment</span></a></li>
+<!--                                                <li><div class="dropdown-divider my-1"></div></li>-->
+<!--                                                <li><a class="clickable" onclick="force_accept(${row.expert.id})"><em class="icon ni ni-check"></em><span>Force Accept</span></a></li>-->
                                                 <li><a class="clickable" onclick="remove(${row.expert_id})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>
@@ -409,11 +413,10 @@
         function award(expert_id){
             // get the number of expert that accept the invitation
             Swal.fire({
-                title: 'Award Project to Expert?',
-                text: "Proceed to awarding project to this expert?",
+                title: 'Award Project?',
+                text: "Awarding project to this expert? Contract will be created and expert will be notified. Confirm?",
                 icon: 'info',
                 showCancelButton: true,
-
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -423,8 +426,18 @@
                             _token: '{{csrf_token()}}'
                         },
                         success: function (data) {
-                            _Swal.success(data.message);
+                            console.log(data)
                             window['datatable'].ajax.reload();
+                            Swal.fire({
+                                title: 'Success. Contract Created',
+                                text: 'Contract expert has been created. View & manage the contract now?',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'View Contract',
+                                cancelButtonText: 'Close',
+                            }).then((result) => {
+                                if (result.isConfirmed) view_contract(data.message);
+                            });
                         },
                         error: function (data) {
                             Swal.fire(
@@ -500,6 +513,10 @@
                     window['datatable'].ajax.reload();
                 }
             })
+        }
+
+        function view_contract(contract){
+            window.location.href = `{{route('admin.contract.show', '')}}/${contract}`;
         }
 
     </script>

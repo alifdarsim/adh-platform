@@ -61,6 +61,11 @@
     padding-right: 0 !important;
 }
 
+@font-face {
+    font-family: 'Signeritta';
+    src: url('/assets/fonts/Signeritta.ttf') format('truetype');
+}
+
 /*.project-status > .btn.disabled, .btn:disabled {*/
 /*    color: #e14954;*/
 /*    border-color: #e14954;*/

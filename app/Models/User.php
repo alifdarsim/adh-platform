@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,8 +13,6 @@ use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Exceptions\InvalidManipulation;
-use Spatie\Image\Manipulations;
-use Spatie\Permission\Traits\HasRoles;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -30,7 +24,7 @@ use Laravolt\Avatar\Facade as Avatar;
  */
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, AuthenticationLoggable, LogsActivity, InteractsWithMedia;
+    use HasApiTokens, HasFactory, Notifiable, AuthenticationLoggable, LogsActivity, InteractsWithMedia;
 
     protected array $guard_name = ['sanctum', 'web'];
 
@@ -44,6 +38,10 @@ class User extends Authenticatable implements HasMedia
         'email',
         'password',
         'status',
+        'phone',
+        'phone_code',
+        'referer_code',
+        'referer_id',
         'role',
         'token',
         'timezone',
@@ -88,28 +86,33 @@ class User extends Authenticatable implements HasMedia
         return LogOptions::defaults()->logOnly(['*']);
     }
 
-    /**
-     * Get avatar of the user.
-     */
-    public function avatar($type = null): string | \Laravolt\Avatar\Avatar | null
-    {
-        $linkedin_avatar = auth()->user()->expert;
-        if ($linkedin_avatar != null) {
-            return $linkedin_avatar->img_url == null ? Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150) : $linkedin_avatar->img_url;
-        }
-        $profile_image = auth()->user()->getMedia('profile_images');
-        if ($profile_image->count() > 0) {
-            return $type == null ? $profile_image->last()->getUrl() : $profile_image->last()->getUrl('thumb');
-        }
-        else if (auth()->user()->linkedin_avatar != null) {
-            return auth()->user()->linkedin_avatar;
-        }
-        return Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150);
-    }
-
+//    /**
+//     * Get avatar of the user.
+//     */
+//    public function avatar($type = null): string | \Laravolt\Avatar\Avatar | null
+//    {
+//        $linkedin_avatar = auth()->user()->expert;
+//        if ($linkedin_avatar != null) {
+//            return $linkedin_avatar->img_url == null ? Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150) : $linkedin_avatar->img_url;
+//        }
+//        $profile_image = auth()->user()->getMedia('profile_images');
+//        if ($profile_image->count() > 0) {
+//            return $type == null ? $profile_image->last()->getUrl() : $profile_image->last()->getUrl('thumb');
+//        }
+//        else if (auth()->user()->linkedin_avatar != null) {
+//            return auth()->user()->linkedin_avatar;
+//        }
+//        return Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150);
+//    }
+//
     public function user_avatar($name = null): string | \Laravolt\Avatar\Avatar | null
     {
-        return $this->expert->img_url == null ? Avatar::create('N/A')->toBase64() : $this->expert->img_url;
+        if ($name == null) {
+            $avatar_path = auth()->user()->avatar_path;
+            if ($avatar_path != null) return $avatar_path;
+            return Avatar::create($this->name)->toBase64();
+        }
+        return $this->expert->img_url == null ? Avatar::create($name)->toBase64() : $this->expert->img_url;
     }
 
     public function expert(): HasOne
@@ -147,9 +150,19 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Client::class, 'user_id', 'id');
     }
 
-    public function paymentRelease(): HasOne
+    public function payment(): HasMany
     {
-        return $this->hasOne(PaymentExpert::class, 'user_id', 'id');
+        return $this->hasMany(PaymentExpert::class, 'expert_id', 'id');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role == 'admin';
+    }
+
+    public function isMember(): bool
+    {
+        return $this->role == 'member';
     }
 
 }

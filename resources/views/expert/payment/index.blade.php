@@ -215,7 +215,7 @@
     <script>
         let project_id = '';
         datatableInit('#datatable', {
-            ajax: '{{route('expert.payment.datatable')}}',
+            ajax: '{{route('expert.payment.index')}}',
             order:  [[2, 'desc']],
             columnDefs: [
                 { "orderable": false, "targets": [0,1,2,3] },

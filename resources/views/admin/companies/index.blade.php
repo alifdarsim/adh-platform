@@ -137,7 +137,7 @@
                     <th class="nk-tb-col"><span class="sub-text">Type</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Industry</span></th>
                     <th class="nk-tb-col"><span class="sub-text">Country</span></th>
-                    <th class="nk-tb-col"><span class="sub-text">Created At</span></th>
+                    <th class="nk-tb-col"><span class="sub-text">Added At</span></th>
                     <th class="nk-tb-col nk-tb-col-tools text-end">Action</th>
                 </tr>
                 </thead>
@@ -154,18 +154,9 @@
     <script src="/assets/js/libs/datatable-init.js?ver=3.2.2"></script>
     <script>
         datatableInit('#datatable', {
-            ajax: '{{ route('admin.companies.datatable') }}',
-            order:  [[2, 'desc']],
+            ajax: '{{ route('admin.companies.index') }}',
             columnDefs: [
                 { "className": "nk-tb-col", "targets": "_all" },
-                { "orderable": false, "targets": 6 },
-                {
-                    "className": "clickable",
-                    "targets": [0,1,2,3,5],
-                    "createdCell": function (td, cellData, rowData) {
-                        $(td).on('click', () => window.location.href = '{{route('admin.companies.edit', '')}}/' + rowData.id )
-                    }
-                }
             ],
             pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
             columns: [
@@ -210,14 +201,14 @@
                 {
                     data: 'id',
                     render: function (data, type, row) {
+                        let url = '{{route('admin.companies.edit', ':id')}}'.replaceAll(':id', data)
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
-{{--                                                <li><a class="clickable" href="{{route('admin.companies.show', '')}}/${data}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>--}}
-                                                <li><a class="clickable" href="{{route('admin.companies.edit', '')}}/${data}"><em class="icon ni ni-edit"></em><span>Edit Details</span></a></li>
+                                                <li><a class="clickable" href="${url}"><em class="icon ni ni-edit"></em><span>Edit Details</span></a></li>
                                                 <li><a class="clickable" onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>

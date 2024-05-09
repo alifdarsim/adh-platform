@@ -8,8 +8,6 @@ use App\Models\ExpertLinkedInQueue;
 use App\Services\LinkedInScrapeService;
 use App\Services\ProcessScrapeService;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Exceptions\Exception;
 
 class ExpertsScrapeController extends Controller
 {

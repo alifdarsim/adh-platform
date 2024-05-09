@@ -99,7 +99,7 @@
 }
 
 .user-avatar, [class^=user-avatar]:not([class*=-group]) {
-    background: #e8757d;
+    background: rgba(255, 255, 255, 0.47);
 }
 
 .nk-news-item:hover .nk-news-text .icon {

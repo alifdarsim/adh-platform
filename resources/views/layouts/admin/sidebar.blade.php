@@ -5,7 +5,7 @@
             <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
         </div>
         <div class="nk-sidebar-brand">
-            <a href="{{session('user_type') == 'client' ? route('client.overview') : route('expert.overview')}}" class="logo-link">
+            <a href="{{session('user_type') == 'client' ? route('client.overview.index') : route('expert.overview.index')}}" class="logo-link">
                 <img class="logo-light logo-img tw-h-[32px]" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo">
                 <img class="logo-dark logo-img" src="/images/asiadealhub.png" srcset="/images/asiadealhub.png" alt="logo-dark">
                 <span class="nio-version tw-text-slate-300">ADMIN DASHBOARD</span>
@@ -45,47 +45,20 @@
                     </li>
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><i class="fa-solid fa-user-tie fs-5"></i></span>
-                            <span class="nk-menu-text">Experts</span>
+                            <span class="nk-menu-icon"><i class="fa-regular fa-file-signature fs-5"></i></span>
+                            <span class="nk-menu-text">Contracts</span>
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
-                                <a href="{{route('admin.experts.index')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Expert List</span>
+                                <a href="{{route('admin.contract.index')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Manage Contracts</span>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="nk-menu-item">
-                        <a href="{{route('admin.users.index')}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><i class="fa-regular fa-users fs-5"></i></span>
-                            <span class="nk-menu-text">Users</span>
-                        </a>
-                    </li>
-{{--                    <li class="nk-menu-item">--}}
-{{--                        <a href="{{route('admin.payment.index')}}" class="nk-menu-link">--}}
-{{--                            <span class="nk-menu-icon"><i class="fa-regular fa-coin fs-5"></i></span>--}}
-{{--                            <span class="nk-menu-text">Payments</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><i class="fa-solid fa-user-crown fs-5"></i></span>
-                            <span class="nk-menu-text">ADH Admins</span>
-                        </a>
-                        <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
-                                <a href="{{route('admin.admins.index')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Member List</span>
+                                <a href="{{route('admin.contract-template.index')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Contract Template</span>
                                 </a>
                             </li>
-                            @if(auth()->user()->hasRole('super admin'))
-                                <li class="nk-menu-item">
-                                    <a href="{{route('admin.admins.create')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Create Member</span>
-                                    </a>
-                                </li>
-                            @endif
                         </ul>
                     </li>
                     <li class="nk-menu-item has-sub">
@@ -106,13 +79,54 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nk-menu-item">
-                        <a href="{{route('admin.expert_scrape.index')}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><i class="fa-regular fa-users fs-5"></i></span>
-                            <span class="nk-menu-text">Expert Scraping</span>
-                        </a>
-                    </li>
-                    @if (auth()->user()->hasRole('super admin'))
+                    @if(auth()->user()->isAdmin())
+                        <li class="nk-menu-heading pt-3">
+                            <h6 class="overline-title text-primary-alt">USERS DATA</h6>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.admins.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-user-crown fs-5"></i></span>
+                                <span class="nk-menu-text">ADH Members</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.users-client.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-user-tie fs-5"></i></span>
+                                <span class="nk-menu-text">Registered Client</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.users-expert.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-users fs-5"></i></span>
+                                <span class="nk-menu-text">Registered Expert</span>
+                            </a>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.expert-import.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-user-tie fs-5"></i></span>
+                                <span class="nk-menu-text">Imported Expert</span>
+                            </a>
+                        </li>
+{{--                        <li class="nk-menu-item has-sub">--}}
+{{--                            <a href="#" class="nk-menu-link nk-menu-toggle">--}}
+{{--                                <span class="nk-menu-icon"><i class="fa-solid fa-user-tie fs-5"></i></span>--}}
+{{--                                <span class="nk-menu-text">Imported Expert</span>--}}
+{{--                            </a>--}}
+{{--                            <ul class="nk-menu-sub">--}}
+{{--                                <li class="nk-menu-item">--}}
+{{--                                    <a href="{{route('admin.experts.index')}}" class="nk-menu-link">--}}
+{{--                                        <span class="nk-menu-text">Expert List</span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li class="nk-menu-item">--}}
+{{--                                    <a href="{{route('admin.expert_scrape.index')}}" class="nk-menu-link">--}}
+{{--                                        <span class="nk-menu-text">Expert Scraping</span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+{{--                        </li>--}}
+                    @endif
+                    @if (auth()->user()->isAdmin())
                     <seciton>
                         <li class="nk-menu-heading pt-3">
                             <h6 class="overline-title text-primary-alt">SYSTEM SETTING</h6>
@@ -129,89 +143,47 @@
                                 <span class="nk-menu-text">Industry Classification</span>
                             </a>
                         </li>
-{{--                        <li class="nk-menu-item">--}}
-{{--                            <a href="{{route('admin.contract.index')}}" class="nk-menu-link">--}}
-{{--                                <span class="nk-menu-icon"><i class="fa-regular fa-file-signature fs-5"></i></span>--}}
-{{--                                <span class="nk-menu-text">Default Contract</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-                        <li class="nk-menu-item has-sub">
-                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                <span class="nk-menu-icon"><i class="fa-regular fa-file-signature fs-5"></i></span>
-                                <span class="nk-menu-text">Contract</span>
-                            </a>
-                            <ul class="nk-menu-sub">
-                                <li class="nk-menu-item">
-                                    <a href="{{route('admin.contract.show', 'expert')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Expert Contract</span>
-                                    </a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="{{route('admin.contract.show', 'client')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Client Contract</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                     </seciton>
                     <seciton>
                         <li class="nk-menu-heading pt-3">
-                            <h6 class="overline-title text-primary-alt">CONTENT MANAGEMENT</h6>
-                        </li>
-                        <li class="nk-menu-item has-sub">
-                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                <span class="nk-menu-icon"><i class="fa-regular fa-message-pen fs-5"></i></span>
-                                <span class="nk-menu-text">Resources</span>
-                            </a>
-                            <ul class="nk-menu-sub">
-                                <li class="nk-menu-item">
-                                    <a href="{{route('admin.post.index')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Posts</span>
-                                    </a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="{{route('admin.post.create')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">Create Post</span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <h6 class="overline-title text-primary-alt">CONTENT EDITOR</h6>
                         </li>
 
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-newspaper fs-5"></i></span>
-                                <span class="nk-menu-text">Terms Editors</span>
+                                <span class="nk-menu-text">Terms & Policy</span>
                             </a>
                             <ul class="nk-menu-sub">
                                 <li class="nk-menu-item">
-                                    <a href="{{route('admin.editor.terms_conditions')}}" class="nk-menu-link">
+                                    <a href="{{route('admin.terms-policy.index', 'terms-conditions')}}" class="nk-menu-link">
                                         <span class="nk-menu-text">Terms & Conditions</span>
                                     </a>
                                 </li>
                                 <li class="nk-menu-item">
-                                    <a href="{{route('admin.editor.privacy')}}" class="nk-menu-link">
+                                    <a href="{{route('admin.terms-policy.index', 'privacy-policy')}}" class="nk-menu-link">
                                         <span class="nk-menu-text">Privacy Policy</span>
-                                    </a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="{{route('admin.editor.faq')}}" class="nk-menu-link">
-                                        <span class="nk-menu-text">FAQ</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nk-menu-item">
-                            <a href="{{route('quiz.show')}}" class="nk-menu-link">
+                            <a href="{{route('admin.assessment.show')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-user-helmet-safety fs-5"></i></span>
                                 <span class="nk-menu-text">Expert Assessment</span>
                             </a>
                         </li>
                     </seciton>
                     @endif
-
                     <section>
                         <li class="nk-menu-heading">
                             <h6 class="overline-title text-primary-alt">Misc</h6>
+                        </li>
+                        <li class="nk-menu-item">
+                            <a href="{{route('admin.referer.index')}}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><i class="fa-regular fa-link fs-5"></i></span>
+                                <span class="nk-menu-text">Referral Link</span>
+                            </a>
                         </li>
                         <li class="nk-menu-item">
                             <a href="{{route('admin.account.index')}}" class="nk-menu-link">

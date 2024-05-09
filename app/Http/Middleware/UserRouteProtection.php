@@ -26,10 +26,10 @@ class UserRouteProtection
         foreach ($allowedUserTypes as $type) {
             $routePrefix = $type . '/*';
             if ($userType !== $type && $request->is($routePrefix)) {
-                return response()->view('errors.unauthorized', [], 403);
+                $route = $userType == 'admin' ? 'admin.overview.index' : ($userType == 'client' ? 'client.overview.index' : 'expert.overview.index');
+                return redirect()->route($route);
             }
         }
         return $next($request);
     }
-
 }

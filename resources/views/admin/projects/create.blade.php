@@ -272,14 +272,30 @@
                 </div>
             </div>
         </div>
-        <div class="card card-bordered">
+        <div class="card card-bordered mt-2">
             <div class="card-inner">
                 <h5 class="title">4. Submit Project</h5>
-                <div class="col-6 pt-3">
+                <div class="col-12 pt-3">
                     <div class="form-group tw-flex tw-justify-items-center">
                         <label class="form-label mt-1 me-2 tw-cursor-default" for="owner">Project Created By: </label>
                         <input type="text" class="ps-2 tw-w-72" id="owner" name="project-name"
                             value="{{ auth()->user()->name }}" disabled required>
+                    </div>
+                </div>
+                <div class="col-12 pt-3">
+                    <div class="form-group tw-flex tw-justify-items-center">
+                        <label class="form-label mt-1 me-2 tw-cursor-default" for="owner">Public or Private Project</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="public" name="project_type" value="1"
+                                    checked>
+                                <label class="custom-control-label" for="public">Public</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="private" name="project_type" value="0">
+                                <label class="custom-control-label" for="private">Private</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-4">
@@ -478,6 +494,7 @@
                     company_id: $('#select_company').val(),
                     name: $('#project-name').val(),
                     description: $('#project-description').val(),
+                    public: $('input[name="project_type"]:checked').val(),
                     hub: $('#hub').val(),
                     deadline: $('#deadline').val(),
                     target_country: $('#target_country').val(),

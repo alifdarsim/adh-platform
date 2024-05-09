@@ -12,7 +12,7 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">
                     <a class="back" href="javascript:history.back()"><i
-                            class="fa-solid fa-arrow-left me-2 fs-4"></i></a>
+                            class="fa-solid fa-arrow-left me-1 fs-4"></i></a>
                     {{$project->name}}
                 </h3>
             </div>
@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="nk-block">
-        @include('status.index')
+{{--        @include('status.index')--}}
 
 {{--        @if($project->payment && $project->payment->where('received_status', 'pending')->first())--}}
 {{--            <div class="nk-block-head-content mt-3">--}}

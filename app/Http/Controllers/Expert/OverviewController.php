@@ -15,8 +15,8 @@ class OverviewController extends Controller
         $data = $service->getCompletionData();
         $expert_completion = $data['completion'];
         $expert_completion_count = $data['count'];
-        $expert_list = ExpertList::where('email', Auth::user()->email)->first();
-        $project_expert = ProjectExpert::where('expert_id', $expert_list->id)->get();
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->id)->get();
         return view('expert.overview', compact('expert_completion', 'expert_completion_count', 'project_expert'));
+//        return view('expert.overview', compact('expert_completion', 'expert_completion_count'));
     }
 }

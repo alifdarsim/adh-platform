@@ -18,13 +18,13 @@ class ProcessScrapeService
     {
     }
 
-    public function processInfo($info, $exist){
+    public function processInfo($info, $exist, $profilePic = null){
         // convert info to object
         $data = $info;
         $url = 'https://www.linkedin.com/in/' . $data->publicIdentifier;
         $name = $data->fullName;
         $about = $data->about ?? null;
-        $img = $data->profilePic ?? null;
+        $img = $profilePic;
         $country = $data->addressCountryOnly ?? $data->addressWithoutCountry;
         $address = $data->addressWithoutCountry;
         $skills = collect($data->skills)->map(fn ($e) => $e->title)->toArray();

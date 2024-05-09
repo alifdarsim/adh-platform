@@ -265,8 +265,6 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a class="clickable" href="#"><em class="icon ni ni-eye"></em><span>Confirm Payment</span></a></li>
-                                                <li><a class="clickable" onclick="setContract('${row.id}')"><em class="icon ni ni-building"></em><span>Set Contract</span></a></li>
-                                                <li><a class="clickable" onclick="remove('${row.id}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>
                                     </div>

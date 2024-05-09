@@ -22,13 +22,13 @@ class LinkedInScrapeService
     /**
      * @throws GuzzleException
      */
-    public function scrape($url): Object
+    public function scrape($url): string
     {
         $client = new Client();
         $response = $client->request('POST', 'https://linkedin-data-scraper.p.rapidapi.com/person', [
             'body' => '{
-                        "link": "' . $url . '"
-                    }',
+                "link": "' . $url . '"
+            }',
             'headers' => [
                 'X-RapidAPI-Host' => 'linkedin-data-scraper.p.rapidapi.com',
                 'X-RapidAPI-Key' => $this->rapidApiKey,
@@ -36,7 +36,7 @@ class LinkedInScrapeService
             ],
         ]);
         $guzzle = $response->getBody();
-        return json_decode($guzzle->getContents());
+        return $guzzle->getContents();
     }
 
 }

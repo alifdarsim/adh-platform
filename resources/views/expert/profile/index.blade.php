@@ -24,7 +24,7 @@
                             <div class="user-card user-card-s2">
                                 <div class="tw-relative">
                                     <div class="tw-w-32 tw-h-32">
-                                        <img src="{{auth()->user()->avatar()}}" alt="profile" class="tw-w-32 tw-h-32 object-fit-cover tw-rounded-full"/>
+                                        <img src="{{auth()->user()->user_avatar()}}" alt="profile" class="tw-w-32 tw-h-32 object-fit-cover tw-rounded-full"/>
                                     </div>
                                 </div>
                                 <div class="user-info tw-grid tw-gap-y-3">

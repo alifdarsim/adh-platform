@@ -15,43 +15,23 @@ use Yajra\DataTables\Exceptions\Exception;
 
 class AdminsController extends Controller
 {
-    /**
-     * Show the admin dashboard.
-     */
+
     public function index()
     {
-        $adminsCount = User::whereHas('roles', function ($query) {
-            $query->where('name', 'super admin')->orWhere('name', 'admin');
-        })->count();
-        return view('admin.admins.index', compact('adminsCount'));
+        if (\request()->ajax()) return $this->datatable();
+        return view('admin.users.admins.index');
     }
 
-    /**
-     * Show the datatable data of admin user.
-     * @throws Exception
-     * @throws \Exception
-     */
     public function datatable()
     {
         // get all admin user using datatable query
-        $users = User::with('roles')->get()->filter(function ($user) {
-            if ($user->hasRole('admin') || $user->hasRole('super admin') || $user->hasRole('editor')) {
-                return $user;
-            }
-            return null;
-        });
+        $users = User::whereIn('role', ['admin', 'member'])->get();
         return datatables()->of($users)
-            ->addColumn('role', function ($user) {
-                return $user->roles->first()->name;
-            })
             ->addColumn('email', function ($user) {
                 return $user->email;
             })
             ->addColumn('user_avatar', function ($user) {
                 return $user->user_avatar($user->name);
-            })
-            ->addColumn('role', function ($user) {
-                return $user->getRoleNames()->first();
             })
             ->addColumn('last_login_at', function ($user) {
                 return $user->lastLoginAt();
@@ -59,17 +39,11 @@ class AdminsController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new admin user.
-     */
     public function create()
     {
-        return view('admin.admins.create');
+        return view('admin.users.admins.create');
     }
 
-    /**
-     * Store a newly created admin user in storage.
-     */
     public function store(MailSender $mailSender)
     {
         request()->validate([
@@ -91,6 +65,22 @@ class AdminsController extends Controller
         $mailSender->sendAdminInvitation(request('email'), request('name'), $token);
         return success('New Admin created successfully');
     }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        if ($user->hasRole('super admin')) {
+            // if there is still at least one super admin in the system, then we can not delete the super admin
+            $superAdmins = User::role('super admin')->get();
+            if ($superAdmins->count() === 1) {
+
+            }
+        }
+        $user->delete();
+        return success('Admin deleted successfully');
+    }
+
+    // Admin Invitation
 
     public function invitation($token)
     {
@@ -115,20 +105,5 @@ class AdminsController extends Controller
         } else {
             return error('Invitation link expired');
         }
-    }
-
-    public function destroy()
-    {
-        $user = User::find(request('id'));
-        if ($user->hasRole('super admin')) {
-            // if there is still at least one super admin in the system, then we can not delete the super admin
-            $superAdmins = User::role('super admin')->get();
-            if ($superAdmins->count() === 1) {
-
-            }
-
-        }
-        $user->delete();
-        return success('Admin deleted successfully');
     }
 }

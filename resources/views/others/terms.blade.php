@@ -1,5 +1,7 @@
 @php
-    $content = \App\Models\EditorPolicy::where('type', 'terms_conditions')->first()->content;
+    $content = \App\Models\EditorPolicy::where('type', 'terms-conditions')->where('language', \request()->cookie('language'));
+    if (!$content->exists()) $content = \App\Models\EditorPolicy::where('type', 'terms-conditions')->where('language', 'en');
+    $content = $content->first()->content;
 @endphp
 @extends('layouts.others.terms')
 @section('content')
@@ -7,7 +9,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block">
             <div class="nk-block-head-content text-center">
-                <h2 class="text-dark">Terms & Conditions</h2>
+                <h2 class="text-dark">{{__('others.terms_conditions')}}</h2>
             </div>
         </div>
     </div>

@@ -163,7 +163,7 @@
                         <th class="nk-tb-col"><span class="sub-text">Hub</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Initiated</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Created By</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Handle By</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">ADH PIC</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Company</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
                     </tr>
@@ -254,6 +254,7 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a class="clickable" href="{{ route('admin.projects.show', '') }}/${row.pid}"><em class="icon ni ni-eye"></em><span>Show Details</span></a></li>
+                                                <li><a class="clickable" onclick="edit('${row.pid}')"><em class="icon ni ni-file "></em><span>Edit</span></a></li>
                                                 <li><a class="clickable" onclick="approve('${row.pid}')"><em class="icon ni ni-check "></em><span>Approve</span></a></li>
                                                 <li><a class="clickable" onclick="remove('${row.pid}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                                 <li><a class="clickable" onclick="reset('${row.pid}')"><em class="icon ni ni-reload"></em><span>Reset Project</span></a></li>
@@ -379,6 +380,10 @@
                     });
                 }
             })
+        }
+
+        function edit(pid) {
+            window.location.href = "{{ route('admin.projects.edit', '') }}" + pid;
         }
     </script>
 @endpush

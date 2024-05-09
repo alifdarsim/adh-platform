@@ -49,7 +49,7 @@
                     <div class="nk-header-menu" data-content="headerNav">
                         <div class="nk-header-mobile">
                             <div class="nk-header-brand">
-                                <a href="{{route('client.overview')}}" class="logo-link">
+                                <a href="#" class="logo-link">
                                     <img class="logo-light logo-img" src="/images/logo.png" srcset="/images/logo2x.png 2x" alt="logo">
                                     <img class="logo-dark logo-img" src="/images/logo-dark.png" srcset="/images/logo-dark2x.png 2x" alt="logo-dark">
                                     <span class="nio-version">Expert</span>
@@ -63,98 +63,70 @@
                         <ul class="nk-menu nk-menu-main">
                             <li class="nk-menu-item">
                                 <a href="{{route('others.terms')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Terms & Conditions</span>
+                                    <span class="nk-menu-text">{{__('others.terms_conditions')}}</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item">
                                 <a href="{{route('others.policy')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Privacy Policy</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{route('others.faq')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">FAQ</span>
+                                    <span class="nk-menu-text">{{__('others.privacy_policy')}}</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
-
 
                     <div class="nk-header-tools">
                         <ul class="nk-quick-nav">
                             <li class="dropdown language-dropdown d-none d-sm-flex me-n1">
                                 <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                     <div class="quick-icon">
-                                        <img class="icon" src="/images/flags/english-sq.png" alt="">
+                                        <img class="icon" src="/images/locale_flag/{{key(request()->query()) ?? \App::getLocale()}}.png" alt="">
                                     </div>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                                <div class="dropdown-menu tw-min-w-[220px] dropdown-menu-end">
                                     <ul class="language-list">
                                         <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/english.png" alt="" class="language-flag">
-                                                <span class="language-name">English</span>
+                                            <a href="#" class="language-item" data-lang="en">
+                                                <span class="language-name">🇺🇸 English</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/spanish.png" alt="" class="language-flag">
-                                                <span class="language-name">Español</span>
+                                            <a href="#" class="language-item" data-lang="zh">
+                                                <span class="language-name">🇨🇳 中文</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/french.png" alt="" class="language-flag">
-                                                <span class="language-name">Français</span>
+                                            <a href="#" class="language-item" data-lang="ja">
+                                                <span class="language-name">🇯🇵 日本語</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="language-item">
-                                                <img src="/images/flags/turkey.png" alt="" class="language-flag">
-                                                <span class="language-name">Türkçe</span>
+                                            <a href="#" class="language-item" data-lang="ms">
+                                                <span class="language-name">🇲🇾 Bahasa Melayu</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="language-item" data-lang="ko">
+                                                <span class="language-name"> 🇰🇷 한국어</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="language-item" data-lang="id">
+                                                <span class="language-name"> 🇮🇩 Bahasa Indonesia</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="language-item" data-lang="th">
+                                                <span class="language-name"> 🇹🇭 ภาษาไทย</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="language-item" data-lang="vi">
+                                                <span class="language-name"> 🇻🇳 Tiếng Việt</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-{{--                            <li class="dropdown user-dropdown order-sm-first">--}}
-{{--                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">--}}
-{{--                                    <div class="user-toggle">--}}
-{{--                                        <div class="user-avatar sm">--}}
-{{--                                            <img src="{{auth()->user()->avatar()}}" alt="">--}}
-{{--                                        </div>--}}
-{{--                                        <div class="user-info d-none d-xl-block">--}}
-{{--                                            <div class="user-status user-status-unverified">{{session('user_type') == 'client' ? 'Client' : 'Expert'}}</div>--}}
-{{--                                            <div class="user-name dropdown-indicator fs-13px">{{auth()->user()->name}}</div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </a>--}}
-{{--                                <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1 is-light">--}}
-{{--                                    <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">--}}
-{{--                                        <div class="user-card">--}}
-{{--                                            <div class="user-avatar">--}}
-{{--                                                <img src="{{auth()->user()->avatar()}}" alt="">--}}
-{{--                                            </div>--}}
-{{--                                            <div class="user-info">--}}
-{{--                                                <span class="lead-text">{{auth()->user()->name}}</span>--}}
-{{--                                                <span class="sub-text">{{auth()->user()->email}}</span>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="dropdown-inner">--}}
-{{--                                        <ul class="link-list">--}}
-{{--                                            <li><a href="{{route('expert.profile')}}"><em class="icon ni ni-user-alt"></em><span>Account Setting</span></a></li>--}}
-{{--                                            <li><a href="{{route('expert.profile.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>--}}
-{{--                                            <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="dropdown-inner">--}}
-{{--                                        <ul class="link-list">--}}
-{{--                                            <li><a href="{{route('logout', ['type' => session('user_type')]) }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
                         </ul>
                     </div>
                 </div>

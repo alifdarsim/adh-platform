@@ -12,32 +12,46 @@ use Illuminate\Http\Request;
 
 class ExpertPortalController extends Controller
 {
-    public function index($id)
+    public function show($id)
     {
-        return view('admin.expert-portal.index', compact('id'));
+        $expert_user = $this->getExpertOrUserData($id);
+//        return $expert_user;
+        return view('admin.expert-portal.show', compact('expert_user'));
     }
 
-    public function get($id)
+    public function getExpertOrUserData($id)
     {
         $expert = ExpertList::find($id);
         $user = User::where('email', $expert->email)->first();
         if ($user) {
-            $user->expert->industry;
-            if (!$user->expert->url) $user->expert->url = $expert->url;
-            if (!$user->expert->country) $user->expert->country = $expert->country;
-            $country_name = $user->expert->country;
-            $emoji = Country::where('name', $country_name)->select('emoji')->first();
-            $user->expert->country = $emoji->emoji . ' ' . $country_name;
-            $user->last_login = $user->lastLoginAt() ? $user->lastLoginAt()->format('d/m/Y H:i A') : '-';
-            $user->register_at = $user->created_at->format('d/m/Y H:i A');
-            $user_project = ProjectExpert::where('expert_id', $id)->get();
-            $user->project_count = $user_project->where('status', '<>', 'shortlisted')->count();
-            $user->project_ongoing = $user_project->whereIn('status', ['ongoing'])->count();
-            $user->project_completed = $user_project->where('status', 'completed')->count();
+//            $user->email = $expert->email;
+//            $user->name = $expert->name;
+            $user->phone = $user->phone_code  . $user->phone;
+            $user->industry_main = $user->expert->industry->main;
+            $user->industry_sub = $user->expert->industry->sub;
+            $user->url = $user->expert->url;
+            $user->country = $user->expert->country;
+            $user->address = $user->expert->address;
+            $user->skills = $user->expert->skills;
+            $user->languages = $user->expert->languages;
+            $user->experiences = $user->expert->experiences;
+            $user->img_url = $user->avatar_path ?? $user->expert->img_url;
+            $user->about = $user->expert->about;
+            $user->registered_at = $user->created_at->format('d/m/Y H:i A');
+            $user->total_projects = ProjectExpert::where('expert_id', $id)->where('awarded', 1)->count();
+            $user->total_ongoing = ProjectExpert::where('expert_id', $id)->where('status', 'ongoing')->count();
+            $user->total_completed = ProjectExpert::where('expert_id', $id)->where('status', 'completed')->count();
             return $user;
         } else {
-            return success($expert);
+            return $expert;
         }
+    }
+
+    public function update($id, Request $request)
+    {
+        $expert = ExpertList::find($id);
+        $expert->update($request->all());
+        return success('Expert updated successfully');
     }
 
     public function getExpertDetails($id)

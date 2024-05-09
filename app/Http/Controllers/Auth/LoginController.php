@@ -15,7 +15,18 @@ class LoginController extends Controller
 {
     public function index($type)
     {
-        return view('auth.login', compact('type'));
+        if (auth()->check()) {
+            if (auth()->user()->isAdmin() || auth()->user()->isMember()) {
+                return redirect()->route('admin.overview.index');
+            }
+            $route = $type == 'expert' ? 'expert.overview.index' : 'client.overview.index';
+            dd($route);
+//            return redirect()->route($route);
+        }
+        if ($type == 'expert') {
+            return view('auth.login-expert');
+        }
+        return view('auth.login-client');
     }
 
     public function authenticate($type, Request $request)
@@ -41,14 +52,13 @@ class LoginController extends Controller
             }
 
             // check if user role is not equal to role
-            $role = auth()->user()->getRoleNames();
-            if ($role[0] == 'admin' || $role[0] == 'super admin'){
+            if (auth()->user()->isAdmin() || auth()->user()->isMember()){
                 session(['timezone' => $request->timezone, 'user_type' => 'admin']);
                 return Response::json([
                     'success' => true,
                     'message' => 'Login successful',
                     'isadmin' => true,
-                    'isSuperAdmin' => $role[0] == 'super admin'
+                    'isSuperAdmin' => auth()->user()->isAdmin(),
                 ]);
             }
             session(['timezone' => $request->timezone, 'user_type' => $request->type]);

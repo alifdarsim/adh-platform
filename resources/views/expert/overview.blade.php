@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
-                            data-bs-placement="left" aria-label="Total active subscription"
+                            data-bs-placement="left"
                             data-bs-original-title="Current shortlisted project">
                         </em>
                     </div>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
-                            data-bs-placement="left" aria-label="Total active subscription"
+                            data-bs-placement="left"
                             data-bs-original-title="Current awarded project">
                         </em>
                     </div>
@@ -59,8 +59,8 @@
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
-                            data-bs-placement="left" aria-label="Total active subscription"
-                            data-bs-original-title="Total active subscription">
+                            data-bs-placement="left"
+                            data-bs-original-title="Total project completed">
                         </em>
                     </div>
                 </div>
@@ -79,8 +79,8 @@
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
-                            data-bs-placement="left" aria-label="Total active subscription"
-                            data-bs-original-title="Total active subscription">
+                            data-bs-placement="left"
+                            data-bs-original-title="Total earning">
                         </em>
                     </div>
                 </div>

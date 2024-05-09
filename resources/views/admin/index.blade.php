@@ -4,10 +4,9 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Welcome, {{auth()->user()->name}}</h3>
+                <h3 class="nk-block-title page-title">{{ __('dashboard.welcome') }}, {{auth()->user()->name}}</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Welcome to AsiaDealHub Dashboard, your one-stop dashboard to monitor all activity of AsiaDealHub
-                        system</p>
+                    <p>{{__('dashboard.welcome_subtitle')}}</p>
                 </div>
             </div>
         </div>
@@ -20,8 +19,7 @@
                         <h6 class="title">Total Projects</h6>
                     </div>
                     <div class="card-tools">
-                        <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left"
-                            aria-label="Total active subscription" data-bs-original-title="Total number project">
+                        <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Total number project">
                         </em>
                     </div>
                 </div>
@@ -51,7 +49,7 @@
             <div class="card card-bordered p-4">
                 <div class="card-title-group align-start mb-2">
                     <div class="card-title">
-                        <h6 class="title">LinkedIn Experts</h6>
+                        <h6 class="title">Imported Experts</h6>
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left"
@@ -164,7 +162,7 @@
                                 <h6 class="title">Latest Registered Users</h6>
                             </div>
                             <div class="card-tools">
-                                <a href="{{route('admin.users.index')}}" class="link">View All</a>
+                                <a href="{{route('admin.users-expert.index')}}" class="link">View All</a>
                             </div>
                         </div>
                     </div>

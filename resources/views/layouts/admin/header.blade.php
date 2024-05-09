@@ -16,74 +16,47 @@
                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="quick-icon border border-light">
-                                <img class="icon" src="/images/flags/english-sq.png" alt="">
+                                <img class="icon" src="/images/locale_flag/{{auth()->user()->language}}.png" alt="">
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
                             <ul class="language-list">
                                 <li>
-                                    <a href="#" class="language-item">
-                                        <img src="/images/flags/english.png" alt="" class="language-flag">
-                                        <span class="language-name">English</span>
+                                    <a href="#" class="language-item" lang="en">
+                                        <span class="language-name">🇺🇸 English</span>
                                     </a>
                                 </li>
-{{--                                <li>--}}
-{{--                                    <a href="#" class="language-item">--}}
-{{--                                        <img src="/images/flags/spanish.png" alt="" class="language-flag">--}}
-{{--                                        <span class="language-name">Español</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a href="#" class="language-item">--}}
-{{--                                        <img src="/images/flags/french.png" alt="" class="language-flag">--}}
-{{--                                        <span class="language-name">Français</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a href="#" class="language-item">--}}
-{{--                                        <img src="/images/flags/turkey.png" alt="" class="language-flag">--}}
-{{--                                        <span class="language-name">Türkçe</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                <li>
+                                    <a href="#" class="language-item" lang="zh">
+                                        <span class="language-name">🇨🇳 中文</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="language-item" lang="ja">
+                                        <span class="language-name">🇯🇵 日本語</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="language-item" lang="ms">
+                                        <span class="language-name">🇲🇾 Bahasa Melayu</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="language-item" lang="ko">
+                                        <span class="language-name">🇰🇷 한국어</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
-                    </li><!-- .dropdown -->
-{{--                    <li class="dropdown notification-dropdown me-n1">--}}
-{{--                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">--}}
-{{--                            <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>--}}
-{{--                        </a>--}}
-{{--                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">--}}
-{{--                            <div class="dropdown-head">--}}
-{{--                                <span class="sub-title nk-dropdown-title">Notifications</span>--}}
-{{--                                <a href="#">Mark All as Read</a>--}}
-{{--                            </div>--}}
-{{--                            <div class="dropdown-body">--}}
-{{--                                <div class="nk-notification">--}}
-{{--                                    <div class="nk-notification-item dropdown-inner">--}}
-{{--                                        <div class="nk-notification-icon">--}}
-{{--                                            <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="nk-notification-content">--}}
-{{--                                            <div class="nk-notification-text">- <span></span></div>--}}
-{{--                                            <div class="nk-notification-time">- hrs ago</div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="dropdown-foot center">--}}
-{{--                                <a href="#">View All</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </li><!-- .dropdown -->--}}
-
+                    </li>
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <div class="user-toggle">
                                 <div class="user-avatar sm">
-                                    <em class="icon ni ni-user-alt"></em>
+                                    <img src="{{auth()->user()->user_avatar()}}" alt="">
                                 </div>
                                 <div class="user-info d-none d-md-block">
-                                    <div class="user-status text-capitalize">{{auth()->user()->getRoleNames()[0]}}</div>
+                                    <div class="user-status text-capitalize">{{auth()->user()->role}}</div>
                                     <div class="user-name dropdown-indicator">{{auth()->user()->name}}</div>
                                 </div>
                             </div>
@@ -92,7 +65,7 @@
                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                 <div class="user-card">
                                     <div class="user-avatar">
-                                        <span>AB</span>
+                                        <img src="{{auth()->user()->user_avatar()}}" alt="">
                                     </div>
                                     <div class="user-info">
                                         <span class="lead-text">{{auth()->user()->name}}</span>
@@ -103,7 +76,7 @@
                             <div class="dropdown-inner">
                                 <ul class="link-list">
                                     <li><a href="{{route('admin.account.index')}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                    <li><a href="{{route('admin.account.activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                    <li><a href="{{route('admin.account.show','activity')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                     <li class="d-flex justify-between">
                                         <a><em class="icon ni ni-moon"></em><span>Dark Mode</span></a>
                                         <div class="custom-control custom-switch justify-center tw-mt-2">
@@ -143,5 +116,20 @@
             }
         });
 
+        $('.language-item').on('click', function (e) {
+            e.preventDefault();
+            let language = $(this).attr('lang');
+            $.ajax({
+                url: '{{route('admin.account.language')}}',
+                type: 'POST',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    language: language
+                },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
     </script>
 @endpush

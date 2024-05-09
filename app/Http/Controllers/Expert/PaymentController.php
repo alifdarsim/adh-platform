@@ -6,16 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\PaymentExpert;
 use App\Models\ProjectExpert;
 use App\Models\Projects;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
 
     public function index()
     {
-        $project_expert_ids = ProjectExpert::where('expert_id', auth()->id())->pluck('project_id');
-        $projects = PaymentExpert::whereIn('project_expert_id', $project_expert_ids)->get()->load('project');
-        $projects = $projects->filter(function ($project) {
+        $project_expert_ids = ProjectExpert::where('expert_id', auth()->user()->expert->id)->pluck('project_id');
+        $payments = PaymentExpert::whereIn('project_expert_id', $project_expert_ids)->get()->load('project');
+//        return $payments;
+        $projects = $payments->filter(function ($project) {
             if ($project->payment !== null && $project->payment->confirm === 1) {
                 return $project;
             }

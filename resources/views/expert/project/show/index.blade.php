@@ -1,6 +1,6 @@
 @extends('layouts.user.main')
 @section('content')
-
+    @php($contract = $project_expert->contract->where('project_expert_id', $project_expert->id)->first())
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
@@ -10,12 +10,25 @@
         </div>
     </div>
     <div class="nk-block">
-        @include('status.index')
+
+        @if(auth()->user()->assessment == null)
+            <div class="alert alert-fill bg-warning-dim border alert-icon">
+                <em class="icon ni ni-alert-circle"></em>
+                <p class="mb-1"> You have not take an expert assessment yet. You need to complete the expert assessment to be able to apply for any project.</p>
+                <div class="d-flex">
+                    <a href="{{route('expert.assessment.index')}}" class="btn btn-info">Expert Assessment</a>
+                </div>
+            </div>
+        @endif
 
         @if($project_expert->status == 'shortlisted')
             @include('expert.project.show.shortlist')
         @elseif ($project_expert->status == 'ongoing')
-            @include('expert.project.show.award')
+            @if ($contract->status == 'approved')
+                @include('expert.project.show.contract')
+            @else
+                @include('expert.project.show.start')
+            @endif
         @endif
 {{--        @if ($project->status == 'shortlisted')--}}
 {{--            @include('expert.project.show.shortlist')--}}
@@ -26,7 +39,6 @@
 {{--        @elseif($project->status == 'contract')--}}
 {{--            @include('expert.project.show.contract')--}}
 {{--        @elseif($project->status == 'started')--}}
-{{--            @include('expert.project.show.start')--}}
 {{--        @endif--}}
 
         @include('admin.projects.show.show-detail')

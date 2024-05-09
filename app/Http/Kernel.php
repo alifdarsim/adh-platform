@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'set.timezone' => \App\Http\Middleware\SetUserTimezone::class,
+        'set.locale' => \App\Http\Middleware\SetUserLocale::class,
     ];
 }

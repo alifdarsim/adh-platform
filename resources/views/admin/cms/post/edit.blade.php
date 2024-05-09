@@ -7,7 +7,7 @@
             plugins: [
                 "advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor",
                 "searchreplace", "visualblocks", "code", "fullscreen",
-                "insertdatetime", "media", "table",
+                "insertdatetime", "media", "table"
             ],
             promotion: false,
             toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
@@ -31,8 +31,6 @@
 
     <div class="nk-block">
         <div class="row g-gs">
-
-
             <div class="col-lg-4">
                 <div class="card card-bordered">
                     <div class="card-inner" id="side-post">
