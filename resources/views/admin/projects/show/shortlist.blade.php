@@ -181,9 +181,10 @@
                 {
                     data: 'expert',
                     render: function (data, type, row) {
+                        if (!((row.img).includes('https'))) row.img = '../..' + row.img;
                         return `<div class="user-card">
                             <div class="user-avatar bg-dim-primary d-flex position-relative !tw-w-12 !tw-h-12 !tw-rounded-lg !tw-bg-slate-300">
-                                <span>${row.img ? `<img class="!tw-rounded-lg" src="../..${row.img}" alt="">` : `<img class="!tw-rounded-lg p-2" src="/images/svg/avatar.svg" alt="">`}
+                                <span>${row.img ? `<img class="!tw-rounded-lg" src="${row.img}" alt="">` : `<img class="!tw-rounded-lg p-2" src="/images/svg/avatar.svg" alt="">`}
                                 ${row.registered ? `<i class="fa-solid fa-badge-check fs-18px text-info position-absolute tw-top-0 translate-middle"></i>` : ''}
                                 </span>
                             </div>

@@ -34,7 +34,7 @@ class SocialLoginController extends Controller
         }
         $this->userDetails($user, $user_type, session()->get('timezone'));
         $this->updateUserAvatar($user, $driver);
-        return redirect()->route($user_type == 'client' ? 'client.overview' : 'expert.overview');
+        return redirect()->route($user_type == 'client' ? 'client.overview.index' : 'expert.overview.index');
     }
 
     public function updateUserAvatar($user, $provider){
@@ -42,9 +42,9 @@ class SocialLoginController extends Controller
         $_user = User::where('email', $user->email)->first();
         if ($user) {
             if ($provider == 'google') {
-                $_user->google_avatar = $user->avatar;
+                if ($_user->avatar_path == null) $_user->avatar_path = $user->avatar;
             } else if ($provider == 'linkedin-openid') {
-                $_user->linkedin_avatar = $user->avatar_original;
+                if ($_user->avatar_path == null) $_user->avatar_path = $user->avatar_original;
             }
             $_user->save();
         }

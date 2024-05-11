@@ -20,8 +20,7 @@ class LoginController extends Controller
                 return redirect()->route('admin.overview.index');
             }
             $route = $type == 'expert' ? 'expert.overview.index' : 'client.overview.index';
-            dd($route);
-//            return redirect()->route($route);
+            return redirect()->route($route);
         }
         if ($type == 'expert') {
             return view('auth.login-expert');

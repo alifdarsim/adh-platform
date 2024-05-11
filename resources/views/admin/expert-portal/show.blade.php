@@ -23,7 +23,7 @@
                             <div class="col-3">
                                 <div class="user-card user-card-s2 pt-0 pb-0">
                                     <div class="user-avatar lg bg-light !tw-rounded-lg !tw-w-32 !tw-h-32 ">
-                                        <img class=" !tw-w-32 !tw-h-32 !tw-rounded-lg !tw-bg-slate-200" src="../..{{$expert_user->img_url ?? '/images/svg/avatar.svg'}}" alt="" id="avatar">
+                                        <img class=" !tw-w-32 !tw-h-32 !tw-rounded-lg !tw-bg-slate-200" src="{{str_contains($expert_user->img_url, 'https') ? $expert_user->img_url : $expert_user->img_url ?? '/images/svg/avatar.svg' }}" alt="" id="avatar">
                                     </div>
                                     <div class="mt-2">
                                         <div class="badge badge-sm rounded-pill {{$expert_user->registered_at ? 'bg-info' : 'bg-danger'}} mb-2" id="registered"><i class="fa-sharp fa-solid {{$expert_user->registered_at ? 'fa-badge-check' : 'fa-circle-xmark'}} tw-mt-1 me-1"></i> {{$expert_user->registered_at ? 'REGISTERED USER' : 'NOT REGISTER'}}</div>
