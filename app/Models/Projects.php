@@ -31,6 +31,7 @@ class Projects extends Model
         'deadline' => 'datetime:Y-m-d H:i:s',
         'published_at' => 'datetime:Y-m-d H:i:s',
     ];
+
     protected $hidden = ['id'];
 
     public function getActivitylogOptions(): LogOptions
@@ -40,7 +41,7 @@ class Projects extends Model
 
     public function targetCountries(): BelongsToMany
     {
-        return $this->belongsToMany(Country::class, 'project_target_country', 'project_id', 'country_id')->select(['name', 'emoji']);
+        return $this->belongsToMany(Country::class, 'project_target_country', 'project_id', 'country_id');
     }
 
     public function projectTargetInfo(): Model|HasOne

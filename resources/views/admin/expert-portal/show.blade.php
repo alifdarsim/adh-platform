@@ -105,9 +105,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#tabHistoryComplete">Completed Project</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#tabPayment">Preferred Payment</a>
-                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane" id="tabHistoryOngoing">
@@ -145,30 +142,6 @@
                                             <tbody>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabPayment">
-                                <div class="nk-block">
-                                    <h6 class="lead-text mb-3">Expert Chosen Payment Method</h6>
-                                    <div class="row g-3">
-                                        <div class="col-xl-12 col-xxl-6">
-                                            <div class="card card-bordered">
-                                                <div class="card-inner py-1">
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <span class="lead-text"><span class="text-soft ml-1">Direct Transfer: </span>OCBC Bank</span>
-                                                                <span class="lead-text"><span class="text-soft ml-1">Bank Account: </span>5818558552965</span>
-                                                            </div>
-                                                        </div>
-                                                        <ul class="btn-toolbar justify-center gx-1 me-n1 flex-nowrap">
-                                                            <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-copy"></em></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -298,167 +271,167 @@
             })
         }
 
-        {{--datatableInit('#datatable_project_ongoing', {--}}
-        {{--    ajax: '{{ route('admin.expert-portal.datatable_ongoing', '') }}/{{ $id }}',--}}
-        {{--    simpleTable: true,--}}
-        {{--    order: [--}}
-        {{--        [3, 'desc']--}}
-        {{--    ],--}}
-        {{--    columnDefs: [{--}}
-        {{--        "orderable": false,--}}
-        {{--        "targets": [0, 1, 2, 3]--}}
-        {{--    },--}}
-        {{--        {--}}
-        {{--            "className": "nk-tb-col",--}}
-        {{--            "targets": "_all"--}}
-        {{--        },--}}
-        {{--    ],--}}
-        {{--    pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,--}}
-        {{--    columns: [--}}
-        {{--        {--}}
-        {{--            data: 'project',--}}
-        {{--            render: function(data, type, row) {--}}
-        {{--                return `<div class="user-info">--}}
-        {{--                            <a href="{{ route('admin.projects.show', '') }}/${data.pid}" class="fs-14px text-info">${data.name}</a>--}}
-        {{--                            <span class="sub-text">ID: #${data.pid}</span>--}}
-        {{--                            <span class="sub-text">Expert Status: <span class="badge badge-xs ms-1 tw-w-18 center text-capitalize fw-bold bg-${row.status === 'ongoing' ? 'info' : 'secondary'}">${row.status}</span></span>--}}
-        {{--                         </div>`--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        {--}}
-        {{--            data: 'payment',--}}
-        {{--            render: function(data) {--}}
-        {{--                return `<div class="d-flex">--}}
-        {{--                    <div class="user-info">--}}
-        {{--                        <span class="sub-text">Status: <span class="badge tw-w-14 center badge-xs ms-1 text-capitalize fw-bold bg-${data && data.status ? (data.status === 'pending' ? 'warning' : 'success') : '-'}">${data && data.status ? data.status : '-'}</span></span>--}}
-        {{--                        <span class="sub-text py-1">Amount: <span class="tw-ms-1 fw-bold fs-13px">${data && data.amount ? data.amount : '-'}</span></span>--}}
-        {{--                        <span class="sub-text">Paid On: ${data && data.payment_date ? dayjs(data.payment_date).format('DD MMM YYYY') : '-' }</span>--}}
-        {{--                    </div>--}}
-        {{--                    <div class="ms-2">--}}
-        {{--                        <div>Invoice : <a target="_blank" href="../../${data && data.invoice_path ? data.invoice_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.invoice_path ? '' : 'disabled'}"><i class="fa-solid fa-file-invoice"></i></a></div>--}}
-        {{--                        <div class="mt-1">Receipt: <a href="../../${data && data.receipt_path ? data.receipt_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.receipt_path ? '' : 'disabled'}"><i class="fa-solid fa-receipt"></i></a></div>--}}
-        {{--                    </div>--}}
-        {{--                </div>`--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        {--}}
-        {{--            data: 'contract',--}}
-        {{--            "render": function(data, type, row) {--}}
-        {{--                console.log(data)--}}
-        {{--                let state1 = data.find(x => x.state === '1')--}}
-        {{--                let state2 = data.find(x => x.state === '2')--}}
-        {{--                let state3 = data.find(x => x.state === '3')--}}
-        {{--                console.log(state1)--}}
-        {{--                return `<div>--}}
-        {{--                        <div>Contract: <a href="../../${state1 && state1.filepath ? state1.filepath : '#'}" class="btn btn-sm bg-info text-white ${state1 && state1.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-contract"></i></a></div>--}}
-        {{--                        <div class="mt-1">Signed: <a href="../../${state2 && state2.filepath ? state2.filepath : '#'}" class="btn btn-sm bg-info text-white ${state2 && state2.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-signature"></i></a></div>--}}
-        {{--                        <div class="mt-1">Verified: <a href="../../${state3 && state3.filepath ? state3.filepath : '#'}" class="btn btn-sm bg-info text-white ${state3 && state3.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-check"></i></a></div>--}}
-        {{--                    </div>`;--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        {--}}
-        {{--            data: 'id',--}}
-        {{--            className: 'nk-tb-col-tools',--}}
-        {{--            render: function(data, type, row) {--}}
-        {{--                return `<ul class="nk-tb-actions gx-1">--}}
-        {{--                        <li>--}}
-        {{--                            <div class="drodown">--}}
-        {{--                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
-        {{--                                <div class="dropdown-menu dropdown-menu-end">--}}
-        {{--                                    <ul class="link-list-opt no-bdr">--}}
-        {{--                                        <li><a class="clickable" onclick="setPayment('${row.id}','${row.project.name}')"><i class="fa-regular fa-money-check-dollar fs-5 me-2"></i><span>Payment Details</span></a></li>--}}
-        {{--                                        <li><a class="clickable" onclick="setContract('${row.id}','${row.project.name}')"><i class="fa-regular fa-file-signature fs-6 me-2"></i><span>Contract Details</span></a></li>--}}
-        {{--                                        <li><a class="clickable" onclick="remove('${row.id}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>--}}
-        {{--                                    </ul>--}}
-        {{--                                </div>--}}
-        {{--                            </div>--}}
-        {{--                        </li>--}}
-        {{--                    </ul>`--}}
-        {{--            },--}}
-        {{--        },--}}
-        {{--    ]--}}
-        {{--});--}}
+        datatableInit('#datatable_project_ongoing', {
+            ajax: '{{ route('admin.expert-portal.datatable_ongoing', $expert_user->id) }}',
+            simpleTable: true,
+            order: [
+                [3, 'desc']
+            ],
+            columnDefs: [{
+                "orderable": false,
+                "targets": [0, 1, 2, 3]
+            },
+                {
+                    "className": "nk-tb-col",
+                    "targets": "_all"
+                },
+            ],
+            pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
+            columns: [
+                {
+                    data: 'project',
+                    render: function(data, type, row) {
+                        return `<div class="user-info">
+                                    <a href="{{ route('admin.projects.show', '') }}/${data.pid}" class="fs-14px text-info">${data.name}</a>
+                                    <span class="sub-text">ID: #${data.pid}</span>
+                                    <span class="sub-text">Expert Status: <span class="badge badge-xs ms-1 tw-w-18 center text-capitalize fw-bold bg-${row.status === 'ongoing' ? 'info' : 'secondary'}">${row.status}</span></span>
+                                 </div>`
+                    }
+                },
+                {
+                    data: 'payment',
+                    render: function(data) {
+                        return `<div class="d-flex">
+                            <div class="user-info">
+                                <span class="sub-text">Status: <span class="badge tw-w-14 center badge-xs ms-1 text-capitalize fw-bold bg-${data && data.status ? (data.status === 'pending' ? 'warning' : 'success') : '-'}">${data && data.status ? data.status : '-'}</span></span>
+                                <span class="sub-text py-1">Amount: <span class="tw-ms-1 fw-bold fs-13px">${data && data.amount ? data.amount : '-'}</span></span>
+                                <span class="sub-text">Paid On: ${data && data.payment_date ? dayjs(data.payment_date).format('DD MMM YYYY') : '-' }</span>
+                            </div>
+                            <div class="ms-2">
+                                <div>Invoice : <a target="_blank" href="../../${data && data.invoice_path ? data.invoice_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.invoice_path ? '' : 'disabled'}"><i class="fa-solid fa-file-invoice"></i></a></div>
+                                <div class="mt-1">Receipt: <a href="../../${data && data.receipt_path ? data.receipt_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.receipt_path ? '' : 'disabled'}"><i class="fa-solid fa-receipt"></i></a></div>
+                            </div>
+                        </div>`
+                    }
+                },
+                {
+                    data: 'contract',
+                    "render": function(data, type, row) {
+                        console.log(data)
+                        let state1 = data.find(x => x.state === '1')
+                        let state2 = data.find(x => x.state === '2')
+                        let state3 = data.find(x => x.state === '3')
+                        console.log(state1)
+                        return `<div>
+                                <div>Contract: <a href="../../${state1 && state1.filepath ? state1.filepath : '#'}" class="btn btn-sm bg-info text-white ${state1 && state1.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-contract"></i></a></div>
+                                <div class="mt-1">Signed: <a href="../../${state2 && state2.filepath ? state2.filepath : '#'}" class="btn btn-sm bg-info text-white ${state2 && state2.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-signature"></i></a></div>
+                                <div class="mt-1">Verified: <a href="../../${state3 && state3.filepath ? state3.filepath : '#'}" class="btn btn-sm bg-info text-white ${state3 && state3.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-check"></i></a></div>
+                            </div>`;
+                    }
+                },
+                {
+                    data: 'id',
+                    className: 'nk-tb-col-tools',
+                    render: function(data, type, row) {
+                        return `<ul class="nk-tb-actions gx-1">
+                                <li>
+                                    <div class="drodown">
+                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li><a class="clickable" onclick="setPayment('${row.id}','${row.project.name}')"><i class="fa-regular fa-money-check-dollar fs-5 me-2"></i><span>Payment Details</span></a></li>
+                                                <li><a class="clickable" onclick="setContract('${row.id}','${row.project.name}')"><i class="fa-regular fa-file-signature fs-6 me-2"></i><span>Contract Details</span></a></li>
+                                                <li><a class="clickable" onclick="remove('${row.id}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>`
+                    },
+                },
+            ]
+        });
 
-        {{--datatableInit('#datatable_project_complete', {--}}
-        {{--    ajax: '{{ route('admin.expert-portal.datatable_complete', '') }}/{{ $id }}',--}}
-        {{--    simpleTable: true,--}}
-        {{--    order: [--}}
-        {{--        [3, 'desc']--}}
-        {{--    ],--}}
-        {{--    columnDefs: [{--}}
-        {{--        "orderable": false,--}}
-        {{--        "targets": [0, 1, 2, 3]--}}
-        {{--    },--}}
-        {{--        {--}}
-        {{--            "className": "nk-tb-col",--}}
-        {{--            "targets": "_all"--}}
-        {{--        },--}}
-        {{--    ],--}}
-        {{--    pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,--}}
-        {{--    columns: [--}}
-        {{--        {--}}
-        {{--            data: 'project',--}}
-        {{--            render: function(data, type, row) {--}}
-        {{--                return `<div class="user-info">--}}
-        {{--                            <a href="{{ route('admin.projects.show', '') }}/${data.pid}" class="fs-14px text-info">${data.name}</a>--}}
-        {{--                            <span class="sub-text">ID: #${data.pid}</span>--}}
-        {{--                            <span class="sub-text">Status: <span class="badge badge-xs ms-1 tw-w-18 center text-capitalize fw-bold bg-${row.status === 'completed' ? 'success' : 'secondary'}">${row.status}</span></span>--}}
-        {{--                         </div>`--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        {--}}
-        {{--            data: 'payment',--}}
-        {{--            render: function(data,type, row) {--}}
-        {{--                return `<div class="d-flex">--}}
-        {{--                    <div class="user-info">--}}
-        {{--                        <span class="sub-text">Status: <span class="badge tw-w-14 center badge-xs ms-1 text-capitalize fw-bold bg-${data && data.status ? (data.status === 'pending' ? 'warning' : 'success') : '-'}">${data && data.status ? data.status : '-'}</span></span>--}}
-        {{--                        <span class="sub-text py-1">Amount: <span class="tw-ms-1 fw-bold fs-13px">${data && data.amount ? data.amount : '-'}</span></span>--}}
-        {{--                        <span class="sub-text">Paid On: ${data && data.payment_date ? dayjs(data.payment_date).format('DD MMM YYYY') : '-' }</span>--}}
-        {{--                    </div>--}}
-        {{--                    <div class="ms-2">--}}
-        {{--                        <div>Invoice : <a target="_blank" href="../../${data && data.invoice_path ? data.invoice_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.invoice_path ? '' : 'disabled'}"><i class="fa-solid fa-file-invoice"></i></a></div>--}}
-        {{--                        <div class="mt-1">Receipt: <a href="../../${data && data.receipt_path ? data.receipt_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.receipt_path ? '' : 'disabled'}"><i class="fa-solid fa-receipt"></i></a></div>--}}
-        {{--                    </div>--}}
-        {{--                </div>`--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        {--}}
-        {{--            data: 'contract',--}}
-        {{--            "render": function(data, type, row) {--}}
-        {{--                console.log(data)--}}
-        {{--                let state1 = data.find(x => x.state === '1')--}}
-        {{--                let state2 = data.find(x => x.state === '2')--}}
-        {{--                let state3 = data.find(x => x.state === '3')--}}
-        {{--                console.log(state1)--}}
-        {{--                return `<div>--}}
-        {{--                        <div>Contract: <a href="../../${state1 && state1.filepath ? state1.filepath : '#'}" class="btn btn-sm bg-info text-white ${state1 && state1.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-contract"></i></a></div>--}}
-        {{--                        <div class="mt-1">Signed: <a href="../../${state2 && state2.filepath ? state2.filepath : '#'}" class="btn btn-sm bg-info text-white ${state2 && state2.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-signature"></i></a></div>--}}
-        {{--                        <div class="mt-1">Verified: <a href="../../${state3 && state3.filepath ? state3.filepath : '#'}" class="btn btn-sm bg-info text-white ${state3 && state3.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-check"></i></a></div>--}}
-        {{--                    </div>`;--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        {--}}
-        {{--            data: 'id',--}}
-        {{--            className: 'nk-tb-col-tools',--}}
-        {{--            render: function(data, type, row) {--}}
-        {{--                return `<ul class="nk-tb-actions gx-1">--}}
-        {{--                        <li>--}}
-        {{--                            <div class="drodown">--}}
-        {{--                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>--}}
-        {{--                                <div class="dropdown-menu dropdown-menu-end">--}}
-        {{--                                    <ul class="link-list-opt no-bdr">--}}
-        {{--                                        <li><a class="clickable" onclick="setPayment('${row.id}','${row.project.name}')"><i class="fa-regular fa-money-check-dollar fs-5 me-2"></i><span>Payment Details</span></a></li>--}}
-        {{--                                        <li><a class="clickable" onclick="setContract('${row.id}','${row.project.name}')"><i class="fa-regular fa-file-signature fs-6 me-2"></i><span>Contract Details</span></a></li>--}}
-        {{--                                        <li><a class="clickable" onclick="remove('${row.id}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>--}}
-        {{--                                    </ul>--}}
-        {{--                                </div>--}}
-        {{--                            </div>--}}
-        {{--                        </li>--}}
-        {{--                    </ul>`--}}
-        {{--            },--}}
-        {{--        },--}}
-        {{--    ]--}}
-        {{--});--}}
+        datatableInit('#datatable_project_complete', {
+            ajax: '{{ route('admin.expert-portal.datatable_complete', $expert_user->id) }}',
+            simpleTable: true,
+            order: [
+                [3, 'desc']
+            ],
+            columnDefs: [{
+                "orderable": false,
+                "targets": [0, 1, 2, 3]
+            },
+                {
+                    "className": "nk-tb-col",
+                    "targets": "_all"
+                },
+            ],
+            pageLength: localStorage.getItem(window.location.pathname + '_pagination') || 10,
+            columns: [
+                {
+                    data: 'project',
+                    render: function(data, type, row) {
+                        return `<div class="user-info">
+                                    <a href="{{ route('admin.projects.show', '') }}/${data.pid}" class="fs-14px text-info">${data.name}</a>
+                                    <span class="sub-text">ID: #${data.pid}</span>
+                                    <span class="sub-text">Status: <span class="badge badge-xs ms-1 tw-w-18 center text-capitalize fw-bold bg-${row.status === 'completed' ? 'success' : 'secondary'}">${row.status}</span></span>
+                                 </div>`
+                    }
+                },
+                {
+                    data: 'payment',
+                    render: function(data,type, row) {
+                        return `<div class="d-flex">
+                            <div class="user-info">
+                                <span class="sub-text">Status: <span class="badge tw-w-14 center badge-xs ms-1 text-capitalize fw-bold bg-${data && data.status ? (data.status === 'pending' ? 'warning' : 'success') : '-'}">${data && data.status ? data.status : '-'}</span></span>
+                                <span class="sub-text py-1">Amount: <span class="tw-ms-1 fw-bold fs-13px">${data && data.amount ? data.amount : '-'}</span></span>
+                                <span class="sub-text">Paid On: ${data && data.payment_date ? dayjs(data.payment_date).format('DD MMM YYYY') : '-' }</span>
+                            </div>
+                            <div class="ms-2">
+                                <div>Invoice : <a target="_blank" href="../../${data && data.invoice_path ? data.invoice_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.invoice_path ? '' : 'disabled'}"><i class="fa-solid fa-file-invoice"></i></a></div>
+                                <div class="mt-1">Receipt: <a href="../../${data && data.receipt_path ? data.receipt_path : '#'}" class="btn btn-sm bg-info text-white ${data && data.receipt_path ? '' : 'disabled'}"><i class="fa-solid fa-receipt"></i></a></div>
+                            </div>
+                        </div>`
+                    }
+                },
+                {
+                    data: 'contract',
+                    "render": function(data, type, row) {
+                        console.log(data)
+                        let state1 = data.find(x => x.state === '1')
+                        let state2 = data.find(x => x.state === '2')
+                        let state3 = data.find(x => x.state === '3')
+                        console.log(state1)
+                        return `<div>
+                                <div>Contract: <a href="../../${state1 && state1.filepath ? state1.filepath : '#'}" class="btn btn-sm bg-info text-white ${state1 && state1.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-contract"></i></a></div>
+                                <div class="mt-1">Signed: <a href="../../${state2 && state2.filepath ? state2.filepath : '#'}" class="btn btn-sm bg-info text-white ${state2 && state2.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-signature"></i></a></div>
+                                <div class="mt-1">Verified: <a href="../../${state3 && state3.filepath ? state3.filepath : '#'}" class="btn btn-sm bg-info text-white ${state3 && state3.filepath ? '' : 'disabled'}"><i class="fa-solid fa-file-check"></i></a></div>
+                            </div>`;
+                    }
+                },
+                {
+                    data: 'id',
+                    className: 'nk-tb-col-tools',
+                    render: function(data, type, row) {
+                        return `<ul class="nk-tb-actions gx-1">
+                                <li>
+                                    <div class="drodown">
+                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li><a class="clickable" onclick="setPayment('${row.id}','${row.project.name}')"><i class="fa-regular fa-money-check-dollar fs-5 me-2"></i><span>Payment Details</span></a></li>
+                                                <li><a class="clickable" onclick="setContract('${row.id}','${row.project.name}')"><i class="fa-regular fa-file-signature fs-6 me-2"></i><span>Contract Details</span></a></li>
+                                                <li><a class="clickable" onclick="remove('${row.id}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>`
+                    },
+                },
+            ]
+        });
 
 
         {{--$.ajax({--}}

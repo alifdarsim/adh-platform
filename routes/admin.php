@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\IndustryClassificationController;
 use App\Http\Controllers\Admin\OverviewController as AdminOverviewController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\TermsPolicyEditor;
-use App\Http\Controllers\Admin\ProjectsController as AdminProjectsController;
+use App\Http\Controllers\Admin\ProjectsController;
 use App\Http\Controllers\Admin\RefererController;
 use App\Http\Controllers\Admin\UsersClientController;
 use App\Http\Controllers\Admin\UsersExpertController;
@@ -30,33 +30,34 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
     });
 
     Route::group(["prefix" => "projects"], function () {
-        Route::get('/datatable', [AdminProjectsController::class, 'datatable'])->name('admin.projects.datatable');
-        Route::get('/{pid}/datatable-expert', [AdminProjectsController::class, 'datatable_expert'])->name('admin.projects.datatable_expert');
-        Route::post('/{pid}/award-expert', [AdminProjectsController::class, 'award_expert'])->name('admin.projects.award-expert');
-        Route::post('/force-accept/{project_id}/{expert_id}', [AdminProjectsController::class, 'force_accept'])->name('admin.projects.force-accept');
-        Route::post('/award/{project_id}/{expert_id}', [AdminProjectsController::class, 'award'])->name('admin.projects.award');
-        Route::post('/payment/{project_id}/{expert_id}', [AdminProjectsController::class, 'setPayment'])->name('admin.projects.set-payment');
+        Route::get('/datatable', [ProjectsController::class, 'datatable'])->name('admin.projects.datatable');
+        Route::get('/{pid}/datatable-expert', [ProjectsController::class, 'datatable_expert'])->name('admin.projects.datatable_expert');
+        Route::post('/{pid}/award-expert', [ProjectsController::class, 'award_expert'])->name('admin.projects.award-expert');
+        Route::post('/force-accept/{project_id}/{expert_id}', [ProjectsController::class, 'force_accept'])->name('admin.projects.force-accept');
+        Route::post('/award/{project_id}/{expert_id}', [ProjectsController::class, 'award'])->name('admin.projects.award');
+        Route::post('/payment/{project_id}/{expert_id}', [ProjectsController::class, 'setPayment'])->name('admin.projects.set-payment');
 
-        Route::delete('/{pid}/{id}', [AdminProjectsController::class, 'expert_remove'])->name('admin.projects.remove-expert');
+        Route::delete('/{pid}/{id}', [ProjectsController::class, 'expert_remove'])->name('admin.projects.remove-expert');
 
-        Route::post('/add-expert', [AdminProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
-        Route::get('/invite-expert/{project_id}/{expert_id}', [AdminProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
-        Route::get('/invite-expert-all/{project_id}', [AdminProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
-        Route::post('/respond/{pid}', [AdminProjectsController::class, 'respond'])->name('admin.projects.respond');
-        Route::put('/close/{pid}', [AdminProjectsController::class, 'close'])->name('admin.projects.close');
-        Route::put('/reset/{pid}', [AdminProjectsController::class, 'reset'])->name('admin.projects.reset');
-        Route::put('/payment/{pid}', [AdminProjectsController::class, 'payment'])->name('admin.projects.payment');
-        Route::post('/payment/{pid}', [AdminProjectsController::class, 'payment_amount'])->name('admin.projects.payment_amount');
-        Route::put('/start/{pid}', [AdminProjectsController::class, 'start'])->name('admin.projects.start');
+        Route::post('/add-expert', [ProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
+        Route::get('/invite-expert/{project_id}/{expert_id}', [ProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
+        Route::get('/invite-expert-all/{project_id}', [ProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
+        Route::post('/respond/{pid}', [ProjectsController::class, 'respond'])->name('admin.projects.respond');
+        Route::put('/close/{pid}', [ProjectsController::class, 'close'])->name('admin.projects.close');
+        Route::put('/remove/{pid}', [ProjectsController::class, 'remove'])->name('admin.projects.remove');
+        Route::put('/reset/{pid}', [ProjectsController::class, 'reset'])->name('admin.projects.reset');
+        Route::put('/payment/{pid}', [ProjectsController::class, 'payment'])->name('admin.projects.payment');
+        Route::post('/payment/{pid}', [ProjectsController::class, 'payment_amount'])->name('admin.projects.payment_amount');
+        Route::put('/start/{pid}', [ProjectsController::class, 'start'])->name('admin.projects.start');
 
         // show project
-        Route::get('/', [AdminProjectsController::class, 'index'])->name('admin.projects.index');
-        Route::get('/create', [AdminProjectsController::class, 'create'])->name('admin.projects.create');
-        Route::post('/', [AdminProjectsController::class, 'store'])->name('admin.projects.store');
-        Route::get('/{pid}', [AdminProjectsController::class, 'show'])->name('admin.projects.show');
-        Route::get('/edit/{pid}', [AdminProjectsController::class, 'edit'])->name('admin.projects.edit');
-        Route::patch('/{id}', [AdminProjectsController::class, 'update'])->name('admin.projects.update');
-        Route::delete('/{id}', [AdminProjectsController::class, 'destroy'])->name('admin.projects.destroy');
+        Route::get('/', [ProjectsController::class, 'index'])->name('admin.projects.index');
+        Route::get('/create', [ProjectsController::class, 'create'])->name('admin.projects.create');
+        Route::post('/', [ProjectsController::class, 'store'])->name('admin.projects.store');
+        Route::get('/{pid}', [ProjectsController::class, 'show'])->name('admin.projects.show');
+        Route::get('/edit/{pid}', [ProjectsController::class, 'edit'])->name('admin.projects.edit');
+        Route::patch('/{id}', [ProjectsController::class, 'update'])->name('admin.projects.update');
+        Route::delete('/{id}', [ProjectsController::class, 'destroy'])->name('admin.projects.destroy');
     });
 
         Route::group(["prefix" => "experts"], function () {
@@ -82,8 +83,6 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
         Route::post('/release', [PaymentController::class, 'release'])->name('admin.payment.release');
     });
 
-
-
     // Contract Routes
     Route::post('contract/change-signature', [ContractController::class, 'changeDefaultSignature'])->name('admin.contract.change_signature');
     Route::resource('contract', ContractController::class, ['names' => 'admin.contract']);
@@ -102,6 +101,10 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
     // User Expert Import Routes
     Route::post('expert-import/{id}/re-scrape', [ExpertImportController::class, 'reScrape'])->name('admin.expert-import.re-scrape');
     Route::resource('expert-import', ExpertImportController::class, ['names' => 'admin.expert-import']);
+
+    // Expert Portal Routes
+    Route::get('/datatableOngoing/{id}', [ExpertPortalController::class, 'datatableOngoing'])->name('admin.expert-portal.datatable_ongoing');
+    Route::get('/datatableComplete/{id}', [ExpertPortalController::class, 'datatableComplete'])->name('admin.expert-portal.datatable_complete');
     Route::resource('expert-portal', ExpertPortalController::class, ['names' => 'admin.expert-portal']);
 
 //    Route::group(["prefix" => "expert_portal"], function () {

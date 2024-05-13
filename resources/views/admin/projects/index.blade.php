@@ -210,8 +210,7 @@
             columns: [{
                     data: 'status',
                     render: function(data) {
-                        let color = data === 'pending' ? 'danger' : (data === 'shortlisted' ? 'info' : (
-                            data === 'awarded' ? 'success' : 'secondary'));
+                        let color = data === 'pending' ? 'danger' : (data === 'ongoing' ? 'info' : (data === 'closed' ? 'success' : 'secondary'));
                         return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color}">${data === 'active' ? 'Shortlisting' : data}</span>`;
                     }
                 },

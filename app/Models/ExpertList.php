@@ -30,4 +30,9 @@ class ExpertList extends Model implements HasMedia
         return $this->hasOne(IndustryExpert::class, 'id', 'industry_id');
     }
 
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'email', 'email');
+    }
+
 }

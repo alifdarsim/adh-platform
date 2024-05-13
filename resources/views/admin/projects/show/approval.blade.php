@@ -14,7 +14,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" style="">
                     <ul class="link-list-opt no-bdr">
-                        <li><a class="clickable" onclick="respond('shortlisted')"><em
+                        <li><a class="clickable" onclick="respond('ongoing')"><em
                                     class="d-none d-sm-inline icon ni ni-check"></em><span>Approve</span></a>
                         </li>
                         <li><a class="clickable" onclick="respond('reject')"><em

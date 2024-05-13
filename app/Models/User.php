@@ -117,15 +117,10 @@ class User extends Authenticatable implements HasMedia
 
     public function expert(): HasOne
     {
-        $exist = UserExpert::where('user_id', $this->id)->first();
+        $exist = ExpertList::where('email', $this->email)->first();
         if ($exist == null) {
-            UserExpert::create(['user_id' => $this->id,]);
+            ExpertList::create(['email' => $this->email]);
         }
-        return $this->hasOne(UserExpert::class, 'user_id', 'id');
-    }
-
-    public function expert_list(): HasOne
-    {
         return $this->hasOne(ExpertList::class, 'email', 'email');
     }
 

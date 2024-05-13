@@ -7,10 +7,10 @@ use App\Models\ContractExpert;
 use App\Models\Country;
 use App\Models\ExpertList;
 use App\Models\Hub;
+use App\Models\IndustryExpert;
 use App\Models\Keyword;
 use App\Models\PaymentExpert;
 use App\Models\ProjectExpert;
-use App\Models\ProjectPayment;
 use App\Models\Projects;
 use App\Models\User;
 use Carbon\Carbon;
@@ -28,7 +28,20 @@ class ProjectsController extends Controller
 
     public function create()
     {
-        return view('admin.projects.create',['hubs'=>Hub::all()]);
+        $hubs = Hub::all();
+        return view('admin.projects.create', compact('hubs'));
+    }
+
+    public function edit($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->targetCountries;
+        $project->projectTargetInfo;
+        $project->created_by = $project->createdBy;
+        $hubs = Hub::all();
+        $countries = Country::select('id', 'name', 'emoji')->get();
+        $industries = IndustryExpert::select('id', 'main', 'sub')->get();
+        return view('admin.projects.edit', compact('project', 'hubs', 'countries', 'industries'));
     }
 
     function generateUniqueID() {
@@ -164,7 +177,7 @@ class ProjectsController extends Controller
             ->addColumn('img', function ($shortlist) {
                 $user = User::where('email', $shortlist->email)->where('role', 'expert')->first();
                 if (!$user) return $shortlist->expert->img_url;
-                return $user->avatar_path ?? null;
+                return $user->avatar_path ?? $shortlist->expert->img_url;
             })
             ->addColumn('phone', function ($shortlist) {
                 $user = User::where('email', $shortlist->email)->where('role', 'expert')->first();
@@ -271,25 +284,15 @@ class ProjectsController extends Controller
         $id = Projects::where('pid',$pid)->first()->id;
         $project = Projects::find($id);
         $project->status = $status;
-        if ($status == 'shortlisted') {
+        if ($status == 'ongoing') {
             $project->published_at = Carbon::now();
             $project->handle_by = auth()->user()->id;
         }
         else if ($status == 'reject') $project->published_at = null;
         $project->save();
-        if ($status == 'active') return success('Project approved successfully');
-        else if ($status == 'reject') return success('Project is rejected');
+        if ($status == 'reject') return success('Project is rejected');
         else return success('Project Approve');
     }
-
-
-//    public function payment($pid)
-//    {
-//        $project = Projects::where('pid',$pid)->first();
-//        $project->status = 'payment';
-//        $project->save();
-//        return success('Project is complete, now you can make payment to the expert');
-//    }
 
     public function payment_amount($pid)
     {
@@ -342,6 +345,19 @@ class ProjectsController extends Controller
         $project->status = 'closed';
         $project->save();
         return success('Project closed successfully');
+    }
+
+    public function remove($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        // delete all related data
+        $project->projectTargetInfo()->delete();
+        $project->targetCountries()->detach();
+        $project->keywords()->detach();
+        $project->award()->delete();
+        $project->payment()->delete();
+        $project->delete();
+        return success('Project removed successfully');
     }
 
     public function add_expert(){

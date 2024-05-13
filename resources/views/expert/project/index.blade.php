@@ -5,7 +5,7 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Manage Your Projects</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Total projects:
+                    <p>Total projects that you have been invited to work on:
                         {{ $project_expert->count() }} projects</p>
                 </div>
             </div>

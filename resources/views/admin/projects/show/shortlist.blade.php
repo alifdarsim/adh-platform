@@ -181,6 +181,7 @@
                 {
                     data: 'expert',
                     render: function (data, type, row) {
+                        console.log(row.img)
                         if (!((row.img).includes('https'))) row.img = '../..' + row.img;
                         return `<div class="user-card">
                             <div class="user-avatar bg-dim-primary d-flex position-relative !tw-w-12 !tw-h-12 !tw-rounded-lg !tw-bg-slate-300">
@@ -245,11 +246,14 @@
                 },
                 {
                     data: 'contract',
-                    render: function (data, type, row) {
-                        console.log(data)
+                    render: function(data) {
                         if (!data.contract_id) return '-';
-                        return `<a class="badge bg-info tw-capitalize hover:tw-text-slate-200" href="{{route('admin.contract.show','')}}/${data.contract_id}" target="_blank">${data.status}</a>`;
-                        // return `<button class="btn btn-info btn-sm" onclick="view_contract('${data}')">View</button>`;
+                        data = data.status;
+                        let color = data === 'pending' ? 'warning' : data === 'approved' ? 'info' : data === 'submitted' ? 'success' : 'info';
+                        return `<span class="text-capitalize badge bg-${color}">
+                                    <i class="fa-solid fa-circle-check fs-7 me-1 my-auto"></i>
+                                    ${data === 'approved' ? 'Waiting Expert' : data === 'submitted' ? 'Signed' : data}
+                                </span>`;
                     }
                 },
                 {

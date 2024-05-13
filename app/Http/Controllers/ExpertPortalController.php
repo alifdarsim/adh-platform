@@ -7,7 +7,6 @@ use App\Models\ExpertLinkedInQueue;
 use App\Models\ExpertList;
 use App\Models\ProjectExpert;
 use App\Models\User;
-use App\Models\UserExpert;
 use Illuminate\Http\Request;
 
 class ExpertPortalController extends Controller
@@ -16,7 +15,7 @@ class ExpertPortalController extends Controller
     {
         $expert_user = $this->getExpertOrUserData($id);
 //        return $expert_user;
-        return view('admin.expert-portal.show', compact('expert_user'));
+        return view('admin.expert-portal.show', compact('expert_user', 'id'));
     }
 
     public function getExpertOrUserData($id)
@@ -24,11 +23,10 @@ class ExpertPortalController extends Controller
         $expert = ExpertList::find($id);
         $user = User::where('email', $expert->email)->first();
         if ($user) {
-//            $user->email = $expert->email;
-//            $user->name = $expert->name;
+            $user->id = $id;
             $user->phone = $user->phone_code  . $user->phone;
-            $user->industry_main = $user->expert->industry->main;
-            $user->industry_sub = $user->expert->industry->sub;
+            $user->industry_main = $user->expert->industry->main ?? null;
+            $user->industry_sub = $user->expert->industry->sub ?? null;
             $user->url = $user->expert->url;
             $user->country = $user->expert->country;
             $user->address = $user->expert->address;
@@ -54,14 +52,6 @@ class ExpertPortalController extends Controller
         return success('Expert updated successfully');
     }
 
-    public function getExpertDetails($id)
-    {
-        $expert = ExpertList::find($id);
-        // get user expert information
-        $user_expert = $this->UserExpertData($expert->email);
-        return $user_expert;
-    }
-
     public function datatableOngoing($id)
     {
         $datatable = $this->getProjectHistory(['ongoing'], $id);
@@ -84,26 +74,5 @@ class ExpertPortalController extends Controller
         $datatable = $this->getProjectHistory(['completed'], $id);
         return datatables()->of($datatable)
             ->make(true);
-    }
-
-    public function UserExpertData($email)
-    {
-        $user_expert = UserExpert::where('email', $email)->first();
-        $expert_list = ExpertList::where('email', $email)->first();
-        $data = new \stdClass();
-        if ($user_expert) {
-            $data->linked_url = $user_expert->url ?? $expert_list->url;
-            $data->about = $user_expert->about ?? $expert_list->about;
-            $data->img_url = $user_expert->img_url ?? $expert_list->img_url;
-            $data->country = $user_expert->country ?? $expert_list->country;
-            $data->industry = $user_expert->industry ?? $expert_list->industry;
-            $data->address = $user_expert->address ?? $expert_list->address;
-            $data->skills = $user_expert->skills ?? $expert_list->skills;
-            $data->languages = $user_expert->languages ?? $expert_list->languages;
-            $data->experiences = $user_expert->experiences ?? $expert_list->experiences;
-            return $data;
-        } else {
-            return null;
-        }
     }
 }

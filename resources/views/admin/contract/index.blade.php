@@ -218,7 +218,10 @@
                     data: 'status',
                     render: function(data) {
                         let color = data === 'pending' ? 'warning' : data === 'approved' ? 'info' : data === 'submitted' ? 'success' : 'info';
-                        return `<span class="text-capitalize badge bg-${color}">${data === 'approved' ? 'Waiting Expert' : data}</span>`;
+                        return `<span class="text-capitalize badge bg-${color}">
+                                    <i class="fa-solid fa-circle-check fs-7 me-1 my-auto"></i>
+                                    ${data === 'approved' ? 'Waiting Expert' : data === 'submitted' ? 'Signed' : data}
+                                </span>`;
                     }
                 },
                 {
