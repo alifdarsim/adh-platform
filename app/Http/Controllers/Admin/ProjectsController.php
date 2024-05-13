@@ -347,6 +347,14 @@ class ProjectsController extends Controller
         return success('Project closed successfully');
     }
 
+    public function reopen($pid)
+    {
+        $project = Projects::where('pid',$pid)->first();
+        $project->status = 'ongoing';
+        $project->save();
+        return success('Project reopened successfully');
+    }
+
     public function remove($pid)
     {
         $project = Projects::where('pid',$pid)->first();

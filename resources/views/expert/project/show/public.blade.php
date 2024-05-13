@@ -1,3 +1,3 @@
 <div>
-    Testing for public project info
+    Public project placeholder
 </div>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Expert;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProjectAnswer;
-use App\Models\ProjectInvited;
 use App\Models\ProjectExpert;
 use App\Models\Projects;
 use App\Models\UserReport;
@@ -15,8 +14,18 @@ class ProjectsController extends Controller
     public function index()
     {
         $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert->id)
+            ->whereIn('status', ['ongoing', 'complete'])
             ->get();
         return view('expert.project.index', compact('project_expert'));
+    }
+
+    public function invited()
+    {
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert->id)
+            ->where('status', null)
+            ->where('invited', 1)
+            ->get();
+        return view('expert.project.invited', compact('project_expert'));
     }
 
     public function public()
@@ -35,8 +44,33 @@ class ProjectsController extends Controller
 
     public function datatable()
     {
-        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert_list->id)
-//            ->where('status', '<>','shortlisted')
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert->id)
+            ->whereIn('status', ['ongoing', 'complete'])
+            ->get();
+        return datatables()->of($project_expert)
+            ->addColumn('project_name', function ($project_expert) {
+                return $project_expert->project->name;
+            })
+            ->addColumn('client', function ($project_expert) {
+                return $project_expert->project->company->name;
+            })
+            ->addColumn('deadline', function ($project_expert) {
+                return $project_expert->project->deadline;
+            })
+            ->addColumn('pid', function ($project_expert) {
+                return $project_expert->project->pid;
+            })
+            ->addColumn('status', function ($project_expert) {
+                return $project_expert->status;
+            })
+            ->make(true);
+    }
+
+    public function datatable_invited()
+    {
+        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert->id)
+            ->where('status', null)
+            ->where('invited', 1)
             ->get();
         return datatables()->of($project_expert)
             ->addColumn('project_name', function ($project_expert) {
@@ -80,17 +114,18 @@ class ProjectsController extends Controller
     }
 
     public function respond(){
-        $projects = Projects::where('pid', request('pid'))->first();
-        $respond = filter_var(request('respond'), FILTER_VALIDATE_BOOLEAN);;
-        $project_expert = ProjectInvited::where('project_id', $projects->id)->where('email', auth()->user()->email)->first();
+        $project_expert_id = request('project_expert_id');
+        $respond = request('respond');
+        if ($respond == 'accept') $respond = true;
+        else $respond = false;
+        $project_expert = ProjectExpert::where('id', $project_expert_id)->first();
         $project_expert->accepted = $respond;
         $project_expert->respond_at = now();
         $project_expert->save();
         if ($respond){
-            return success('You successfully shortlisted as potential expert to work on this project. You will receive an email and notification when the client award the project to you. <br><br>*To increase your chance in awarded for this project, make sure to answer the client enquiries.',
-                ['accepted' => true]);
+            return success('You have accepted the project invitation. You can now view the project details on the manage project page.', ['accepted' => true]);
         }
-        return success('Project #'.$projects->pid.' rejected successfully', ['accepted' => false]);
+        return success('Project declined successfully.', ['accepted' => false]);
     }
 
     public function report()
@@ -121,7 +156,7 @@ class ProjectsController extends Controller
         $project = Projects::where('pid', $pid)->first();
         if (!$project) return view('errors.not-exist');
         $project_expert = ProjectExpert::where('project_id', $project->id)
-            ->where('expert_id', auth()->user()->expert_list->id)
+            ->where('expert_id', auth()->user()->expert->id)
             ->first();
         if ($project_expert && $project_expert->status == 'shortlisted' && !$project_expert->project->public){
             return view('errors.uninvited');

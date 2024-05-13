@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_invited', function (Blueprint $table) {
+        Schema::create('project_answer', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedMediumInteger('project_id')->nullable()->index('project_id');
-            $table->string('email')->nullable();
-            $table->boolean('accepted')->nullable();
-            $table->timestamp('respond_at')->nullable();
-            $table->string('token')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
+            $table->json('answers')->nullable();
+            $table->json('confidence')->nullable();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_invited');
+        Schema::dropIfExists('project_answer');
     }
 };

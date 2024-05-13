@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('policy_editor', function (Blueprint $table) {
             $table->mediumIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
-            $table->string('method')->nullable();
-            $table->json('payment_info')->nullable();
+            $table->string('type', 50)->nullable();
+            $table->string('language', 10)->nullable();
+            $table->text('content')->nullable();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('policy_editor');
     }
 };

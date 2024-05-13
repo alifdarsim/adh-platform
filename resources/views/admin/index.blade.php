@@ -85,7 +85,7 @@
                     <div class="card-inner">
                         <div class="card-title-group">
                             <div class="card-title">
-                                <h6 class="title">Active Project & Status</h6>
+                                <h6 class="title">Latest Project & Status</h6>
                             </div>
                             <div class="card-tools">
                                 <a href="{{route('admin.projects.index')}}" class="link">View All</a>
@@ -96,9 +96,9 @@
                         <div class="card-inner card-inner-md">
                             <div class="user-card mx-auto center tw-items-center">
                                 <div class="user-info">
-                                        <span class="tw-text-slate-600 tw-items-center center mx-auto">
-                                            <span>You don't have any projects yet</span>
-                                        </span>
+                                    <span class="tw-text-slate-600 tw-items-center center mx-auto">
+                                        <span>You don't have any projects yet</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>

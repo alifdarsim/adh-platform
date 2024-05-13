@@ -21,7 +21,7 @@ class ContractController extends Controller
         $contracts = ContractExpert::where('status', '!=', 'pending')
             ->get()->load('project_expert.project', 'project_expert.expert');
         $contracts = $contracts->filter(function ($contract) {
-            return $contract->project_expert->expert_id == auth()->user()->expert_list->id;
+            return $contract->project_expert->expert_id == auth()->user()->expert->id;
         });
         return datatables()->of($contracts)->toJson();
     }

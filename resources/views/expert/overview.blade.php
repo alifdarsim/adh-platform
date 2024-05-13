@@ -11,36 +11,16 @@
         </div>
     </div>
     <div class="nk-block">
-        <div class="tw-grid tw-grid-cols-4 tw-gap-x-4">
+        <div class="tw-grid tw-grid-cols-3 tw-gap-x-4">
             <div class="card card-bordered p-4">
                 <div class="card-title-group align-start mb-2">
                     <div class="card-title">
-                        <h6 class="title">Current Shortlisted</h6>
+                        <h6 class="title">Ongoing Projects</h6>
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
                             data-bs-placement="left"
-                            data-bs-original-title="Current shortlisted project">
-                        </em>
-                    </div>
-                </div>
-                <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data">
-                        <span class="tw-text-4xl text-dark">
-                            {{$project_expert->where('status', 'shortlisted')->count()}}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="card card-bordered p-4">
-                <div class="card-title-group align-start mb-2">
-                    <div class="card-title">
-                        <h6 class="title">Current Awarded</h6>
-                    </div>
-                    <div class="card-tools">
-                        <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
-                            data-bs-placement="left"
-                            data-bs-original-title="Current awarded project">
+                            data-bs-original-title="Current ongoing project">
                         </em>
                     </div>
                 </div>
@@ -55,12 +35,12 @@
             <div class="card card-bordered p-4">
                 <div class="card-title-group align-start mb-2">
                     <div class="card-title">
-                        <h6 class="title">Completed Project</h6>
+                        <h6 class="title">Completed Projects</h6>
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
                             data-bs-placement="left"
-                            data-bs-original-title="Total project completed">
+                            data-bs-original-title="Current completed project">
                         </em>
                     </div>
                 </div>
@@ -75,17 +55,20 @@
             <div class="card card-bordered p-4">
                 <div class="card-title-group align-start mb-2">
                     <div class="card-title">
-                        <h6 class="title">Earning</h6>
+                        <h6 class="title">Total Projects</h6>
                     </div>
                     <div class="card-tools">
                         <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip"
                             data-bs-placement="left"
-                            data-bs-original-title="Total earning">
+                            data-bs-original-title="Total project completed">
                         </em>
                     </div>
                 </div>
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                    <div class="nk-sale-data"><span class="tw-text-4xl text-dark">$0</span>
+                    <div class="nk-sale-data">
+                        <span class="tw-text-4xl text-dark">
+                            {{$project_expert->whereIn('status', ['completed', 'ongoing'])->count()}}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -96,7 +79,7 @@
             <h5 class="nk-block-title">Expert Information</h5>
         </div>
         <div class="row g-gs">
-            <div class="col-lg-5">
+            <div class="col-lg-7">
                 <div class="card card-bordered card-full">
                     <div class="card-inner-group">
                         <div class="card-inner">
@@ -120,7 +103,7 @@
                                             </span>
                                         </a>
                                         <div class="user-action ms-1">
-                                            <div class="badge rounded-pill bg-{{$project->status == 'completed' ? 'success' : ($project->status == 'ongoing' ? 'secondary' : 'warning')}} badge-sm text-capitalize">
+                                            <div class="badge rounded-pill bg-{{$project->status == 'complete' ? 'success' : ($project->status == 'ongoing' ? 'warning' : 'secondary')}} badge-sm text-capitalize">
                                                 {{$project->status}}
                                             </div>
                                         </div>
@@ -141,50 +124,26 @@
                     </div>
                 </div>
             </div><!-- .col -->
-            <div class="col-lg col-sm-6">
-                <div class="card card-bordered h-100">
-                    <div class="card-inner border-bottom">
-                        <div class="card-title-group">
-                            <div class="card-title">
-                                <h6 class="title">Upcoming Meetings</h6>
-                            </div>
-                            <div class="card-tools">
-                                <a href="#" class="link">View All</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-inner">
-                        <span class="tw-text-slate-600 tw-items-center center mx-auto">
-                            <span>You don't have any schedule meeting</span>
-                        </span>
-{{--                        <div class="timeline">--}}
-{{--                            <ul class="timeline-list">--}}
-{{--                                <li class="timeline-item">--}}
-{{--                                    <div class="timeline-status bg-primary is-outline"></div>--}}
-{{--                                    <div class="timeline-date">--}}
-{{--                                        1 Jan 2024--}}
-{{--                                        <h6 class="timeline-title">Create IOT system for Mainframes</h6>--}}
-{{--                                        <div class="timeline-des">--}}
-{{--                                            <span class="time">09:30am</span>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </li>--}}
-{{--                                <li class="timeline-item">--}}
-{{--                                    <div class="timeline-status bg-primary is-outline"></div>--}}
-{{--                                    <div class="timeline-date">--}}
-{{--                                        1 Jan 2024--}}
-{{--                                        <h6 class="timeline-title">Create IOT system for Mainframes</h6>--}}
-{{--                                        <div class="timeline-des">--}}
-{{--                                            <span class="time">09:30am</span>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
+{{--            <div class="col-lg col-sm-6">--}}
+{{--                <div class="card card-bordered h-100">--}}
+{{--                    <div class="card-inner border-bottom">--}}
+{{--                        <div class="card-title-group">--}}
+{{--                            <div class="card-title">--}}
+{{--                                <h6 class="title">Upcoming Meetings</h6>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-tools">--}}
+{{--                                <a href="#" class="link">View All</a>--}}
+{{--                            </div>--}}
 {{--                        </div>--}}
-                    </div>
-                </div>
-            </div><!-- .col -->
-            <div class="col-lg col-sm-6">
+{{--                    </div>--}}
+{{--                    <div class="card-inner">--}}
+{{--                        <span class="tw-text-slate-600 tw-items-center center mx-auto">--}}
+{{--                            <span>You don't have any schedule meeting</span>--}}
+{{--                        </span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div><!-- .col -->--}}
+            <div class="col-lg col-sm-5">
                 <div class="card card-bordered h-100">
                     <div class="card-inner justify-center text-center h-100">
                         <div class="nk-iv-wg5">

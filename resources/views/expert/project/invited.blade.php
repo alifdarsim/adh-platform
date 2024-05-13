@@ -3,10 +3,9 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Manage Your Projects</h3>
+                <h3 class="nk-block-title page-title">Manage Invited Projects</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Total projects  to work on:
-                        {{ $project_expert->whereIn('status', ['ongoing', 'completed'])->count() }} project(s)</p>
+                    <p>Total of current invited projects: {{ $project_expert->where('status',null)->where('invited',true)->count()}} project(s)</p>
                 </div>
             </div>
             <div class="nk-block-head-content">
@@ -16,8 +15,8 @@
                     </a>
                     <div class="toggle-expand-content" data-content="pageMenu">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary text-white btn-outline-primary"><i
-                                    class="fa-solid fa-person me-1"></i>As Expert</button>
+                            <button type="button" class="btn btn-primary text-white btn-outline-primary">
+                                <i class="fa-solid fa-person me-1"></i>As Expert</button>
                         </div>
                     </div>
                 </div>
@@ -185,7 +184,7 @@
                             <th class="nk-tb-col"><span class="sub-text">Project</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Client</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Initiate Date</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Status</span></th>
+                            <th class="nk-tb-col"><span class="sub-text">Accept Invitation</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Action</span></th>
                         </tr>
                     </thead>
@@ -205,7 +204,7 @@
     <script src="/assets/js/libs/datatable-init.js?ver=3.2.2"></script>
     <script>
         datatableInit('#datatable', {
-            ajax: '{{ route('expert.projects.datatable') }}',
+            ajax: '{{ route('expert.projects.datatable_invited') }}',
             order:  [[2, 'desc']],
             columnDefs: [{
                     "orderable": false,
@@ -217,7 +216,7 @@
                 },
                 {
                     "className": "clickable",
-                    "targets": [0, 1, 2, 3],
+                    "targets": [0],
                     "createdCell": function(td, cellData, rowData) {
                         $(td).on('click', () => window.location.href =
                             '{{ route('expert.projects.show', '') }}/' + rowData.pid)
@@ -244,22 +243,27 @@
                     }
                 },
                 {
-                    data: 'status',
+                    data: 'accepted',
                     render: function(data) {
-                        return `<span class="badge tw-capitalize bg-${data === 'complete' ? 'success' : (data === 'ongoing' ? 'warning' : 'secondary')}">${data}</span>`;
+                        console.log(data)
+                        let color = data === true ? 'success' : (data === false ? 'secondary' : 'danger');
+                        let icon =
+                            `<em class="text-secondary fs-5 icon ni ni-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="You will be notify as soon as the client award this project"></em>`;
+                        return `<div class="d-flex"><span class="badge ms-1 rounded-pill text-capitalize bg-${color} px-2">${data === true ? 'Accept' : (data === false ? 'Reject' : 'No Respond')}</span>${data ? icon : ''}</div>`;
                     }
                 },
                 {
                     data: 'id',
                     render: function(data, type, row) {
+                        console.log(row.accepted)
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" href="#"><em class="icon ni ni-eye"></em><span>View Contract</span></a></li>
-                                                <li><a class="clickable" href="#"><em class="icon ni ni-eye"></em><span>Confirm Payment</span></a></li>
+                                                <li><a class="clickable ${row.accepted ? 'disabled' : ''}" onclick="respond(${data},'accept')"><em class="icon ni ni-check"></em><span>Accept Project</span></a></li>
+                                                <li><a class="clickable ${row.accepted ? 'disabled' : ''}" onclick="respond(${data},'reject')"><em class="icon ni ni-cross"></em><span>Reject Project</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -270,7 +274,7 @@
             ]
         });
 
-        function respond(pid, accept) {
+        function respond(project_expert_id, accept) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: `You want to ${accept ? 'show interest' : 'reject'} on this project?`,
@@ -285,7 +289,7 @@
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
-                            pid: pid,
+                            project_expert_id: project_expert_id,
                             respond: accept
                         },
                         success: function(response) {

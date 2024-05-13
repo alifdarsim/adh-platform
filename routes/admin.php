@@ -44,6 +44,7 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
         Route::get('/invite-expert-all/{project_id}', [ProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
         Route::post('/respond/{pid}', [ProjectsController::class, 'respond'])->name('admin.projects.respond');
         Route::put('/close/{pid}', [ProjectsController::class, 'close'])->name('admin.projects.close');
+        Route::put('/reopen/{pid}', [ProjectsController::class, 'reopen'])->name('admin.projects.reopen');
         Route::put('/remove/{pid}', [ProjectsController::class, 'remove'])->name('admin.projects.remove');
         Route::put('/reset/{pid}', [ProjectsController::class, 'reset'])->name('admin.projects.reset');
         Route::put('/payment/{pid}', [ProjectsController::class, 'payment'])->name('admin.projects.payment');

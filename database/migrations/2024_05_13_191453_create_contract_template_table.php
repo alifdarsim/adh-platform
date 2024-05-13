@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('industry', function (Blueprint $table) {
+        Schema::create('contract_template', function (Blueprint $table) {
             $table->mediumIncrements('id');
-            $table->string('name')->nullable();
+            $table->text('content')->nullable();
+            $table->string('type')->nullable();
+            $table->string('language')->nullable();
+            $table->smallInteger('version')->nullable()->default(1);
             $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('industry');
+        Schema::dropIfExists('contract_template');
     }
 };

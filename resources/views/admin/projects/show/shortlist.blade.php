@@ -149,6 +149,7 @@
                 <th class="nk-tb-col"><span class="sub-text">Awarded</span></th>
                 <th class="nk-tb-col"><span class="sub-text">Payment</span></th>
                 <th class="nk-tb-col"><span class="sub-text">Contract</span></th>
+                <th class="nk-tb-col"><span class="sub-text">Status</span></th>
                 <th class="nk-tb-col nk-tb-col-tools text-end noExport">Action</th>
             </tr>
         </thead>
@@ -254,6 +255,14 @@
                                     <i class="fa-solid fa-circle-check fs-7 me-1 my-auto"></i>
                                     ${data === 'approved' ? 'Waiting Expert' : data === 'submitted' ? 'Signed' : data}
                                 </span>`;
+                    }
+                },
+                {
+                    data: 'status',
+                    render: function (data) {
+                        if (!data) return '-';
+                        let color = data === 'ongoing' ? 'warning' : data === 'complete' ? 'success' : 'secondary'
+                        return `<span class="badge bg-${color} text-capitalize">${data}</span>`;
                     }
                 },
                 {

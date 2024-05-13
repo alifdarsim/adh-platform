@@ -27,8 +27,13 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
         Route::post('/answer-enquiries', [ExpertProjectsController::class, 'answer_enquiries'])->name('expert.projects.answer-enquiries');
     });
 
+    Route::get('/invited-projects', [ExpertProjectsController::class, 'invited'])->name('expert.projects.invited');
+    Route::get('/invited-projects/datatable', [ExpertProjectsController::class, 'datatable_invited'])->name('expert.projects.datatable_invited');
+    Route::get('/invited-projects/{pid}', [ExpertProjectsController::class, 'public_show'])->name('expert.projects-public.show');
+
     Route::get('/public-projects', [ExpertProjectsController::class, 'public'])->name('expert.projects.public');
     Route::get('/public-projects/{pid}', [ExpertProjectsController::class, 'public_show'])->name('expert.projects-public.show');
+
     // Profile Routes
     Route::group(["prefix" => "profile"], function () {
         Route::get('/', [ExpertProfileController::class, 'index'])->name('expert.profile.index');

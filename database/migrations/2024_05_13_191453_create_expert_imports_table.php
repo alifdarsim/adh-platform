@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_shortlisted', function (Blueprint $table) {
+        Schema::create('expert_imports', function (Blueprint $table) {
             $table->mediumIncrements('id');
-            $table->unsignedMediumInteger('expert_id')->nullable()->index('expert_id');
-            $table->unsignedMediumInteger('project_id')->nullable()->index('project_id');
+            $table->string('linkedin_url')->nullable();
+            $table->string('status', 50)->nullable();
+            $table->json('result')->nullable();
+            $table->timestamp('last_scraped_at')->nullable();
+            $table->string('profile_image')->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
         });
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_shortlisted');
+        Schema::dropIfExists('expert_imports');
     }
 };

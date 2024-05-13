@@ -10,7 +10,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">
+                <h3 class="nk-block-title page-title fs-3">
                     <a class="back" href="javascript:history.back()"><i
                             class="fa-solid fa-arrow-left me-1 fs-4"></i></a>
                     {{$project->name}}
@@ -22,10 +22,11 @@
                         <ul class="nk-block-tools g-3">
                             <li>
                                 <div class="dropdown">
-                                    <a href="#" class="dropdown-toggle btn btn-primary" data-bs-toggle="dropdown"
+                                    <a href="#" class="dropdown-toggle btn btn-outline-info tw-bg-white" data-bs-toggle="dropdown"
                                        aria-expanded="false">
-                                        <em class="icon ni ni-setting"></em>
-                                        <em class="d-none d-sm-inline icon ni ni-chevron-right"></em>
+                                        <em class="icon ni ni-setting me-1"></em>
+                                        Options
+                                        <em class="d-none d-sm-inline icon ni ni-chevron-right ms-1"></em>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" style="">
                                         <ul class="link-list-opt no-bdr">
@@ -34,9 +35,16 @@
                                             </li>
                                             <li><a class="clickable" onclick="reset('{{$project->pid}}')"><span><em
                                                             class="icon ni ni-reload me-1"></em>Reset</span></a></li>
-                                            <li><a class="clickable" onclick="closeProject('{{$project->pid}}')"><span><em
-                                                            class="icon ni ni-check me-1"></em>Close Project</span></a>
-                                            </li>
+                                            @if($project->status == 'closed')
+                                                <li><a class="clickable" onclick="reopenProject('{{$project->pid}}')"><span><em
+                                                                class="icon ni ni-check me-1"></em>Reopen Project</span></a>
+                                                </li>
+                                            @else
+                                                <li><a class="clickable" onclick="closeProject('{{$project->pid}}')"><span><em
+                                                                class="icon ni ni-cross me-1"></em>Close Project</span></a>
+                                                </li>
+                                            @endif
+
                                             <li><a class="clickable" href="removeProject('{{$project->pid}}')"><span><em
                                                             class="icon ni ni-trash me-1"></em>Remove</span></a></li>
                                         </ul>
@@ -54,13 +62,13 @@
         @if($project->status == 'pending')
             @include('admin.projects.show.approval')
         @elseif ($project->status == 'ongoing')
-            @include('admin.projects.show.expert_search')
-            @include('admin.projects.show.shortlist')
             @include('admin.projects.show.ongoing')
-        @elseif($project->status == 'closed')
             @include('admin.projects.show.expert_search')
             @include('admin.projects.show.shortlist')
+        @elseif($project->status == 'closed')
             @include('admin.projects.show.close')
+            @include('admin.projects.show.expert_search')
+            @include('admin.projects.show.shortlist')
         @endif
         @include('admin.projects.show.show-detail')
     </div>
@@ -128,6 +136,44 @@
                             Swal.fire(
                                 'Closed!',
                                 'Project has been closed.',
+                                'success'
+                            ).then((result) => {
+                                window.location.reload();
+                            })
+                        },
+                        error: function (data) {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            )
+                        }
+                    });
+                }
+            })
+        }
+
+        function reopenProject(pid) {
+            Swal.fire({
+                title: 'Reopen Project?',
+                text: "This will reopen the project. This process is irreversible.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#D94148',
+                cancelButtonColor: '#6E768F',
+                confirmButtonText: 'Yes, reopen it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('admin.projects.reopen', '') }}/" + pid,
+                        type: 'PUT',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function (data) {
+                            Swal.fire(
+                                'Reopened!',
+                                'Project has been reopened.',
                                 'success'
                             ).then((result) => {
                                 window.location.reload();

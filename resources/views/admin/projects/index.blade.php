@@ -210,7 +210,7 @@
             columns: [{
                     data: 'status',
                     render: function(data) {
-                        let color = data === 'pending' ? 'danger' : (data === 'ongoing' ? 'info' : (data === 'closed' ? 'success' : 'secondary'));
+                        let color = data === 'pending' ? 'danger' : (data === 'ongoing' ? 'info' : (data === 'closed' ? 'dark' : 'secondary'));
                         return `<span class="badge ms-1 rounded-pill text-capitalize bg-${color}">${data === 'active' ? 'Shortlisting' : data}</span>`;
                     }
                 },
@@ -246,15 +246,16 @@
                     data: 'id',
                     className: 'nk-tb-col-tools',
                     render: function(data, type, row) {
+                        console.log(row)
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" href="{{ route('admin.projects.show', '') }}/${row.pid}"><em class="icon ni ni-eye"></em><span>Show Details</span></a></li>
-                                                <li><a class="clickable" onclick="edit('${row.pid}')"><em class="icon ni ni-file "></em><span>Edit</span></a></li>
-                                                <li><a class="clickable" onclick="approve('${row.pid}')"><em class="icon ni ni-check "></em><span>Approve</span></a></li>
+                                                <li><a class="clickable" href="{{ route('admin.projects.show', '') }}/${row.pid}"><em class="icon ni ni-eye"></em><span>View</span></a></li>
+                                                <li><a class="clickable" onclick="edit('${row.pid}')"><em class="icon ni ni-pen "></em><span>Edit</span></a></li>
+                                                <li><a class="clickable ${row.status === 'pending' ? '' : 'disabled'}" onclick="approve('${row.pid}')"><em class="icon ni ni-check "></em><span>Approve</span></a></li>
                                                 <li><a class="clickable" onclick="remove('${row.pid}')"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                                 <li><a class="clickable" onclick="reset('${row.pid}')"><em class="icon ni ni-reload"></em><span>Reset Project</span></a></li>
                                             </ul>
@@ -382,7 +383,7 @@
         }
 
         function edit(pid) {
-            window.location.href = "{{ route('admin.projects.edit', '') }}" + pid;
+            window.location.href = "{{ route('admin.projects.edit', ':id') }}".replace(':id', pid);
         }
     </script>
 @endpush

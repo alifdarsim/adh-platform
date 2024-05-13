@@ -217,13 +217,16 @@ const _Swal = {
                 _self_link = self.attr('href');
             const regex = /\/projects\/[a-zA-Z0-9]+$/;
             if (regex.test(_currentURL)) {
-                if(!_currentURL.includes('/projects/create')){
+                if (_currentURL.includes('/invited')) {}
+                else if(!_currentURL.includes('/projects/create')){
+                    console.log(_currentURL)
                     _currentURL = _currentURL.substring(0, _currentURL.lastIndexOf('/'));
                 }
             }
             if (_currentURL.includes('/edit')) {
                 _currentURL = _currentURL.substring(0, _currentURL.lastIndexOf('/'));
             }
+            console.log(_currentURL)
             if (self[0].href === _currentURL) {
                 self.closest("li").addClass('active current-page').parents().closest("li").addClass("active current-page");
                 self.closest("li").children('.nk-menu-sub').css('display', 'block');

@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_contracts', function (Blueprint $table) {
+        Schema::create('payment_client', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedMediumInteger('project_id')->nullable()->index('project_id');
-            $table->string('type')->nullable();
-            $table->text('filepath')->nullable();
-            $table->text('content')->nullable();
             $table->string('status')->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
+            $table->string('amount')->nullable();
+            $table->string('invoice_path')->nullable();
+            $table->string('receipt_path')->nullable();
+            $table->text('info')->nullable();
+            $table->timestamp('payment_date')->nullable();
+            $table->timestamp('updated_at')->nullable()->useCurrent();
+            $table->timestamp('created_at')->useCurrentOnUpdate()->nullable()->useCurrent();
         });
     }
 
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_contracts');
+        Schema::dropIfExists('payment_client');
     }
 };

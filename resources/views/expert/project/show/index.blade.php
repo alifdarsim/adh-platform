@@ -4,8 +4,9 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title"><a class="back" href="{{route('expert.projects.index')}}"><i
-                            class="fa-solid fa-arrow-left me-2 fs-4"></i></a>{{$project->name}}</h3>
+                <h3 class="nk-block-title page-title">
+                    <a class="back" href="javascript:history.back()"><i class="fa-solid fa-arrow-left me-1 fs-4"></i></a>
+                    {{$project->name}}</h3>
             </div>
         </div>
     </div>
@@ -21,15 +22,16 @@
             </div>
         @endif
 
-        @if($project_expert->status == 'shortlisted')
-            @include('expert.project.show.shortlist')
-        @elseif ($project_expert->status == 'ongoing')
-            @if ($contract->status == 'approved')
-                @include('expert.project.show.contract')
-            @else
-                @include('expert.project.show.start')
-            @endif
+        @if($project_expert->status == 'ongoing')
+            @include('expert.project.show.ongoing')
+        @elseif ($project_expert->status == 'complete')
+            @include('expert.project.show.complete')
+        @elseif ($project_expert->status == null && $project_expert->accepted == null)
+            @include('expert.project.show.accept')
+        @elseif ($project_expert->status == null && $project_expert->accepted != null)
+            @include('expert.project.show.waiting')
         @endif
+
 {{--        @if ($project->status == 'shortlisted')--}}
 {{--            @include('expert.project.show.shortlist')--}}
 {{--            @include('expert.project.show.award')--}}

@@ -9,13 +9,19 @@
 </li>
 <li class="nk-menu-item">
     <a href="{{route('expert.projects.index')}}" class="nk-menu-link">
-        <span class="nk-menu-icon"><i class="fa-regular fa-building fs-5"></i></span>
+        <span class="nk-menu-icon"><i class="fa-regular fa-briefcase fs-5"></i></span>
         <span class="nk-menu-text">Manage Projects</span>
     </a>
 </li>
 <li class="nk-menu-item">
+    <a href="{{route('expert.projects.invited')}}" class="nk-menu-link">
+        <span class="nk-menu-icon"><i class="fa-regular fa-business-time fs-5"></i></span>
+        <span class="nk-menu-text">Invited Projects</span>
+    </a>
+</li>
+<li class="nk-menu-item">
     <a href="{{route('expert.projects.public')}}" class="nk-menu-link">
-        <span class="nk-menu-icon"><i class="fa-regular fa-building-magnifying-glass fs-5"></i></span>
+        <span class="nk-menu-icon"><i class="fa-regular fa-briefcase-arrow-right fs-5"></i></span>
         <span class="nk-menu-text">Public Projects</span>
     </a>
 </li>

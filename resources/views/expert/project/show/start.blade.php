@@ -1,5 +1,5 @@
 <div class="nk-block-head-content mt-3">
-    <h6 class="title pb-1">Project Status: Project Started</h6>
+    <h6 class="title pb-1">Project Status: Project Ongoing</h6>
 </div>
 <div class="example-alert">
     <div class="alert alert-fill bg-success alert-icon border !tw-border-green-700">

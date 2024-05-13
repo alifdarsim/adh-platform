@@ -24,8 +24,6 @@ class OverviewController extends Controller
                 'client' => 0
             ],
             'projects' => Projects::orderBy('id', 'desc')
-                ->where('status', '!=', 'closed')
-                ->where('status', '!=', 'rejected')
                 ->limit(5)->get(),
             'users' => User::orderBy('id', 'desc')->limit(5)->get(),
             'hub' => [

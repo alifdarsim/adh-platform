@@ -13,12 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_payment', function (Blueprint $table) {
+        Schema::create('payment_receive', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedMediumInteger('project_id')->nullable()->index('project_id');
+            $table->unsignedMediumInteger('expert_id')->nullable();
+            $table->string('transaction', 10)->nullable();
             $table->string('status')->nullable();
-            $table->string('transaction_no')->nullable();
-            $table->timestamp('update_at')->nullable()->useCurrent();
+            $table->string('amount')->nullable();
+            $table->string('invoice_path')->nullable();
+            $table->string('receipt_path')->nullable();
+            $table->text('info')->nullable();
+            $table->timestamp('updated_at')->nullable()->useCurrent();
             $table->timestamp('created_at')->useCurrentOnUpdate()->nullable()->useCurrent();
         });
     }
@@ -30,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_payment');
+        Schema::dropIfExists('payment_receive');
     }
 };
