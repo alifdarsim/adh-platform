@@ -86,7 +86,7 @@
                         <li class="nk-menu-item">
                             <a href="{{route('admin.admins.index')}}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><i class="fa-regular fa-user-crown fs-5"></i></span>
-                                <span class="nk-menu-text">ADH Members</span>
+                                <span class="nk-menu-text">ADH Member</span>
                             </a>
                         </li>
                         <li class="nk-menu-item">
