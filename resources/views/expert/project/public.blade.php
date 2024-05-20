@@ -220,7 +220,7 @@
                     "targets": [0, 1, 2, 3],
                     "createdCell": function(td, cellData, rowData) {
                         $(td).on('click', () => window.location.href =
-                            '{{ route('expert.projects-public.show', '') }}/' + rowData.pid)
+                            '{{ route('expert.projects.show', '') }}/' + rowData.pid)
                     }
                 }
             ],

@@ -74,6 +74,10 @@ class ScrapeLinkendInJob implements ShouldQueue
         $imageData = file_get_contents($image);
         $imageName = 'profile_' . time() . '.png';
         $path = public_path('/images/expert_images/' . $imageName);
+        // if the folder does not exist, create it
+        if (!file_exists(public_path('/images/expert_images'))) {
+            mkdir(public_path('/images/expert_images'), 0777, true);
+        }
         file_put_contents($path, $imageData);
         return '/images/expert_images/' . $imageName;
     }

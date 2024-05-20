@@ -20,6 +20,9 @@ class AccountController extends Controller
         $base64 = request()->input('avatar');
         $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64));
         $image_path = '/avatar/' . time() . '.png';
+        if (!file_exists(public_path() . '/avatar')) {
+            mkdir(public_path() . '/avatar', 0777, true);
+        }
         file_put_contents(public_path() . $image_path, $image);
         $user = User::find(auth()->user()->id);
         $user->avatar_path = $image_path;

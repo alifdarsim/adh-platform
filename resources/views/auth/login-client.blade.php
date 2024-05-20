@@ -113,11 +113,11 @@
         $('#timezone').val(timezone);
 
         function loginGoogle() {
-            window.location.href = "{{route('login.authenticate.social', ['driver' => 'google', 'user_type' => 'expert', ''])}}/" + timezone.replace('/', '__');
+            window.location.href = "{{route('login.authenticate.social', ['driver' => 'google', 'user_type' => 'client', ''])}}/" + timezone.replace('/', '__');
         }
 
         function loginLinkedIn() {
-            window.location.href = "{{route('login.authenticate.social', ['driver' => 'linkedin-openid', 'user_type' => 'expert', ''])}}/" + timezone.replace('/', '__');
+            window.location.href = "{{route('login.authenticate.social', ['driver' => 'linkedin-openid', 'user_type' => 'client', ''])}}/" + timezone.replace('/', '__');
         }
 
         $('#signInSelect').on('change', function () {
@@ -135,7 +135,7 @@
             let email = $('#email-address').val();
             let password = $('#password').val();
             $.ajax({
-                url: "{{ route('login.authenticate', ['type' => 'expert'])}}",
+                url: "{{ route('login.authenticate', ['type' => 'client'])}}",
                 method: 'POST',
                 data: {
                     email: email,

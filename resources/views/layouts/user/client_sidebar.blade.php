@@ -2,7 +2,7 @@
     <h6 class="overline-title text-primary-alt">Management</h6>
 </li>
 <li class="nk-menu-item">
-    <a href="{{route('client.overview')}}" class="nk-menu-link">
+    <a href="{{route('client.overview.index')}}" class="nk-menu-link">
         <span class="nk-menu-icon"><i class="fa-regular fa-chart-tree-map fs-5"></i></span>
         <span class="nk-menu-text">Overview</span>
     </a>
