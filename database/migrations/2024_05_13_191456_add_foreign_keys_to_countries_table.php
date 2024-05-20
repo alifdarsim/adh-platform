@@ -14,8 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::table('countries', function (Blueprint $table) {
-            $table->foreign(['region_id'], 'country_continent_final')->references(['id'])->on('regions')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['subregion_id'], 'country_subregion_final')->references(['id'])->on('subregions')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+
+            // Drop the 'region_id' column if it's no longer needed
+            $table->dropColumn('region_id');
+
+            // Remove the foreign key constraint referencing the 'subregions' table
+            // $table->foreign(['subregion_id'], 'country_subregion_final')->references(['id'])->on('subregions')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+
+            // Drop the 'subregion_id' column if it's no longer needed
+            $table->dropColumn('subregion_id');
         });
     }
 
@@ -28,7 +35,7 @@ return new class extends Migration
     {
         Schema::table('countries', function (Blueprint $table) {
             $table->dropForeign('country_continent_final');
-            $table->dropForeign('country_subregion_final');
+//            $table->dropForeign('country_subregion_final');
         });
     }
 };
