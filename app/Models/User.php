@@ -66,6 +66,9 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'expert_onboarding' => 'boolean',
+        'client_onboarding' => 'boolean',
+        'payment_info' => 'array',
     ];
 
     /**
@@ -86,41 +89,21 @@ class User extends Authenticatable implements HasMedia
         return LogOptions::defaults()->logOnly(['*']);
     }
 
-//    /**
-//     * Get avatar of the user.
-//     */
-//    public function avatar($type = null): string | \Laravolt\Avatar\Avatar | null
-//    {
-//        $linkedin_avatar = auth()->user()->expert;
-//        if ($linkedin_avatar != null) {
-//            return $linkedin_avatar->img_url == null ? Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150) : $linkedin_avatar->img_url;
-//        }
-//        $profile_image = auth()->user()->getMedia('profile_images');
-//        if ($profile_image->count() > 0) {
-//            return $type == null ? $profile_image->last()->getUrl() : $profile_image->last()->getUrl('thumb');
-//        }
-//        else if (auth()->user()->linkedin_avatar != null) {
-//            return auth()->user()->linkedin_avatar;
-//        }
-//        return Avatar::create(auth()->user()->name ?? 'NA')->setDimension(150);
-//    }
-//
     public function user_avatar($name = null): string | \Laravolt\Avatar\Avatar | null
     {
         if ($name == null) {
             $avatar_path = auth()->user()->avatar_path;
             if ($avatar_path != null) return $avatar_path;
-            return Avatar::create($this->name)->toBase64();
+            if (auth()->user()->expert != null) return auth()->user()->expert->img_url == null ? Avatar::create(auth()->user()->name)->toBase64() : auth()->user()->expert->img_url;
+            else return Avatar::create($this->name)->toBase64();
         }
-        return $this->expert->img_url == null ? Avatar::create($name)->toBase64() : $this->expert->img_url;
+        if ($this->avatar_path != null) return $this->avatar_path;
+        if ($this->expert != null) return $this->expert->img_url == null ? Avatar::create($name)->toBase64() : $this->expert->img_url;
+        else return Avatar::create($name)->toBase64();
     }
 
     public function expert(): HasOne
     {
-        $exist = ExpertList::where('email', $this->email)->first();
-        if ($exist == null) {
-            ExpertList::create(['email' => $this->email]);
-        }
         return $this->hasOne(ExpertList::class, 'email', 'email');
     }
 

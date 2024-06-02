@@ -53,7 +53,9 @@ class SocialLoginController extends Controller
     public function userDetails($socialite_data, $user_type, $timezone){
         // if there is user login then logut first
         if (auth()->user()) auth()->logout();
-        $user = User::where('email', $socialite_data->email)->first();
+        $user = User::where('email', $socialite_data->email)
+            ->where('role', $user_type)
+            ->first();
         if (!$user) {
             // if user does not exist
             $user = new User();
@@ -62,10 +64,21 @@ class SocialLoginController extends Controller
             $user->email = $socialite_data->email;
             $user->email_verified_at = now();
             $user->timezone = $timezone;
+            $user->role = $user_type;
+            $user->referer_code = $this->generateRandomString();
             $user->save();
-            $user->assignRole('user');
         }
         session(['user_type' => $user_type]);
         auth()->login($user, true);
+    }
+
+    public function generateRandomString($length = 6) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return strtoupper($randomString);
     }
 }

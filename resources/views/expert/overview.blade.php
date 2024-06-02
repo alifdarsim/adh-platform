@@ -47,7 +47,7 @@
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                     <div class="nk-sale-data">
                         <span class="tw-text-4xl text-dark">
-                            {{$project_expert->where('status', 'completed')->count()}}
+                            {{$project_expert->where('status', 'complete')->count()}}
                         </span>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                     <div class="nk-sale-data">
                         <span class="tw-text-4xl text-dark">
-                            {{$project_expert->whereIn('status', ['completed', 'ongoing'])->count()}}
+                            {{$project_expert->whereIn('status', ['complete', 'ongoing'])->count()}}
                         </span>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                         <div class="card-inner">
                             <div class="card-title-group">
                                 <div class="card-title">
-                                    <h6 class="title">Latest Project Status</h6>
+                                    <h6 class="title">Individual Expert Project Status</h6>
                                 </div>
                                 <div class="card-tools">
                                     <a href="{{route('expert.projects.index')}}" class="link">View All</a>
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         @if($project_expert->count() > 0)
-                            @foreach($project_expert->take(3) as $project)
+                            @foreach($project_expert->take(3)->where('status', '<>', null) as $project)
                                 <div class="card-inner card-inner-md">
                                     <div class="user-card d-flex justify-between">
                                         <a href="{{route('expert.projects.show', $project->project->pid)}}" class="user-info">
@@ -124,25 +124,6 @@
                     </div>
                 </div>
             </div><!-- .col -->
-{{--            <div class="col-lg col-sm-6">--}}
-{{--                <div class="card card-bordered h-100">--}}
-{{--                    <div class="card-inner border-bottom">--}}
-{{--                        <div class="card-title-group">--}}
-{{--                            <div class="card-title">--}}
-{{--                                <h6 class="title">Upcoming Meetings</h6>--}}
-{{--                            </div>--}}
-{{--                            <div class="card-tools">--}}
-{{--                                <a href="#" class="link">View All</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card-inner">--}}
-{{--                        <span class="tw-text-slate-600 tw-items-center center mx-auto">--}}
-{{--                            <span>You don't have any schedule meeting</span>--}}
-{{--                        </span>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div><!-- .col -->--}}
             <div class="col-lg col-sm-5">
                 <div class="card card-bordered h-100">
                     <div class="card-inner justify-center text-center h-100">
@@ -165,9 +146,9 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- .col -->
-        </div><!-- .row -->
-    </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal_expert_completion">
         <div class="modal-dialog modal-lg" role="document">
@@ -185,35 +166,23 @@
         </div>
     </div>
 
-{{--    <div class="modal fade" tabindex="-1" role="dialog" id="modal_expert_completion2">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-body modal-body-md">--}}
-{{--                    <h4 class="title center">First time here?</h4>--}}
-{{--                    <div class="px-5">--}}
-{{--                        <p class="mt-3 mb-0 fs-6 tw-text-center">Look like that you are new this AsiaDealHub. In order to start using AsiaDealHub, you need to complete your expert profile. This will help us to match you with the right clients and projects.</p>--}}
-{{--                        <div class="center mt-4">--}}
-{{--                            <button onclick="goToExpertCompletion()" class="btn btn-primary tw-px-36">Go To Expert Completion</button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
 @endsection
 
 @push('scripts')
     <script>
         $( document ).ready(function() {
-{{--            @if(!auth()->user()->isHasExpert())--}}
-{{--                let modal = $('#modal_expert_completion');--}}
-{{--                modal.modal({backdrop: 'static', keyboard: false})--}}
-{{--                modal.modal('show');--}}
-{{--            @endif--}}
+            @if(!auth()->user()->expert_onboarding)
+                let modal = $('#modal_expert_completion');
+                modal.modal({backdrop: 'static', keyboard: false})
+                modal.modal('show');
+            @endif
         });
 
         function goToExpertCompletion(){
+            @php
+                auth()->user()->expert_onboarding = 1;
+                auth()->user()->save();
+            @endphp
             window.location.href = "{{route('expert.profile.index')}}";
         }
     </script>

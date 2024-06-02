@@ -52,14 +52,14 @@
                                                                                     <tr>
                                                                                         <th valign="top" align="center" style="font-weight: normal;line-height: 1;">
                                                                                             <!--[if mso]>
-                                                                                                                        <table  border="0" cellpadding="0" cellspacing="0" role="presentation" align="center" style="border-collapse: separate;margin-right: auto; margin-left: auto;">
-                                                                                                                            <tr>
-                                                                                                                                <td valign="middle" align="center" style="text-align: center;color: #ffffff;border-radius: 8px;background-color: #f63c40;padding: 14px 18px 14px 18px;" bgcolor="#f63c40">
-                                                                                                                                    <a class="pc-font-alt" style="display: inline-block;text-decoration: none;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;font-variant-ligatures: normal;" href="{{ route('admin.invitation', ['token' => $mailData['token'] ?? 'default'] ) }}" target="_blank">Join Admin</a>
-                                                                                                                                </td>
-                                                                                                                            </tr>
-                                                                                                                        </table>
-                                                                                                                        <![endif]-->
+                                                                                            <table  border="0" cellpadding="0" cellspacing="0" role="presentation" align="center" style="border-collapse: separate;margin-right: auto; margin-left: auto;">
+                                                                                                <tr>
+                                                                                                    <td valign="middle" align="center" style="text-align: center;color: #ffffff;border-radius: 8px;background-color: #f63c40;padding: 14px 18px 14px 18px;" bgcolor="#f63c40">
+                                                                                                        <a class="pc-font-alt" style="display: inline-block;text-decoration: none;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;font-variant-ligatures: normal;" href="{{ route('admin.invitation', ['token' => $mailData['token'] ?? 'default'] ) }}" target="_blank">Join Admin</a>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                            <![endif]-->
                                                                                             <!--[if !mso]>--><a style="border-radius: 8px;background-color: #f63c40;padding: 14px 18px 14px 18px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;text-align: center;text-align-last: center;text-decoration: none;display: inline-block;vertical-align: top;-webkit-text-size-adjust: none;" href="{{ route('admin.invitation', ['token' => $mailData['token'] ?? 'dafault']) }}" target="_blank">Join Admin</a>
                                                                                             <!--<![endif]-->
                                                                                         </th>

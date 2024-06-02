@@ -30,10 +30,10 @@ class ExpertsController extends Controller
         $projectShortlistIds = $this->getProjectShortlistedIds(request()->get('project_id'));
         return datatables()->of($experts)
             ->addColumn('company', function ($e) {
-                return $e->experiences[0]['company'];
+                return $e->experiences[0]['company'] ?? 'Not Set';
             })
             ->addColumn('companies', function ($e) {
-                $pos = $e->experiences;
+                $pos = $e->experiences ?? [];
                 $companies = [];
                 foreach ($pos as $p){
                     $companies[] = $p['company'];
@@ -41,15 +41,15 @@ class ExpertsController extends Controller
                 return implode(' ', $companies);
             })
             ->addColumn('registered', function ($e) {
-                $email = $e->email;
+                $email = $e->email == null ? 'Not Set' : $e->email;
                 $user = User::where('email', $email)->first();
                 return (bool)$user;
             })
             ->addColumn('position', function ($e) {
-                return $e->experiences[0]['position'];
+                return $e->experiences[0]['position'] ?? 'Not Set';
             })
             ->addColumn('positions', function ($e) {
-                $pos = $e->experiences;
+                $pos = $e->experiences ?? [];
                 $positions = [];
                 foreach ($pos as $p){
                     $positions[] = $p['position'];
@@ -57,10 +57,11 @@ class ExpertsController extends Controller
                 return implode(' ', $positions);
             })
             ->addColumn('skill_list', function ($e) {
+                $e->skills = $e->skills ?? [];
                 return implode(' ', $e->skills);
             })
             ->addColumn('country', function ($e) {
-                return $e->country;
+                return $e->country == null ? 'Not Set' : $e->country;
             })
             ->addColumn('main_industry', function ($e) {
                 return $e->industry == null ? '' : $e->industry->main;

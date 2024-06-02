@@ -6,7 +6,7 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Registered Expert List</h3>
                 <div class="nk-block-des text-soft">
-                    <p>Total numbers of registered expert</p>
+                    <p>Total numbers of all registered expert</p>
                 </div>
             </div>
         </div>
@@ -158,7 +158,7 @@
                     render: function (data, type, row) {
                         return `<div class="user-card">
                             <div class="user-avatar bg-white d-none d-sm-flex">
-                                <img src="../${row.user_avatar}" alt="user">
+                                <img src="${row.user_avatar}" alt="user">
                             </div>
                             <div class="user-info">
                                 <span class="tb-lead">${data}<span
@@ -198,13 +198,14 @@
                 {
                     data: 'id',
                     className: 'nk-tb-col nk-tb-col-tools',
-                    render: function (data) {
+                    render: function (data, col, row) {
                         return `<ul class="nk-tb-actions gx-1">
                                 <li>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
+                                                <li><a onclick="expert_view(${row.expert_id})"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
                                                 <li><a onclick="remove(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>
@@ -242,6 +243,10 @@
                     })
                 }
             })
+        }
+
+        function expert_view(id){
+            window.location.href = `{{route('admin.expert-portal.show',':id')}}`.replace(':id', id);
         }
     </script>
 @endpush

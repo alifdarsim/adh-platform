@@ -3,17 +3,15 @@
 namespace App\Jobs;
 
 use App\Models\ExpertImport;
-use App\Models\ExpertLinkedInQueue;
 use App\Models\ExpertList;
 use App\Services\LinkedInScrapeService;
 use App\Services\ProcessScrapeService;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ScrapeLinkendInJob implements ShouldQueue
 {
@@ -28,6 +26,8 @@ class ScrapeLinkendInJob implements ShouldQueue
 
     public function handle(): void
     {
+        Log::info('ScrapeLinkendInJob started');
+
         $expertImport = ExpertImport::findOrFail($this->expertImportId);
         try {
             // Scrape LinkedIn data using the external API
@@ -48,6 +48,8 @@ class ScrapeLinkendInJob implements ShouldQueue
             $expertImport->update(['status' => 'failed']);
             // You can optionally log the error or take other actions
             \Log::error('ScrapeError: ' . $e->getMessage());
+            // Your job logic here
+            Log::info('ScrapeLinkendInJob not finish');
         }
     }
 

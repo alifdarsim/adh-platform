@@ -31,6 +31,7 @@ class AdminsController extends Controller
                 return $user->email;
             })
             ->addColumn('user_avatar', function ($user) {
+                if ($user->avatar_path != null) return $user->avatar_path;
                 return $user->user_avatar($user->name);
             })
             ->addColumn('last_login_at', function ($user) {
@@ -61,9 +62,21 @@ class AdminsController extends Controller
             'status' => 0,
         ]);
         //assignRole after creating user using Spatie
-        $user->assignRole($role);
+        $user->role = $role;
+        $user->referer_code = $this->generateRandomString();
+        $user->save();
         $mailSender->sendAdminInvitation(request('email'), request('name'), $token);
         return success('New Admin created successfully');
+    }
+
+    public function generateRandomString($length = 6) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return strtoupper($randomString);
     }
 
     public function destroy($id)
@@ -71,9 +84,9 @@ class AdminsController extends Controller
         $user = User::find($id);
         if ($user->hasRole('super admin')) {
             // if there is still at least one super admin in the system, then we can not delete the super admin
-            $superAdmins = User::role('super admin')->get();
+            $superAdmins = $user->where('role', 'admin');
             if ($superAdmins->count() === 1) {
-
+                return error('You can not delete the last super admin');
             }
         }
         $user->delete();

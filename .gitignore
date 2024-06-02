@@ -8,6 +8,10 @@
 /public/storage
 /public/avatar/
 /storage/*.key
+/storage/app
+/storage/debugbar
+/storage/framework
+/storage/logs
 /vendor
 .env
 .env.backup

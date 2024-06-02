@@ -13,15 +13,19 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert->id)
-            ->whereIn('status', ['ongoing', 'complete'])
-            ->get();
+        $project_expert = auth()->user()?->expert?->id
+            ? ProjectExpert::where('expert_id', auth()->user()->expert->id)
+                ->whereIn('status', ['ongoing', 'complete'])
+                ->get()
+            : collect();
         return view('expert.project.index', compact('project_expert'));
     }
 
     public function invited()
     {
-        $project_expert = ProjectExpert::where('expert_id', auth()->user()->expert->id)
+        $project_expert = ProjectExpert::whereHas('expert', function ($query) {
+            $query->where('id', auth()->user()->expert->id ?? null);
+        })
             ->where('status', null)
             ->where('invited', 1)
             ->get();
@@ -156,7 +160,7 @@ class ProjectsController extends Controller
         $project = Projects::where('pid', $pid)->first();
         if (!$project) return view('errors.not-exist');
         $project_expert = ProjectExpert::where('project_id', $project->id)
-            ->where('expert_id', auth()->user()->expert->id)
+            ->where('expert_id', auth()->user()->expert->id ?? null)
             ->first();
         if ($project_expert && $project_expert->status == 'shortlisted' && !$project_expert->project->public){
             return view('errors.uninvited');

@@ -41,6 +41,7 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
 
         Route::post('/add-expert', [ProjectsController::class, 'add_expert'])->name('admin.projects.add-expert');
         Route::get('/invite-expert/{project_id}/{expert_id}', [ProjectsController::class, 'invite_expert'])->name('admin.projects.invite-expert');
+        Route::get('/set-complete/{project_id}/{expert_id}', [ProjectsController::class, 'set_complete'])->name('admin.projects.set-completed');
         Route::get('/invite-expert-all/{project_id}', [ProjectsController::class, 'invite_expert_all'])->name('admin.projects.invite-expert-all');
         Route::post('/respond/{pid}', [ProjectsController::class, 'respond'])->name('admin.projects.respond');
         Route::put('/close/{pid}', [ProjectsController::class, 'close'])->name('admin.projects.close');
@@ -61,21 +62,13 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
         Route::delete('/{id}', [ProjectsController::class, 'destroy'])->name('admin.projects.destroy');
     });
 
-        Route::group(["prefix" => "experts"], function () {
-            Route::get('/', [ExpertsController::class, 'index'])->name('admin.experts.index');
-            Route::delete('/{id}', [ExpertsController::class, 'destroy'])->name('admin.experts.destroy');
-            Route::get('/datatable', [ExpertsController::class, 'datatable'])->name('admin.experts.datatable');
-            Route::post('/contact', [ExpertsController::class, 'set_contact'])->name('admin.experts.set-contact');
-            Route::post('/industry', [ExpertsController::class, 'industry'])->name('admin.experts.industry');
-        });
-
-//    Route::group(["prefix" => "expert_scrape"], function () {
-//        Route::get('/datatable', [ExpertsScrapeController::class, 'datatable'])->name('admin.expert_scrape.datatable');
-//        Route::get('/scrape/{id}', [ExpertsScrapeController::class, 'scrape'])->name('admin.expert_scrape.scrape');
-//        Route::get('/processed/{id}', [ExpertsScrapeController::class, 'processed'])->name('admin.expert_scrape.processed');
-//        Route::get('/', [ExpertsScrapeController::class, 'index'])->name('admin.expert_scrape.index');
-//        Route::post('/', [ExpertsScrapeController::class, 'store'])->name('admin.expert_scrape.store');
-//    });
+    Route::group(["prefix" => "experts"], function () {
+        Route::get('/', [ExpertsController::class, 'index'])->name('admin.experts.index');
+        Route::delete('/{id}', [ExpertsController::class, 'destroy'])->name('admin.experts.destroy');
+        Route::get('/datatable', [ExpertsController::class, 'datatable'])->name('admin.experts.datatable');
+        Route::post('/contact', [ExpertsController::class, 'set_contact'])->name('admin.experts.set-contact');
+        Route::post('/industry', [ExpertsController::class, 'industry'])->name('admin.experts.industry');
+    });
 
     Route::group(["prefix" => "payment"], function () {
         Route::get('/', [PaymentController::class, 'index'])->name('admin.payment.index');
@@ -101,20 +94,16 @@ Route::middleware(['auth', 'route.protection', 'set.locale'])->group(function ()
     Route::resource('users-expert', UsersExpertController::class, ['names' => 'admin.users-expert']);
     // User Expert Import Routes
     Route::post('expert-import/{id}/re-scrape', [ExpertImportController::class, 'reScrape'])->name('admin.expert-import.re-scrape');
+    Route::post('expert-import/{id}/set-email', [ExpertImportController::class, 'setEmail'])->name('admin.expert-import.set-email');
+    Route::post('expert-import/{id}/set-industry', [ExpertImportController::class, 'setIndustryClassification'])->name('admin.expert-import.set-industry');
     Route::resource('expert-import', ExpertImportController::class, ['names' => 'admin.expert-import']);
 
     // Expert Portal Routes
     Route::get('/datatableOngoing/{id}', [ExpertPortalController::class, 'datatableOngoing'])->name('admin.expert-portal.datatable_ongoing');
     Route::get('/datatableComplete/{id}', [ExpertPortalController::class, 'datatableComplete'])->name('admin.expert-portal.datatable_complete');
+    Route::get('/import/{linkedin}', [ExpertPortalController::class, 'viewFromImport'])->name('admin.expert-portal.view-from-import');
+//    Route::get('/registered/{linkedin}', [ExpertPortalController::class, 'viewFromRegistered'])->name('admin.expert-portal.view-from-registered');
     Route::resource('expert-portal', ExpertPortalController::class, ['names' => 'admin.expert-portal']);
-
-//    Route::group(["prefix" => "expert_portal"], function () {
-//        Route::get('/{email}', [ExpertPortalController::class, 'index'])->name('admin.expert-portal.index');
-//        Route::post('/{id}', [ExpertPortalController::class, 'get'])->name('admin.expert-portal.get');
-//        Route::post('/expert_details/{id}', [ExpertPortalController::class, 'getExpertDetails'])->name('admin.expert-portal.expert_details');
-//        Route::get('/datatableOngoing/{id}', [ExpertPortalController::class, 'datatableOngoing'])->name('admin.expert-portal.datatable_ongoing');
-//        Route::get('/datatableComplete/{id}', [ExpertPortalController::class, 'datatableComplete'])->name('admin.expert-portal.datatable_complete');
-//    });
 
     // Hub Routes
     Route::resource('hubs', HubsController::class, ['names' => 'admin.hubs'])->withDatatable();

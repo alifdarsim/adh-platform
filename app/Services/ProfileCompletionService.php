@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Log;
 
 class ProfileCompletionService
 {
@@ -15,10 +14,11 @@ class ProfileCompletionService
         else $linkedin_url = false;
         if ($user->expert->experiences ?? null) $job_experience = true;
         else $job_experience = false;
-        $upload_cv = $user->expert->getMedia('cv')->isNotEmpty();
+        // if user->expert is null then false else true
+        $upload_cv = $user->expert == null ? false : $user->expert->getMedia('cv')->isNotEmpty();
 
         $industry = true;
-        $user->expert->industry_id ?? $industry = false;
+        $user->expert->industry_sub ?? $industry = false;
 
         // if $user->assessment not null and status is complete then $assessment = true else $assessment = false
         if ($user->assessment ?? null) {

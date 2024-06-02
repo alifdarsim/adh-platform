@@ -79,4 +79,25 @@ class AccountController extends Controller
         else return $this->index();
     }
 
+
+    public function payment()
+    {
+        return view('expert.account.payment');
+    }
+
+    public function update_payment()
+    {
+        $user = User::find(auth()->user()->id);
+        $info = request()->input('payment_info');
+        $bank = $info['bank_name'];
+        $account = $info['bank_account'];
+        $user->payment_info = [
+            "method" => request()->input('method'),
+            "bank" => $bank,
+            "account" => $account
+        ];
+        $user->save();
+        return success('Payment status updated successfully');
+    }
+
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
-use App\Models\ExpertLinkedInQueue;
+use App\Models\ExpertImport;
 use App\Models\ExpertList;
 use App\Models\ProjectExpert;
 use App\Models\User;
@@ -14,7 +14,6 @@ class ExpertPortalController extends Controller
     public function show($id)
     {
         $expert_user = $this->getExpertOrUserData($id);
-//        return $expert_user;
         return view('admin.expert-portal.show', compact('expert_user', 'id'));
     }
 
@@ -75,4 +74,26 @@ class ExpertPortalController extends Controller
         return datatables()->of($datatable)
             ->make(true);
     }
+
+    public function viewFromImport($id)
+    {
+        $linkedin = ExpertImport::find($id)->linkedin_url;
+        if (str_ends_with($linkedin, '/')) $linkedin = substr($linkedin, 0, -1);
+        $expert = ExpertList::where('url', $linkedin)->first();
+        if ($expert) {
+            return redirect()->route('admin.expert-portal.show', $expert->id);
+        }
+        return "If see this, then something weird happen during import process";
+    }
+
+//    public function viewFromRegistered($id)
+//    {
+//        $linkedin = ExpertImport::find($id)->linkedin_url;
+//        if (str_ends_with($linkedin, '/')) $linkedin = substr($linkedin, 0, -1);
+//        $expert = ExpertList::where('url', $linkedin)->first();
+//        if ($expert) {
+//            return redirect()->route('admin.expert-portal.show', $expert->id);
+//        }
+//        return "If see this, then something weird happen during import process";
+//    }
 }

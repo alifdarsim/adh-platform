@@ -47,6 +47,10 @@ class UsersExpertController extends Controller
             ->addColumn('last_login_at', function ($user) {
                 return $user->lastLoginAt();
             })
+            ->addColumn('expert_id', function ($user) {
+                if ($user->expert) return $user->expert->id;
+                else return null;
+            })
             ->make(true);
     }
 

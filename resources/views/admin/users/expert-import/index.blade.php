@@ -137,8 +137,8 @@
                 <tr class="nk-tb-item nk-tb-head">
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">LinkedIn URL</span></th>
                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Result</span></th>
-                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">View</span></th>
-                    <th class="nk-tb-col nk-tb-col-tools text-end noExport"></th>
+                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Addtional Info</span></th>
+                    <th class="nk-tb-col nk-tb-col-tools text-end noExport">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -168,7 +168,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 mt-4">
+                        <div class="form-group mt-4 tw-font-bold">
+                            Current Industry Classification:
+                            <div class="tw-font-bold">Main: <span id="main_text" class="tw-font-normal"></span></div>
+                            <div class="tw-font-bold">Sub: <span id="sub_text" class="tw-font-normal"></span></div>
+                        </div>
+                        <div class="col-sm-6 mt-1">
+
                             <div class="form-group">
                                 <label class="form-label" for="main-industry">Main Industry Classification</label>
                                 <div class="form-control-wrap">
@@ -219,7 +225,8 @@
                     render: function (data, type, row) {
                         let status = row.status;
                         let last_scrape = row.last_scraped_at;
-                        return `<div><i class="fa-brands text-info fa-linkedin fs-14px me-1"></i><span>${data}</span></div>
+                        return `<div><i class="fa-brands text-info fa-linkedin fs-14px me-1"></i>
+                            <a class="text-info" href="${data}" target="_blank">${data.replace('https://www.linkedin.com/in','')}</a></div>
                             <div>Last Scrape: ${last_scrape ? moment(last_scrape).format('DD/MM/YYYY HH:mm A') : 'N/A'}</div>
                             <div>Status: <span class="badge bg-${status === 'pending' ? 'warning' : 'success'} tw-capitalize">${status}</span></div>`
                     }
@@ -230,47 +237,98 @@
                         console.log(data)
                         if (data === null) return 'N/A';
                         let image = row.profile_image ? `<img class="!tw-rounded-lg" src="${row.profile_image}" class="avatar avatar-sm" alt="">` : '';
-                        let html = `<div class="user-card">
-                                        <div class="user-avatar !tw-w-[54px] !tw-h-[54px] bg-dim-primary d-none d-sm-flex"><span>${image}</span></div>
-                                        <div class="user-info">
-                                            <span class="fs-14px">${data.data.fullName}</span>
-                                            <div><i class="fa-solid text-info fa-briefcase fs-7 me-1 tw-w-4"></i><span>${data.data.experiences[0].breakdown ? data.data.experiences[0].subComponents[0].title : data.data.experiences[0].title}</span></div>
-                                            <div><i class="fa-solid text-info fa-building fs-7 me-1 tw-w-4"></i><span>${data.data.experiences[0].breakdown ? data.data.experiences[0].title : (data.data.experiences[0].subtitle).split(' · ')[0]}</span></div>
-                                            <div><i class="fa-solid text-info fa-flag fs-7 me-1 tw-w-4"></i><span>${data.data.addressWithCountry}</span></div>
-                                        </div>
-                                    </div>`;
-                        return html;
+                        return `<div class="user-card">
+                            <div class="tw-relative user-avatar !tw-w-[54px] !tw-h-[54px] bg-dim-primary d-none d-sm-flex">
+                                <span>${image}</span>
+                                <span class="${row.verified ? '' : 'd-none'} tw-absolute tw-top-[-12px] tw-left-[-12px]">
+                                    <i class="text-info tw-text-xl fa-duotone fa-badge-check" style="--fa-primary-color: #ffffff; --fa-secondary-color: #2976ff; --fa-secondary-opacity: 1;"></i>
+                                </span>
+                            </div>
+                            <div class="user-info">
+                                <span class="fs-14px">${data.data.fullName}</span>
+                                <div><i class="fa-solid text-info fa-briefcase fs-7 me-1 tw-w-3"></i><span>${data.data.experiences[0].breakdown ? data.data.experiences[0].subComponents[0].title : data.data.experiences[0].title}</span></div>
+                                <div><i class="fa-solid text-info fa-building fs-7 me-1 tw-w-3"></i><span>${data.data.experiences[0].breakdown ? data.data.experiences[0].title : (data.data.experiences[0].subtitle).split(' · ')[0]}</span></div>
+                                <div><i class="fa-solid text-info fa-flag fs-7 me-1 tw-w-3"></i><span>${data.data.addressCountryOnly != '' ? data.data.addressCountryOnly : data.data.addressWithCountry}</span></div>
+                            </div>
+                        </div>`;
                     }
                 },
                 {
-                    data: 'id',
+                    data: 'email',
                     render: function (data, type, row) {
-                        let result = row.result;
-                        if (result === null) return 'N/A';
-                        return `<button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal_industry" onclick="setIndustry(${data})">Details</button>`
+                        return `<div><i class="fa-solid text-info fa-user-helmet-safety fs-7 me-1 tw-w-3"></i>${row.industry_classification ?? 'No Industry set'}</div>
+                            <div><i class="fa-solid text-info fa-envelope fs-7 me-1 tw-w-3"></i>${data ?? 'No email set'}</div>`;
                     }
                 },
                 {
                     data: 'id',
                     className: 'nk-tb-col-tools',
                     render: function (data, type, row) {
+                        console.log(row.result)
                         return `<ul class="nk-tb-actions gx-1">
-                                <li>
-                                    <div class="drodown">
-                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="link-list-opt no-bdr">
-                                                <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>
-                                                <li><a class="clickable" onclick="destroy(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
-                                            </ul>
-                                        </div>
+                            <li>
+                                <div class="drodown">
+                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a class="clickable" onclick="expert_view(${data})"><em class="icon ni ni-eye "></em><span>View Details</span></a></li>
+                                            <li><a class="clickable" onclick="re_scrape(${data})"><em class="icon ni ni-globe "></em><span>Re-Scrape</span></a></li>
+                                            <li><a class="clickable" onclick="setEmail(${data})"><em class="icon ni ni-mail "></em><span>Set Email</span></a></li>
+                                            <li><a class="clickable" onclick="setIndustry('${row.result.data.fullName}', '${row.profile_image}', '${row.linkedin_url}', ${data}, '${row.industry_main}' , '${row.industry_sub}')"><em class="icon ni ni-setting "></em><span>Set Industry Classification</span></a></li>
+                                            <li><a class="clickable" onclick="destroy(${data})"><em class="icon ni ni-trash"></em><span>Remove</span></a></li>
+                                        </ul>
                                     </div>
-                                </li>
-                            </ul>`
+                                </div>
+                            </li>
+                        </ul>`
                     },
                 },
             ]
         });
+
+        function setIndustry(name, profile_image, linkedin, id, main, sub){
+            console.log(main, sub)
+            $('#modal_industry').modal('show');
+
+            $('#expert_name').text(name);
+            $('#expert_linkedin').text(linkedin);
+            $('#expert_id').val(id);
+            $('#expert_avatar').attr('src', profile_image);
+
+            $('#main_text').text(main === 'null' ? 'No Industry set yet' : main);
+            $('#sub_text').text(sub === 'null' ? 'No Industry set yet' : sub);
+        }
+
+        function setEmail(id){
+            Swal.fire({
+                title: 'Enter Email',
+                input: 'email',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Set Email',
+                showLoaderOnConfirm: true,
+                preConfirm: (email) => {
+                    return $.ajax({
+                        url: `{{route('admin.expert-import.set-email',':id')}}`.replace(':id', id),
+                        type: 'POST',
+                        data: {
+                            _token: "{{csrf_token()}}",
+                            id: id,
+                            email: email
+                        },
+                        success: function (data) {
+                            Swal.fire('Success!', data.message, 'success').then(() => table.ajax.reload())
+                        },
+                        error: function (data) {
+                            Swal.fire('Error!', data.responseJSON.message, 'error')
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+        }
 
         function import_expert(){
             Swal.fire({
@@ -364,6 +422,67 @@
                 },
                 allowOutsideClick: () => !Swal.isLoading()
             })
+        }
+
+        $( document ).ready(function() {
+            $.ajax({
+                url: '{{route('industries_expert.main')}}',
+                method: 'GET',
+                success: function (response) {
+                    response.forEach(function (industry) {
+                        $('#main-industry').append('<option value="'+industry+'">'+industry+'</option>');
+                    });
+                }
+            });
+        });
+
+        let sub_industry_classification;
+        $('#main-industry').on('change', function () {
+            let main = $(this).val();
+            if (main === null) return;
+            main = main.replaceAll('/', '_');
+            $.ajax({
+                url: '{{route('industries_expert.sub','')}}/'+main,
+                method: 'GET',
+                success: function (response) {
+                    $('#sub-industry').empty();
+                    response.forEach(function (industry) {
+                        $('#sub-industry').append('<option value="'+industry.sub+'">'+industry.sub+'</option>');
+                    });
+                    if (sub_industry_classification) {
+                        $('#sub-industry').val(sub_industry_classification).trigger('change');
+                    }
+                }
+            });
+        });
+
+        function updateIndustry(){
+            let main = $('#main-industry').val();
+            let sub = $('#sub-industry').val();
+            let id = $('#expert_id').val();
+            $.ajax({
+                url: '{{route('admin.expert-import.set-industry', ':id')}}'.replace(':id', id),
+                method: 'POST',
+                data: {
+                    _token: "{{csrf_token()}}",
+                    main: main,
+                    sub: sub
+                },
+                success: function (response) {
+                    Swal.fire('Success!', response.message, 'success').then(() => {
+                        $('#modal_industry').modal('hide');
+                        table.ajax.reload();
+                    })
+                },
+                error: function (response) {
+                    Swal.fire('Error!', response.responseJSON.message, 'error')
+                }
+            });
+        }
+
+        function expert_view(id){
+            // open in same tab
+            window.location.href = `{{route('admin.expert-portal.view-from-import',':id')}}`.replace(':id', id);
         }
     </script>
 @endpush

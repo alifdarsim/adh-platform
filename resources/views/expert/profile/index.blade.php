@@ -59,10 +59,10 @@
                             <div class="user-expert-skills py-0">
                                 <div class="user-expert-skills-title tw-text-slate-100 mb-1 fs-15px">Industry Classification</div>
                                 <div class="user-expert-skills-content">
-                                    @if(auth()->user()->expert->industry)
+                                    @if(auth()->user()->expert->industry_main ?? false)
                                         <div>
-                                            <p class="mb-0 text-white fs-14px mt-2"><span class="tw-text-slate-400">Main:</span> {{auth()->user()->expert->industry->main}}</p>
-                                            <p class="mb-0 text-white fs-14px mt-1"><span class="tw-text-slate-400">Sub:</span> {{auth()->user()->expert->industry->sub}}</p>
+                                            <p class="mb-0 text-white fs-14px mt-2"><span class="tw-text-slate-400">Main:</span> {{auth()->user()->expert->industry_main}}</p>
+                                            <p class="mb-0 text-white fs-14px mt-1"><span class="tw-text-slate-400">Sub:</span> {{auth()->user()->expert->industry_sub}}</p>
                                         </div>
                                     @else
                                         <div>
@@ -77,7 +77,7 @@
                             <div class="user-expert-skills py-0">
                                 <div class="user-expert-skills-title tw-text-slate-100 mb-1 fs-15px">Skills</div>
                                 <div class="user-expert-skills-content">
-                                    @if((auth()->user()->expert->skills) == null)
+                                    @if((auth()->user()->expert->skills ?? false) == null)
                                         <span class="badge bg-outline-gray text-white tw-capitalize">Not set Yet</span>
                                     @else
                                         @foreach(auth()->user()->expert->skills as $skill)
@@ -312,6 +312,7 @@
                                         <div class="row mt-4">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
+                                                    <div>Current Main: {{auth()->user()->expert->industry_main ?? "Not set"}}</div>
                                                     <label class="form-label" for="main-industry">Main Industry Classification</label>
                                                     <div class="form-control-wrap">
                                                         <select class="form-select js-select2 select2-hidden-accessible" id="main-industry">
@@ -321,6 +322,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
+                                                    <div>Current Sub: {{auth()->user()->expert->industry_sub ?? "Not set"}}</div>
                                                     <label class="form-label" for="sub-industry">Sub Industry Classification</label>
                                                     <div class="form-control-wrap">
                                                         <select class="form-select js-select2 select2-hidden-accessible" id="sub-industry">
@@ -786,8 +788,7 @@
             });
         }
 
-{{--        @dd($first_time)--}}
-        @if(!$first_time)
+        @if($show_complete_profile)
             // first time
             Swal.fire({
                 title: 'Expert Profile Update',
@@ -799,9 +800,9 @@
                 if (result.isConfirmed) {
                     $('#editLead').modal('show');
                     // delay 1 second
-                    setTimeout(() => {
-                        linkedin_sync();
-                    }, 400);
+                    // setTimeout(() => {
+                    //     linkedin_sync();
+                    // }, 400);
                 }
                 else{
                     Swal.fire('', 'You can update you profile later by clicking Update Expert Profile', '');

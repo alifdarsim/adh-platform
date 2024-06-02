@@ -74,8 +74,13 @@ Route::middleware(['auth', 'route.protection'])->group(function () {
     Route::post('/language', [AccountController::class, 'language'])->name('expert.account.language');
     Route::post('/timezone', [AccountController::class, 'timezone'])->name('expert.account.timezone');
     Route::post('/phone', [AccountController::class, 'phone'])->name('expert.account.phone');
-    Route::post('/payment', [AccountController::class, 'payment'])->name('expert.account.payment');
+
+    Route::get('/account/payment', [AccountController::class, 'payment'])->name('expert.account.payment');
+    Route::put('/account/payment', [AccountController::class, 'update_payment'])->name('expert.account.payment.update');
     Route::resource('account', AccountController::class, ['names' => 'expert.account']);
+
+//    Route::get('/account/payment', [AccountController::class, 'payment'])->name('expert.account.payment');
+
 
 });
 

@@ -28,6 +28,7 @@ const datatableInit = (datatable_element, object, tableInstance = null) => {
         }
 
         if (tableIsExpert) {
+            console.log('table is expert')
             $('#datatable_2').on('preXhr.dt', function (e, settings, data) {
                 let search_empty = true;
                 data = data.columns;

@@ -2,13 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Company;
-use App\Models\CompanyScrape;
-use App\Models\CompanyType;
-use App\Models\ExpertLinkedInQueue;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\StreamInterface;
 
 class LinkedInScrapeService
 {

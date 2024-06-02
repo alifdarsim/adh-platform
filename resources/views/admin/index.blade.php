@@ -205,7 +205,7 @@
                                             </span>
                                     </a>
                                     <div class="user-action ms-1">
-                                        <div class="badge rounded-pill bg-${project.status == 'active' ? 'info' : (project.status == 'awarded' ? 'success' : 'secondary')} badge-sm text-capitalize">
+                                        <div class="badge rounded-pill bg-${project.status == 'ongoing' ? 'info' : (project.status == 'awarded' ? 'success' : 'secondary')} badge-sm text-capitalize">
                                             ${project.status == 'active' ? 'Shortlist' : project.status}
                                         </div>
                                     </div>

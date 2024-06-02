@@ -41,17 +41,17 @@ class LoginController extends Controller
 
     public function extracted($type, Request $request): JsonResponse
     {
-        if (auth()->attempt($request->only('email', 'password'))) {
-            // if user status is 0, return error
-            if (auth()->user()->status == 0) {
-                auth()->logout();
-                return error('Verify Email', [
-                    'text' => 'Please verify your email address to login',
-                ]);
-            }
+        // Get the user by email
+        $users = User::where('email', $request->email);
 
-            // check if user role is not equal to role
-            if (auth()->user()->isAdmin() || auth()->user()->isMember()){
+        // Check if the user exists
+        if (!$users) return error('Invalid Credential', [
+            'text' => 'Make sure email and password are correct',
+        ]);
+
+        // login the admin user
+        if ($users->first()->isAdmin() || $users->first()->isMember()) {
+            if (auth()->attempt($request->only('email', 'password'))) {
                 session(['timezone' => $request->timezone, 'user_type' => 'admin']);
                 return Response::json([
                     'success' => true,
@@ -60,16 +60,27 @@ class LoginController extends Controller
                     'isSuperAdmin' => auth()->user()->isAdmin(),
                 ]);
             }
-            session(['timezone' => $request->timezone, 'user_type' => $request->type]);
-            return success('Login successful');
-        }
-        if (User::where('email', $request->email)->first()) {
-            return error('Invalid Password', [
-                'text' => 'If you use social account to login previously, please use the same method to login. You can also reset your password',
+            return error('Invalid Credential', [
+                'text' => 'Make sure email and password are correct',
             ]);
         }
-        return error('Invalid Credential', [
-            'text' => 'Make sure email and password are correct',
+
+        // if users is not admin, check if user is expert or client
+        $user = $users->where('role', $type)->get()->first();
+        if (!$user) return error('Invalid Credential', [
+            'text' => 'Not registered as ' . $type,
         ]);
+
+        // check if user status is 0
+        if ($user->status == 0) {
+            return error('Verify Email', [
+                'text' => 'Please verify your email address to login',
+            ]);
+        }
+
+        // Login the user
+        Auth::login($user);
+        session(['timezone' => $request->timezone, 'user_type' => $type]);
+        return success('Login successful');
     }
 }

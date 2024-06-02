@@ -430,4 +430,12 @@ class ProjectsController extends Controller
         return success('Expert invited successfully');
     }
 
+    public function set_complete($project_id, $expert_id)
+    {
+        $project_expert = ProjectExpert::where('project_id',$project_id)->where('expert_id',$expert_id)->first();
+        $project_expert->status = 'complete';
+        $project_expert->save();
+        return success('Expert set as completed successfully');
+    }
+
 }

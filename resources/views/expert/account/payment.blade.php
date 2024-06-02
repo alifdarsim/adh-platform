@@ -40,8 +40,9 @@
 {{--                                </div>--}}
 {{--                            @endif--}}
                             <div class="data-sub">
-                                <div>Bank Name: OCBC Bank</div>
-                                <div>Account No: 415648686284</div>
+                                <div class="tw-capitalize">Preferred Method: {{auth()->user()->payment_info['method'] ?? 'Not Set'}}</div>
+                                <div>Bank Name: {{auth()->user()->payment_info['bank'] ?? 'Not Set'}}</div>
+                                <div>Account No: {{auth()->user()->payment_info['account'] ?? 'Not Set'}}</div>
                             </div>
                         </div>
                     </div>

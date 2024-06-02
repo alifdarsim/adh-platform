@@ -12,7 +12,7 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $project_expert_ids = ProjectExpert::where('expert_id', auth()->user()->expert->id)->pluck('project_id');
+        $project_expert_ids = ProjectExpert::where('expert_id', auth()->user()->expert->id ?? null)->pluck('project_id');
         $payments = PaymentExpert::whereIn('project_expert_id', $project_expert_ids)->get()->load('project');
 //        return $payments;
         $projects = $payments->filter(function ($project) {

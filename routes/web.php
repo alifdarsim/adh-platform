@@ -29,8 +29,8 @@ Route::get('logout', function () {
 Route::get('/', function () {
     if (Auth::check()) {
         if (session('user_type') == 'admin' || session('user_type') == 'super admin') return redirect()->route('admin.overview.index');
-        else if (session('user_type') == 'expert') return redirect()->route('expert.overview');
-        else if (session('user_type') == 'client') return redirect()->route('client.overview');
+        else if (session('user_type') == 'expert') return redirect()->route('expert.overview.index');
+        else if (session('user_type') == 'client') return redirect()->route('client.overview.index');
         else auth()->logout();
     }
     return redirect()->route('login.index', ['type' => 'expert']);

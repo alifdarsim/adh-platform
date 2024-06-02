@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Expert;
 
 use App\Http\Controllers\Controller;
-use App\Models\ExpertLinkedInQueue;
+use App\Jobs\ScrapeLinkendInJob;
+use App\Models\ExpertImport;
 use App\Models\ExpertList;
+use App\Models\IndustryExpert;
 use App\Services\LinkedInScrapeService;
 use App\Services\ProcessScrapeService;
 use App\Services\ProfileCompletionService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 class ProfileController extends Controller
 {
@@ -17,56 +20,99 @@ class ProfileController extends Controller
     {
         $data = $service->getCompletionData();
         $expert = auth()->user()->expert;
-        $expert->email = $expert->email ?? auth()->user()->email;
-        $expert->url = ExpertList::where('email', $expert->email)->first()->url ?? $expert->url;
-        $expert->save();
-        $expert_completion = $data['completion'];
-        $expert_completion_count = $data['count'];
-        return view('expert.profile.index', compact('expert_completion', 'expert_completion_count'))->with('first_time', $expert->firstTime);
+        $show_complete_profile = true;
+        if ($expert != null){
+            $expert->email = $expert->email ?? auth()->user()->email;
+            $expert->url = ExpertList::where('email', $expert->email)->first()->url ?? $expert->url;
+            $expert->save();
+            $expert_completion = $data['completion'];
+            $expert_completion_count = $data['count'];
+            // explicitly determine 4 item need to be completed to hide the warning dialog
+            if ($expert_completion_count > 3) $show_complete_profile = false;
+            return view('expert.profile.index', compact('expert_completion', 'expert_completion_count'))->with('show_complete_profile', $show_complete_profile);
+        }
+        else {
+            $expert_completion = $data['completion'];
+            $expert_completion_count = $data['count'];
+            return view('expert.profile.index', compact('expert_completion', 'expert_completion_count'))->with('show_complete_profile', true);
+        }
     }
 
     public function linkedin_sync(ProcessScrapeService $scrapeProcess)
     {
         $url = auth()->user()->expert->url;
         if ($url == null) return error('LinkedIn URL not set yet');
-        $expert_list = ExpertList::where('url', $url)->first();
+        $expert_import = ExpertImport::where('linkedin_url', $url)->first();
         $expert = auth()->user()->expert;
-        $this->markFirstTime();
-        if ($expert_list) {
+        if ($expert_import) {
             // update user expert_id to $expert_exist->id
-            $expert->email = $expert_list->email;
-            $expert->about = $expert_list->about;
-            $expert->img_url = $expert_list->img_url;
-            $expert->country = $expert_list->country;
-            $expert->address = $expert_list->address;
-            $expert->languages = $expert_list->languages;
-            $expert->skills = $expert_list->skills;
-            $expert->industry_id = $expert_list->industry_id;
-            $expert->experiences = $expert_list->experiences;
+            $expert->email = $expert_import->email;
+            $expert->about = $expert_import->about;
+            $expert->img_url = $expert_import->img_url;
+            $expert->country = $expert_import->country;
+            $expert->address = $expert_import->address;
+            $expert->languages = $expert_import->languages;
+            $expert->skills = $expert_import->skills;
+            $expert->industry_main = $expert_import->industry_main;
+            $expert->industry_sub = $expert_import->industry_sub;
+            $expert->experiences = $expert_import->experiences;
             $expert->save();
             return success('LinkedIn URL added successfully', ['expert_exist' => true]);
         }
         else {
-            $expert_queue = ExpertLinkedInQueue::create([
-                'url' => $url,
+            $expert_import = ExpertImport::create([
+                'email' => auth()->user()->email,
+                'linkedin_url' => $url,
             ]);
-            $linkedin = new LinkedInScrapeService();
-            $data_scrape = $linkedin->scrape($expert_queue->url);
-            $data = $this->storeInfo($expert_queue->url, $data_scrape);
-            if ($data) {
-                $process = $scrapeProcess->processInfo($data->result, false);
-                $expert_queue->update([
-                    'processed' => 1,
-                    'last_process' => now(),
-                    'expert_id' => $process->id,
-                ]);
-                auth()->user()->expert_id = $process->id;
-                auth()->user()->name = $process->name;
-                auth()->user()->save();
-                return success('LinkedIn URL added successfully', ['expert_exist' => false]);
-            }
-            else return error('Something went wrong');
+            $expert_import->save();
+            $this->scrapeLinkedIn($expert_import->id);
+//            $linkedin = new LinkedInScrapeService();
+//            $data_scrape = $linkedin->scrape($expert_queue->url);
+//            $data = $this->storeInfo($expert_queue->url, $data_scrape);
+//            if ($data) {
+//                $process = $scrapeProcess->processInfo($data->result, false);
+//                $expert_queue->update([
+//                    'processed' => 1,
+//                    'last_process' => now(),
+//                    'expert_id' => $process->id,
+//                ]);
+//                auth()->user()->expert_id = $process->id;
+//                auth()->user()->name = $process->name;
+//                auth()->user()->save();
+//                return success('LinkedIn URL added successfully', ['expert_exist' => false]);
+//            }
+//            else return error('Something went wrong');
         }
+    }
+
+    public function scrapeLinkedIn($id)
+    {
+        $expertImport = ExpertImport::findOrFail($id);
+        $job = new ScrapeLinkendInJob($expertImport->id);
+
+        // Wait for the job to complete
+//        $job->onConnection('redis')->onQueue('scraping')->wait();
+
+        // Notify the user when the job is done
+        Event::listen('job-completed', function ($payload) use ($expertImport) {
+            // Optional: Perform additional actions after the job is completed
+            // ...
+
+            // Notify the user
+            return response()->json([
+                'success' => true,
+                'message' => 'Expert import request has been completed for ID: ' . $expertImport->id,
+            ]);
+        });
+
+        // Dispatch the job
+        dispatch($job);
+
+        // Return a response while waiting for the job to complete
+        return response()->json([
+            'success' => true,
+            'message' => 'Expert import request has been submitted for scraping. Please wait...',
+        ]);
     }
 
     public function linkedin(Request $request)
@@ -80,7 +126,6 @@ class ProfileController extends Controller
         $expert = auth()->user()->expert;
         $expert->url = $request->linkedin_url;
         $expert->save();
-        $this->markFirstTime();
         return success('LinkedIn URL added successfully');
     }
 
@@ -92,7 +137,6 @@ class ProfileController extends Controller
         $expert = auth()->user()->expert;
         $expert->addMediaFromRequest('upload_cv')->toMediaCollection('cv');
         $expert->save();
-        $this->markFirstTime();
         return success('CV uploaded successfully');
     }
 
@@ -111,14 +155,15 @@ class ProfileController extends Controller
         }
         $expert->skills = $modifiedSkills;
         $expert->save();
-        $this->markFirstTime();
         return success('Skills added successfully');
     }
 
     public function industry(Request $request)
     {
         $expert = auth()->user()->expert;
-        $expert->industry_id = $request->industry_id;
+        $industry = IndustryExpert::find($request->industry_id);
+        $expert->industry_main = $industry->main;
+        $expert->industry_sub = $industry->sub;
         $expert->save();
         return success('Industry added successfully');
     }
@@ -136,7 +181,6 @@ class ProfileController extends Controller
         $expert = $user->expert;
         $expert->about = $request->about;
         $expert->save();
-        $this->markFirstTime();
         return success('Profile updated successfully');
     }
 
@@ -184,7 +228,6 @@ class ProfileController extends Controller
         usort($position, $comparePositions);
         $expert->position = $position;
         $expert->save();
-        $this->markFirstTime();
         return success('Job experience added successfully');
     }
 
@@ -207,15 +250,7 @@ class ProfileController extends Controller
         array_splice($position, $index, 1);
         $expert->position = $position;
         $expert->save();
-        $this->markFirstTime();
         return success('Job experience removed successfully');
     }
 
-    public function markFirstTime()
-    {
-        $expert = auth()->user()->expert;
-        $expert->firstTime = 1;
-        $expert->save();
-        return success('First time marked');
-    }
 }

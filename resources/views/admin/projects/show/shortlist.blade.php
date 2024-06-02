@@ -277,6 +277,7 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a target="_blank" href="${row.expert.url}"><i class="fa-brands fa-linkedin fs-15px tw-me-5"></i><span>Open LinkedIn</span></a></li>
+                                                <li><a class="clickable ${ row.registered ? '' : 'd-none'}" onclick="set_completed(${row.expert_id})"><i class="fa-solid fa-check-circle fs-15px tw-me-4"></i><span>Set as Completed</span></a></li>
                                                 <li><a class="clickable ${ row.registered ? '' : 'd-none'} ${ row.accepted ? 'd-none' : ''}" onclick="invite(${row.expert_id}, ${row.invited})"><i class="fa-regular fa-user-plus fs-15px tw-me-4"></i><span>Invite To Project</span></a></li>
                                                 <li><a class="clickable ${ row.registered ? '' : 'd-none'} ${ row.awarded ? 'd-none' : ''}" onclick="award(${row.expert_id})"><i class="fa-regular fa-award fs-5 tw-me-5"></i><span>Award Project</span></a></li>
                                                 <li><div class="dropdown-divider my-1"></div></li>
@@ -531,6 +532,32 @@
 
         function view_contract(contract){
             window.location.href = `{{route('admin.contract.show', '')}}/${contract}`;
+        }
+
+        function set_completed(id){
+            Swal.fire({
+                title: 'Set Status to Complete for this Expert?',
+                text: "This will mark the project as completed for this expert. Confirm?",
+                icon: 'warning',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{route('admin.projects.set-completed', ['project_id' => $project->id, ''])}}/' + id,
+                        type: 'GET',
+                        data: {
+                            _token: '{{csrf_token()}}'
+                        },
+                        success: function (data) {
+                            _Swal.success(data.message);
+                            window['datatable'].ajax.reload();
+                        },
+                        error: function (data) {
+                            _Swal.error(data.responseJSON.message)
+                        }
+                    });
+                }
+            });
         }
 
     </script>
